@@ -2,16 +2,22 @@ import { Controller, Get, Post, Put, Delete, Autowired, reply, type Ctx } from '
 import { AuthService } from './auth.service'
 import { registerAuthSchema } from './dtos/register-auth.dto'
 import { loginAuthSchema } from './dtos/login-auth.dto'
+import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
+import { PublicRoute } from '@/contributors/auth.contributor'
 
 @Controller()
+@ApiBearerAuth()
+@ApiTags('Auth')
+@PublicRoute
 export class AuthController {
   @Autowired() private readonly authService!: AuthService
 
-  @Get('/profile/:id')
+  @Get('/profile')
+  @PublicRoute.off
   async getProfile(ctx: Ctx<KickRoutes.AuthController['getProfile']>) {
-    const result = await this.authService.me(ctx.params.id)
+    const result = await this.authService.me(ctx.require('auth').id)
     if (!result) {
-      ctx.problem.notFound({ detail: `Auth ${ctx.params.id} not found` })
+      ctx.problem.notFound({ detail: `Auth ${ctx.require('auth').id} not found` })
       return
     }
     return result
@@ -27,14 +33,16 @@ export class AuthController {
     return reply.ok(await this.authService.login(ctx.body))
   }
 
-  @Put('/update-profile/:id', { body: loginAuthSchema, name: 'UpdateAuth' })
+  @Put('/update-profile', { body: loginAuthSchema, name: 'UpdateAuth' })
+  @PublicRoute.off
   async updateProfile(ctx: Ctx<KickRoutes.AuthController['updateProfile']>) {
-    return this.authService.update(ctx.params.id, ctx.body)
+    return this.authService.update(ctx.require('auth').id, ctx.body)
   }
 
-  @Delete('/delete-profile/:id')
+  @Delete('/delete-profile')
+  @PublicRoute.off
   async deleteProfile(ctx: Ctx<KickRoutes.AuthController['deleteProfile']>) {
-    await this.authService.delete(ctx.params.id)
+    await this.authService.delete(ctx.require('auth').id)
     return reply.noContent()
   }
 }

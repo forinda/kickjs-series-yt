@@ -1,4 +1,5 @@
 import { JWT, JwtDecoded } from '@/utils/jwt'
+import { defineRouteFlag } from '@forinda/kickjs'
 import { defineHttpContextDecorator, HttpException } from '@forinda/kickjs'
 
 declare module '@forinda/kickjs' {
@@ -10,6 +11,7 @@ declare module '@forinda/kickjs' {
 export const Auth = defineHttpContextDecorator({
   key: 'auth',
   deps: { jwt: JWT },
+  skipWhen: 'auth.public',
   resolve: async (ctx, { jwt }) => {
     const { authorization } = ctx.headers
     if (!authorization) {
@@ -24,3 +26,5 @@ export const Auth = defineHttpContextDecorator({
     }
   },
 })
+
+export const PublicRoute = defineRouteFlag('auth.public')

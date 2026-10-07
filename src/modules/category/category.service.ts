@@ -1,32 +1,11 @@
 import { Service, Inject, getRequestValue } from '@forinda/kickjs'
-import type { FilterItem, ParsedQuery } from '@forinda/kickjs'
+import type { ParsedQuery } from '@forinda/kickjs'
 import { getAuditObj } from '@/utils/session'
 import type { CategoryResponseDTO } from './dtos/category-response.dto'
 import type { CreateCategoryDTO } from './dtos/create-category.dto'
 import type { UpdateCategoryDTO } from './dtos/update-category.dto'
 import { Db, DB } from '@/db'
 
-const mongoFilterMap = {
-  eq: '$eq',
-  ne: '$ne',
-  gt: '$gt',
-  gte: '$gte',
-  lt: '$lt',
-  lte: '$lte',
-  in: '$in',
-  nin: '$nin',
-  regex: '$regex',
-  transformer: ({ field, operator, value }: FilterItem) => {
-    switch (typeof operator) {
-      case 'string':
-        return value.trim()
-      case 'number':
-        return Number(value)
-      default:
-        return value
-    }
-  },
-}
 
 @Service()
 export class CategoryService {
@@ -37,15 +16,20 @@ export class CategoryService {
     return this.repo.Category.findOne({ id, createdBy: userId })
   }
 
-  async findAll(): Promise<CategoryResponseDTO[]> {
+  async findAll() {
     const { id: userId } = getRequestValue('auth')!
-    return this.repo.Category.find({ createdBy: userId })
+    return await this.repo.Category.find({ createdBy: userId }).populate(
+      'createdBy',
+      { id: 1, name: 1 },
+      // 'User',
+    )
   }
 
   async findPaginated(q: ParsedQuery) {
     const { limit, offset } = q.pagination
     const { id: userId } = getRequestValue('auth')!
     return this.repo.Category.find({ createdBy: userId })
+      .populate('createdBy', { id: 1, name: 1 })
       .limit(limit ?? 10)
       .skip(offset ?? 0)
   }

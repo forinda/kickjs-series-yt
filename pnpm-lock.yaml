@@ -17,6 +17,9 @@ importers:
       '@forinda/kickjs-schema':
         specifier: ^0.2.2
         version: 0.2.2(zod@4.6.5)
+      '@forinda/kickjs-swagger':
+        specifier: ^7.3.1
+        version: 7.3.1(@forinda/kickjs@9.0.3(dotenv@17.4.2)(express@5.2.1)(serve-static@2.2.1)(zod@4.6.5))(express@5.2.1)(zod@4.6.5)
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -216,6 +219,17 @@ packages:
         optional: true
       yup:
         optional: true
+      zod:
+        optional: true
+
+  '@forinda/kickjs-swagger@7.3.1':
+    resolution: {integrity: sha512-FHxTLvdN/W+YpEcxIoFJ7fnRRWwZj9JMp4hbZUXCEmillPjn5sSchB1e3G3USIEim93eWBT51BCtF9s0Wt0IHw==}
+    engines: {node: '>=20.0'}
+    peerDependencies:
+      '@forinda/kickjs': '>=5.18.0'
+      express: ^5.1.0
+      zod: ^4.0.0
+    peerDependenciesMeta:
       zod:
         optional: true
 
@@ -906,6 +920,9 @@ packages:
     peerDependenciesMeta:
       rollup:
         optional: true
+
+  '@scarf/scarf@1.4.0':
+    resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -1890,6 +1907,9 @@ packages:
     resolution: {integrity: sha512-vNaNCFoCR/edDbErQZp5KLNT8R4dSPHX7rlDLoE8hWLAm/878j6ShMbe8HK/E6RwwuhlSXVelXAIg9AxR5WWPw==}
     engines: {node: '>=14.18.0'}
 
+  swagger-ui-dist@5.33.1:
+    resolution: {integrity: sha512-H872wWkA53bFIsGgi7OWgmq+CRWw3nFQGdJWRqOB9wNwTm6e5ol34+qPDkV4AJlK+gglM2EsJiOOzsGsEGbluA==}
+
   tinybench@6.2.0:
     resolution: {integrity: sha512-78U2TlB2CnVenajOFzf3BKSm0J6oz5L0NV7g32LCPccvYc0lbWvys4d3uUUCS2B1N8PAf2+aekR8i1KbC3HO7Q==}
     engines: {node: '>=20.0.0'}
@@ -2271,6 +2291,19 @@ snapshots:
     optionalDependencies:
       zod: 4.6.5
 
+  '@forinda/kickjs-swagger@7.3.1(@forinda/kickjs@9.0.3(dotenv@17.4.2)(express@5.2.1)(serve-static@2.2.1)(zod@4.6.5))(express@5.2.1)(zod@4.6.5)':
+    dependencies:
+      '@forinda/kickjs': 9.0.3(dotenv@17.4.2)(express@5.2.1)(serve-static@2.2.1)(zod@4.6.5)
+      '@forinda/kickjs-schema': 0.2.2(zod@4.6.5)
+      express: 5.2.1
+      reflect-metadata: 0.2.2
+      swagger-ui-dist: 5.33.1
+    optionalDependencies:
+      zod: 4.6.5
+    transitivePeerDependencies:
+      - valibot
+      - yup
+
   '@forinda/kickjs-testing@8.1.0(@forinda/kickjs@9.0.3(dotenv@17.4.2)(express@5.2.1)(serve-static@2.2.1)(zod@4.6.5))(express@5.2.1)(supertest@7.3.1)(vitest@5.0.3(@types/node@26.6.4)(vite@8.3.2(@types/node@26.6.4)(jiti@2.7.0)))':
     dependencies:
       '@forinda/kickjs': 9.0.3(dotenv@17.4.2)(express@5.2.1)(serve-static@2.2.1)(zod@4.6.5)
@@ -2619,6 +2652,8 @@ snapshots:
       '@types/estree': 1.0.9
       estree-walker: 2.0.2
       picomatch: 4.0.7
+
+  '@scarf/scarf@1.4.0': {}
 
   '@standard-schema/spec@1.1.0': {}
 
@@ -3534,6 +3569,10 @@ snapshots:
       superagent: 10.4.1
     transitivePeerDependencies:
       - supports-color
+
+  swagger-ui-dist@5.33.1:
+    dependencies:
+      '@scarf/scarf': 1.4.0
 
   tinybench@6.2.0: {}
 

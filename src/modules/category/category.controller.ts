@@ -5,21 +5,21 @@ import {
   Put,
   Delete,
   Autowired,
-  ApiQueryParams,
   reply,
   type Ctx,
 } from '@forinda/kickjs'
+import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { CategoryService } from './category.service'
 import { createCategorySchema } from './dtos/create-category.dto'
 import { updateCategorySchema } from './dtos/update-category.dto'
-import { CATEGORY_QUERY_CONFIG } from './category.constants'
 
 @Controller()
+@ApiBearerAuth()
+@ApiTags('Category')
 export class CategoryController {
   @Autowired() private readonly categoryService!: CategoryService
 
   @Get('/')
-  @ApiQueryParams(CATEGORY_QUERY_CONFIG)
   async list(_ctx: Ctx<KickRoutes.CategoryController['list']>) {
     return this.categoryService.findAll()
   }
@@ -28,8 +28,6 @@ export class CategoryController {
   async getById(ctx: Ctx<KickRoutes.CategoryController['getById']>) {
     const result = await this.categoryService.findById(ctx.params.id)
     if (!result) {
-      // Sends RFC 9457 problem+json now; returning nothing keeps the 404 out
-      // of this route's inferred response type.
       ctx.problem.notFound({ detail: `Category ${ctx.params.id} not found` })
       return
     }
