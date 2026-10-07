@@ -4,7 +4,7 @@ import { getAuditObj } from '@/utils/session'
 import type { CategoryResponseDTO } from './dtos/category-response.dto'
 import type { CreateCategoryDTO } from './dtos/create-category.dto'
 import type { UpdateCategoryDTO } from './dtos/update-category.dto'
-import { Db, DB } from '@/db'
+import { type Db, DB } from '@/db'
 
 
 @Service()
