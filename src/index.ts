@@ -6,9 +6,14 @@ import 'reflect-metadata'
 import './config'
 import { bootstrap, expressRuntime } from '@forinda/kickjs'
 import { modules } from './modules'
+import { appAdapters } from './adapters'
+import { Auth } from './contributors/auth.contributor'
 
 // Export the app for the Vite plugin (dev mode)
 export const app = await bootstrap({
   modules,
   runtime: expressRuntime(),
+  adapters: appAdapters,
+  logRouteTable: false,
+  contributors: [Auth.registration],
 })
