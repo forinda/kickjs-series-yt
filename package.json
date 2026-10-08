@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@forinda/kickjs": "^9.0.3",
-    "@forinda/kickjs-devtools": "^7.5.1",
-    "@forinda/kickjs-schema": "^0.2.2",
+    "@forinda/kickjs-devtools": "^7.6.0",
+    "@forinda/kickjs-schema": "^0.2.3",
     "@forinda/kickjs-swagger": "^7.3.1",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
@@ -24,8 +24,8 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@forinda/kickjs-cli": "^8.7.3",
-    "@forinda/kickjs-testing": "^8.1.0",
+    "@forinda/kickjs-cli": "^8.7.4",
+    "@forinda/kickjs-testing": "^8.2.0",
     "@forinda/kickjs-vite": "^8.0.1",
     "@swc/core": "^1.16.13",
     "@types/express": "^5.0.6",
