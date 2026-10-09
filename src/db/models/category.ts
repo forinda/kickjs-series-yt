@@ -4,7 +4,6 @@ import { foreignKeys } from './fkeys'
 
 export const categorySchema = new Schema(
   {
-    name: { type: String, required: true },
     description: { type: String, required: true },
     ...foreignKeys,
   },
@@ -12,8 +11,6 @@ export const categorySchema = new Schema(
     timestamps: true,
   },
 )
-
-categorySchema.index({ name: 1 }, { unique: true })
 
 export type CategoryType = InferSchemaType<typeof categorySchema>
 

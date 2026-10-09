@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Autowired,
-  reply,
-  type Ctx,
-} from '@forinda/kickjs'
+import { Controller, Get, Post, Put, Delete, Autowired, reply, type Ctx } from '@forinda/kickjs'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { CategoryService } from './category.service'
 import { createCategorySchema } from './dtos/create-category.dto'

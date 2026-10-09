@@ -12,8 +12,6 @@ export const userSchema = new Schema(
   },
 )
 
-userSchema.index({ email: 1 }, { unique: true })
-
 export type UserType = InferSchemaType<typeof userSchema>
 
 export const getUserModel = (conn: MongooseType) => {

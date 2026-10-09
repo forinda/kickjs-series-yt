@@ -4,7 +4,8 @@ import 'reflect-metadata'
 // this line ConfigService.get('YOUR_KEY') returns undefined because the
 // cached schema would still be the base shape. See guide/configuration.
 import './config'
-import { bootstrap, expressRuntime } from '@forinda/kickjs'
+import { bootstrap, expressRuntime, requestLogger } from '@forinda/kickjs'
+import express from 'express'
 import { modules } from './modules'
 import { appAdapters } from './adapters'
 import { Auth } from './contributors/auth.contributor'
@@ -16,4 +17,8 @@ export const app = await bootstrap({
   adapters: appAdapters,
   logRouteTable: false,
   contributors: [Auth.registration],
+  health: {
+    flags: ['auth.public'],
+  },
+  middlewares: [requestLogger(), express.json()],
 })

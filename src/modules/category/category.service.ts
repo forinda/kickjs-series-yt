@@ -6,23 +6,21 @@ import type { CreateCategoryDTO } from './dtos/create-category.dto'
 import type { UpdateCategoryDTO } from './dtos/update-category.dto'
 import { type Db, DB } from '@/db'
 
-
 @Service()
 export class CategoryService {
   constructor(@Inject(DB) private readonly repo: Db) {}
 
   async findById(id: string): Promise<CategoryResponseDTO | null> {
     const { id: userId } = getRequestValue('auth')!
-    return this.repo.Category.findOne({ id, createdBy: userId })
+    return this.repo.Category.findOne({ _id: id, createdBy: userId })
   }
 
   async findAll() {
     const { id: userId } = getRequestValue('auth')!
-    return await this.repo.Category.find({ createdBy: userId }).populate(
-      'createdBy',
-      { id: 1, name: 1 },
-      // 'User',
-    )
+    return await this.repo.Category.find({ createdBy: userId }).populate('createdBy', {
+      id: 1,
+      name: 1,
+    })
   }
 
   async findPaginated(q: ParsedQuery) {
@@ -42,11 +40,11 @@ export class CategoryService {
   async update(id: string, dto: UpdateCategoryDTO) {
     const payload = getAuditObj(dto, 'update')
     const { id: userId } = getRequestValue('auth')!
-    return this.repo.Category.updateOne({ id, createdBy: userId }, payload)
+    return this.repo.Category.updateOne({ _id: id, createdBy: userId }, payload)
   }
 
   async delete(id: string): Promise<void> {
     const { id: userId } = getRequestValue('auth')!
-    await this.repo.Category.deleteOne({ id, createdBy: userId })
+    await this.repo.Category.deleteOne({ _id: id, createdBy: userId })
   }
 }

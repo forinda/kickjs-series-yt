@@ -13,8 +13,6 @@ export const commentSchema = new Schema(
   },
 )
 
-commentSchema.index({ content: 1 }, { unique: false })
-
 export type CommentType = InferSchemaType<typeof commentSchema>
 
 export const getCommentModel = (conn: MongooseType) => {

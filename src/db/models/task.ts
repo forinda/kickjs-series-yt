@@ -13,14 +13,13 @@ export const taskSchema = new Schema(
       enum: ['pending', 'in-progress', 'completed'],
     },
     dueDate: { type: Date, required: false },
+    category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
     ...foreignKeys,
   },
   {
     timestamps: true,
   },
 )
-
-taskSchema.index({ title: 1 }, { unique: true })
 
 export type TaskType = InferSchemaType<typeof taskSchema>
 

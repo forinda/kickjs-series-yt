@@ -10,5 +10,5 @@ export const appAdapters = [
   MongooseAdapter({
     dbUri: getEnv('MONGO_URI'),
   }),
-  SwaggerAdapter({ info: { title: '002-live', version: '0.0.0' }, publicFlag: 'auth.public' }),
+  SwaggerAdapter({ info: { title: 'Task App', version: '0.0.1' }, publicFlag: 'auth.public' }),
 ]

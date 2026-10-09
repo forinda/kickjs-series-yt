@@ -15,4 +15,4 @@ export const mountMongooseModels = async (conn: MongooseType) => {
 }
 
 export type Db = Awaited<ReturnType<typeof mountMongooseModels>>
-export const DB = createToken<Db>('DB/App/Mongoose')
+export const DB = createToken<Db>('db/App/Mongoose')
