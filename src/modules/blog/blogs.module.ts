@@ -1,15 +1,15 @@
 import { defineModule } from '@forinda/kickjs'
-import { TasksController } from './tasks.controller'
+import { BlogsController } from './blogs.controller'
 
 import.meta.glob(['./**/*.ts', '!./**/*.test.ts', '!./**/*.d.ts'], { eager: true })
 
-export const TasksModule = defineModule({
-  name: 'TasksModule',
+export const BlogsModule = defineModule({
+  name: 'BlogsModule',
   build: () => ({
     routes() {
       return {
-        path: '/tasks',
-        controller: TasksController,
+        path: '/blogs',
+        controller: BlogsController,
       }
     },
   }),

@@ -1,4 +1,4 @@
-export interface TasksResponseDTO {
+export interface BlogsResponseDTO {
   id: string
   title: string
   description: string

@@ -10,8 +10,9 @@ minimumReleaseAgeExclude:
   - '@forinda/kickjs-schema@0.2.2 || 0.2.3'
   - '@forinda/kickjs-vite@8.0.1'
   - '@forinda/kickjs@9.0.3'
-  - '@forinda/kickjs-devtools@7.5.1 || 7.6.0'
+  - '@forinda/kickjs-devtools@7.5.1 || 7.6.0 || 7.8.0'
   - '@forinda/kickjs-testing@8.2.0'
+  - '@forinda/kickjs-devtools-kit@7.2.0'
 
 onlyBuiltDependencies:
   - '@swc/core'

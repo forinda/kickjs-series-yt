@@ -63,3 +63,12 @@ Copy `.env.example` to `.env` and configure:
 
 - [KickJS Documentation](https://kickjs.app/)
 - [CLI Reference](https://kickjs.app/api/cli.html)
+
+
+Blogs
+Users
+Reactions
+Comments
+Followers
+Roles - Admin -> Moderator -> Writer -> Viewer
+Persmissions

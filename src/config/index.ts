@@ -24,6 +24,12 @@ const envSchema = fromZod(
     LOG_LEVEL: z.string().default('info'),
     MONGO_URI: z.string(),
     JWT_SECRET: z.string().min(32),
+    // S3 Creds
+    S3_ACCESS_KEY_ID: z.string(),
+    S3_SECRET_ACCESS_KEY: z.string(),
+    S3_BUCKET_NAME: z.string().default('my-bucket'),
+    S3_REGION: z.string().default('us-east-1'),
+    S3_ENDPOINT: z.string().optional(),
   }),
 )
 
