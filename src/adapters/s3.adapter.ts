@@ -63,7 +63,6 @@ export const S3Adapter = defineAdapter<S3AdapterConfig>({
   build: (_config, { name: _name }) => {
     return {
       beforeStart({ container }: AdapterContext): void {
-        console.debug('Initializing S3 adapter with config:', _config)
         try {
           if (!_config.accessKeyId || !_config.secretAccessKey || !_config.bucketName) {
             throw new Error('Missing required S3 configuration')

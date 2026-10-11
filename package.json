@@ -13,8 +13,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1149.0",
     "@aws-sdk/s3-request-presigner": "^3.1149.0",
-    "@forinda/kickjs": "^9.0.3",
-    "@forinda/kickjs-devtools": "^7.8.0",
+    "@forinda/kickjs": "^9.2.0",
+    "@forinda/kickjs-devtools": "^7.9.0",
     "@forinda/kickjs-schema": "^0.2.3",
     "@forinda/kickjs-swagger": "^7.3.1",
     "bcryptjs": "^3.0.3",
