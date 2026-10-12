@@ -4,6 +4,7 @@ import { foreignKeys } from './fkeys'
 
 export const categorySchema = new Schema(
   {
+    name: { type: String, required: true },
     description: { type: String, required: true },
     ...foreignKeys,
   },

@@ -30,6 +30,8 @@ const envSchema = fromZod(
     S3_BUCKET_NAME: z.string().default('my-bucket'),
     S3_REGION: z.string().default('us-east-1'),
     S3_ENDPOINT: z.string().optional(),
+    BASE_USER_EMAIL: z.email(),
+    BASE_USER_PASSWORD: z.string(),
   }),
 )
 

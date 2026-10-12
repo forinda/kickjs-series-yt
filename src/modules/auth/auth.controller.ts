@@ -4,6 +4,7 @@ import { registerAuthSchema } from './dtos/register-auth.dto'
 import { loginAuthSchema } from './dtos/login-auth.dto'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { PublicRoute } from '@/contributors/auth.contributor'
+import { assignRoleSchema } from './dtos/assign-role.dto'
 
 @Controller()
 @ApiBearerAuth()
@@ -43,6 +44,20 @@ export class AuthController {
   @PublicRoute.off
   async deleteProfile(ctx: Ctx<KickRoutes.AuthController['deleteProfile']>) {
     await this.authService.delete(ctx.require('auth').id)
+    return reply.noContent()
+  }
+
+  @Post('/setup', { name: 'SetupAuth' })
+  @PublicRoute
+  async setup(_ctx: Ctx<KickRoutes.AuthController['setup']>) {
+    await this.authService.setup()
+    return reply.noContent()
+  }
+
+  @Post('/assign-role', { name: 'AssignRole', body: assignRoleSchema })
+  @PublicRoute.off
+  async assignRole(ctx: Ctx<KickRoutes.AuthController['assignRole']>) {
+    await this.authService.assignRole(ctx.body)
     return reply.noContent()
   }
 }

@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { CategoryService } from './category.service'
 import { createCategorySchema } from './dtos/create-category.dto'
 import { updateCategorySchema } from './dtos/update-category.dto'
+import { PermissionRequired } from '@/contributors/permission.contributor'
 
 @Controller()
 @ApiBearerAuth()
@@ -26,16 +27,20 @@ export class CategoryController {
   }
 
   @Post('/', { body: createCategorySchema, name: 'CreateCategory' })
+  @PermissionRequired({ permission: 'ADMIN' })
   async create(ctx: Ctx<KickRoutes.CategoryController['create']>) {
     return reply.created(await this.categoryService.create(ctx.body))
   }
 
   @Put('/:id', { body: updateCategorySchema, name: 'UpdateCategory' })
+  @PermissionRequired({ permission: 'ADMIN' })
   async update(ctx: Ctx<KickRoutes.CategoryController['update']>) {
-    return this.categoryService.update(ctx.params.id, ctx.body)
+    await this.categoryService.update(ctx.params.id, ctx.body)
+    return reply.noContent()
   }
 
   @Delete('/:id')
+  @PermissionRequired({ permission: 'ADMIN' })
   async remove(ctx: Ctx<KickRoutes.CategoryController['remove']>) {
     await this.categoryService.delete(ctx.params.id)
     return reply.noContent()

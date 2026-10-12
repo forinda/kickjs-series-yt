@@ -15,6 +15,7 @@ import { BlogsService } from './blogs.service'
 import { createBlogPostSchema } from './dtos/create-blogs.dto'
 import { updateBlogSchema } from './dtos/update-blogs.dto'
 import { S3Key, S3Uploader } from '@/adapters/s3.adapter'
+import { PermissionRequired } from '@/contributors/permission.contributor'
 
 @Controller()
 @ApiBearerAuth()
@@ -35,11 +36,13 @@ export class BlogsController {
   }
 
   @Post('/', { body: createBlogPostSchema, name: 'CreateBlogs' })
+  @PermissionRequired({ permission: 'WRITE' })
   async create(ctx: Ctx<KickRoutes.BlogsController['create']>) {
     return reply.created(await this.blogsService.create(ctx.body))
   }
 
   @Put('/:id', { body: updateBlogSchema, name: 'UpdateBlogs' })
+  @PermissionRequired({ permission: 'WRITE' })
   async update(ctx: Ctx<KickRoutes.BlogsController['update']>) {
     await this.blogsService.update(ctx.params.id, ctx.body)
     return reply.noContent()
@@ -52,6 +55,7 @@ export class BlogsController {
     allowedTypes: ['image/*'],
   })
   @Post('/upload-thumbnail/:id', { name: 'UploadDocumentThumbnail' })
+  @PermissionRequired({ permission: 'WRITE' })
   async upload(ctx: Ctx<KickRoutes.BlogsController['upload']>) {
     const buffer = ctx.file?.buffer
     const key = this.uploader.prepareKey('thumbnails', ctx.file?.originalname || 'unknown')
@@ -60,6 +64,7 @@ export class BlogsController {
     return reply.ok({ key, resp })
   }
 
+  @PermissionRequired({ permission: 'WRITE' })
   @Delete('/:id')
   async remove(ctx: Ctx<KickRoutes.BlogsController['remove']>) {
     await this.blogsService.delete(ctx.params.id)
