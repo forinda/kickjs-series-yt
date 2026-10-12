@@ -17,8 +17,8 @@ export class AuthService {
     @Autowired() private readonly seeder: UserSeeder,
   ) {}
 
-  async me(id: string): Promise<AuthResponseDTO | null> {
-    return this.repo.User.findById(id)
+  async me(id: string) {
+    return await this.repo.User.findById(id).populate('role', { name: 1 })
   }
 
   async findAll(): Promise<AuthResponseDTO[]> {
@@ -82,6 +82,6 @@ export class AuthService {
     if (!user) {
       throw HttpException.notFound('User not found')
     }
-    await this.repo.User.updateOne({ _id: userId }, { roleId })
+    await this.repo.User.updateOne({ _id: userId }, { role: roleId })
   }
 }

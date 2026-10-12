@@ -5,6 +5,7 @@ import { loginAuthSchema } from './dtos/login-auth.dto'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { PublicRoute } from '@/contributors/auth.contributor'
 import { assignRoleSchema } from './dtos/assign-role.dto'
+import { PermissionRequired } from '@/contributors/permission.contributor'
 
 @Controller()
 @ApiBearerAuth()
@@ -56,6 +57,7 @@ export class AuthController {
 
   @Post('/assign-role', { name: 'AssignRole', body: assignRoleSchema })
   @PublicRoute.off
+  @PermissionRequired({ permission: 'ADMIN' })
   async assignRole(ctx: Ctx<KickRoutes.AuthController['assignRole']>) {
     await this.authService.assignRole(ctx.body)
     return reply.noContent()
