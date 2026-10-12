@@ -1,4 +1,4 @@
-# CLAUDE.md — 002-live
+# CLAUDE.md — fullstack
 
 **Read `./.agents/AGENTS.md` first.** It is the canonical, multi-agent
 reference for this project (Claude, Copilot, Codex, Gemini, etc.) —

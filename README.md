@@ -1,74 +1,24 @@
-# 002-live
+# fullstack
 
-A **Minimal** built with [KickJS](https://kickjs.app/) — a decorator-driven Node.js framework for TypeScript that runs on Express, Fastify, or h3 (swap the engine in one line).
+Fullstack KickJS workspace — typed end to end.
 
-## Getting Started
+| Package   | What                                                       |
+| --------- | ---------------------------------------------------------- |
+| `server/` | KickJS API (decorators, DI, `kick dev` with typegen watch) |
+| `web/`    | create-vite scaffold — unwired (see below)                 |
+
+## Develop
 
 ```bash
 pnpm install
-kick dev
+pnpm dev            # server (kick dev) + web (vite), in parallel
 ```
 
-## Scripts
+Server: http://localhost:3000 · Web: http://localhost:5173.
 
-| Command                              | Description                          |
-| ------------------------------------ | ------------------------------------ |
-| `kick dev`                           | Start dev server with Vite HMR       |
-| `kick build`                         | Production build                     |
-| `kick start`                         | Run production build                 |
-| `pnpm run test`        | Run tests with Vitest                |
-| `kick g module <name>`               | Generate a DDD module                |
-| `kick g scaffold <name> <fields...>` | Generate CRUD from field definitions |
-| `kick add <package>`                 | Add a KickJS package                 |
+## Wiring web/ to the API
 
-## Project Structure
+`web/` is whatever create-vite scaffolded; nothing connects it to the API yet.
+Four steps — typed client, `/api` dev proxy, route-map types, `src/api.ts`:
 
-```
-src/
-├── index.ts           # Application entry point
-├── modules/           # Feature modules (controllers, services, repos)
-│   └── index.ts       # Module registry
-└── ...
-```
-
-## Packages
-
-- `@forinda/kickjs`
-- `@forinda/kickjs-schema`
-- `@forinda/kickjs-cli`
-- `@forinda/kickjs-testing`
-- `@forinda/kickjs-vite`
-
-## Adding Features
-
-```bash
-kick add swagger       # OpenAPI documentation
-kick add ws            # WebSocket support
-kick add queue         # Background job processing
-kick add --list        # Show all available packages
-```
-
-For email, scheduled tasks, multi-tenancy, OpenTelemetry, GraphQL, and notifications use the BYO recipes in the [KickJS guides](https://kickjs.app/guide/) — they wire the upstream library through `defineAdapter()` / `definePlugin()` directly, so you keep control of the integration.
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and configure:
-
-| Variable   | Default       | Description |
-| ---------- | ------------- | ----------- |
-| `PORT`     | `3000`        | Server port |
-| `NODE_ENV` | `development` | Environment |
-
-## Learn More
-
-- [KickJS Documentation](https://kickjs.app/)
-- [CLI Reference](https://kickjs.app/api/cli.html)
-
-
-Blogs
-Users
-Reactions
-Comments
-Followers
-Roles - Admin -> Moderator -> Writer -> Viewer
-Persmissions
+https://kickjs.app/guide/fullstack-frontend.html

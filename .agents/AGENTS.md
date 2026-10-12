@@ -1,4 +1,4 @@
-# AGENTS.md — AI Agent Guide for 002-live
+# AGENTS.md — AI Agent Guide for fullstack
 
 This guide is the **canonical, multi-agent reference** for this KickJS
 application — Claude, Copilot, Codex, Gemini, etc. all read it first.
@@ -9,7 +9,24 @@ add tool-specific affordances on top.
 
 1. Run `pnpm install` to install dependencies
 2. Run `kick dev` to verify the app starts
-3. Read the [KickJS documentation](https://kickjs.app/) for framework details
+
+## Fullstack workspace layout
+
+This is a WORKSPACE root — the KickJS API lives in `server/`, the typed web
+app in `web/`. Run both with `pnpm dev`.
+
+The type loop (do not break it):
+
+1. `server/` handlers RETURN their payloads → `kick typegen` (auto under
+   `kick dev`) emits `server/.kickjs/types/kick__routes.ts` incl. the flat
+   `KickRoutes.Api` map with inferred response types.
+2. `web/src/types/kick-routes.d.ts` imports that file TYPE-ONLY.
+3. `web/src/api.ts` = `createClient<KickApi>({ baseUrl: '/api/v1' })`
+   — every call site is typed from the server's handlers.
+
+Rules: kick commands (`kick g`, `kick typegen`, `kick dev`) run in
+`server/`; never import server runtime code into `web/` (the d.ts bridge is
+type-only); prefer return-value handlers so responses stay inferable. 3. Read the [KickJS documentation](https://kickjs.app/) for framework details
 
 ## HTTP runtime — DON'T assume Express-only
 
@@ -82,21 +99,21 @@ mistakes:
 
   ```ts
   const USERS_REPO = createToken<UsersRepo>('app/Users/repository')
-  const DB         = createToken<Database>('app/Db/connection')
+  const DB = createToken<Database>('app/Db/connection')
   ```
 
   The `kick/` prefix is reserved for first-party packages; this project
   owns its own scope (`app/`, your domain name, etc.).
 
-- **`@Controller()`** takes **no path argument**. Mount prefix comes from
-  the module's `routes()` return value, not the decorator. `@Controller('/users')`
-  is a v3 leftover; the linter and codegen reject it.
+- **`@Controller()`** takes **no arguments**. Set the route prefix with the
+  module's `routes().path`.
 
-- **Env wiring** — `src/config/index.ts` calls `loadEnv(envSchema)` as a
-  side effect. `src/index.ts` MUST have `import './config'` as its **first**
-  import (before `bootstrap()`). Without it, `ConfigService.get('YOUR_KEY')`
-  returns `undefined` and `@Value()` only works via raw `process.env` fallback
-  (Zod coercion + defaults silently skipped).
+- **Env** — the schema lives in `src/config/index.ts`. `src/index.ts` imports
+  it once, as its **first** import (`import './config'`, before `bootstrap()`);
+  tests that read config import it too (`import '@/config'`). Nothing else
+  imports from `src/config`: read values with `getEnv('KEY')`, an injected
+  `ConfigService` (`config.get('KEY')`), or `@Value('KEY')` typed as
+  `Env<'KEY'>` — never `process.env`. Add a key to the schema before reading it.
 
 - **Module entry files MUST be named `<name>.module.ts`** — see the Vite
   HMR contract at the top of "Module Pattern" below. The CLI enforces this;
@@ -187,21 +204,21 @@ package additions, env access patterns, troubleshooting) is detailed below.
 
 ### Application Structure
 
-| What | Where |
-|------|-------|
-| Entry point | `src/index.ts` |
-| Module registry | `src/modules/index.ts` |
-| Feature modules | `src/modules/<module-name>/` |
+| What                  | Where                                                                                             |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| Entry point           | `src/index.ts`                                                                                    |
+| Module registry       | `src/modules/index.ts`                                                                            |
+| Feature modules       | `src/modules/<module-name>/`                                                                      |
 | **Module entry file** | `src/modules/<name>/<name>.module.ts` (filename suffix is required — see Vite HMR contract below) |
-| Env values | `.env` |
-| Env schema (Zod) | `src/config/index.ts` |
-| TypeScript config | `tsconfig.json` |
-| Vite config (HMR) | `vite.config.ts` |
-| Vitest config | `vitest.config.ts` |
-| Formatter config | `.oxfmtrc.json` (oxfmt) |
-| CLI config | `kick.config.ts` |
+| Env values            | `.env`                                                                                            |
+| Env schema (Zod)      | `src/config/index.ts`                                                                             |
+| TypeScript config     | `tsconfig.json`                                                                                   |
+| Vite config (HMR)     | `vite.config.ts`                                                                                  |
+| Vitest config         | `vitest.config.ts`                                                                                |
+| Formatter config      | `.oxfmtrc.json` (oxfmt)                                                                           |
+| CLI config            | `kick.config.ts`                                                                                  |
 
-### Module Pattern (MINIMAL)
+### Module Pattern (FULLSTACK)
 
 > **Vite HMR auto-discovery contract:** module files **must** be named `<name>.module.ts` (or `.tsx`/`.js`/`.jsx`) and live under `src/modules/`. The Vite plugin scans for `*.module.[tj]sx?` to drive graceful HMR rebuilds; renaming a file to `projects.ts` (no `.module`) silently breaks HMR — saves trigger a full restart instead of a swap. The CLI generator (`kick g module <name>`) follows the convention; manual files must too.
 
@@ -213,7 +230,6 @@ src/
 └── ...                      # Custom structure
 ```
 
-
 ## Checklist: Adding a Feature
 
 Follow the **`kickjs-add-module`** skill — it has the ordered steps, the
@@ -224,19 +240,19 @@ silently breaks DI when omitted.
 
 Each of these has a skill with the steps and the traps:
 
-| Task | Skill |
-| --- | --- |
-| Add a feature module | `kickjs-add-module` |
-| Add an adapter | `kickjs-add-adapter` |
-| Add a plugin | `kickjs-add-plugin` |
-| Add a context contributor | `kickjs-context-contributor` |
-| Write a controller test | `kickjs-write-controller-test` |
-| List endpoint with filters / pagination | `kickjs-query-parsing-list-endpoint` |
-| Serve bundled assets | `kickjs-use-asset-manager` |
-| Flag a route (public, exempt, unmetered) | `kickjs-route-flags` |
-| Add a kick CLI command or generator | `kickjs-cli-plugin` |
-| Deploy to Netlify / Vercel / Cloudflare | `kickjs-deploy` |
-| Anything else | `kickjs-docs-lookup` |
+| Task                                     | Skill                                |
+| ---------------------------------------- | ------------------------------------ |
+| Add a feature module                     | `kickjs-add-module`                  |
+| Add an adapter                           | `kickjs-add-adapter`                 |
+| Add a plugin                             | `kickjs-add-plugin`                  |
+| Add a context contributor                | `kickjs-context-contributor`         |
+| Write a controller test                  | `kickjs-write-controller-test`       |
+| List endpoint with filters / pagination  | `kickjs-query-parsing-list-endpoint` |
+| Serve bundled assets                     | `kickjs-use-asset-manager`           |
+| Flag a route (public, exempt, unmetered) | `kickjs-route-flags`                 |
+| Add a kick CLI command or generator      | `kickjs-cli-plugin`                  |
+| Deploy to Netlify / Vercel / Cloudflare  | `kickjs-deploy`                      |
+| Anything else                            | `kickjs-docs-lookup`                 |
 
 ## Testing Guidelines
 
@@ -265,40 +281,42 @@ makes it slow to spot.
 
 These work anywhere — scripts, plain files, outside `@Service`/`@Controller`:
 
-| Utility | Import | Example |
-|---------|--------|---------|
-| `Logger.for(name)` | `@forinda/kickjs` | `const log = Logger.for('MyScript')` |
-| `createLogger(name)` | `@forinda/kickjs` | `const log = createLogger('Worker')` |
+| Utility                | Import            | Example                                           |
+| ---------------------- | ----------------- | ------------------------------------------------- |
+| `Logger.for(name)`     | `@forinda/kickjs` | `const log = Logger.for('MyScript')`              |
+| `createLogger(name)`   | `@forinda/kickjs` | `const log = createLogger('Worker')`              |
 | `createToken<T>(name)` | `@forinda/kickjs` | `const TOKEN = createToken<string>('app/Db/url')` |
-| `ref(value)` | `@forinda/kickjs` | `const count = ref(0)` |
-| `computed(fn)` | `@forinda/kickjs` | `const doubled = computed(() => count.value * 2)` |
-| `watch(source, cb)` | `@forinda/kickjs` | `watch(() => count.value, (v) => log(v))` |
-| `reactive(obj)` | `@forinda/kickjs` | `const state = reactive({ count: 0 })` |
-| `HttpException` | `@forinda/kickjs` | `throw new HttpException(404, 'Not found')` |
-| `HttpStatus` | `@forinda/kickjs` | `HttpStatus.NOT_FOUND // 404` |
+| `ref(value)`           | `@forinda/kickjs` | `const count = ref(0)`                            |
+| `computed(fn)`         | `@forinda/kickjs` | `const doubled = computed(() => count.value * 2)` |
+| `watch(source, cb)`    | `@forinda/kickjs` | `watch(() => count.value, (v) => log(v))`         |
+| `reactive(obj)`        | `@forinda/kickjs` | `const state = reactive({ count: 0 })`            |
+| `HttpException`        | `@forinda/kickjs` | `throw new HttpException(404, 'Not found')`       |
+| `HttpStatus`           | `@forinda/kickjs` | `HttpStatus.NOT_FOUND // 404`                     |
 
 ## Key Decorators
 
 ### HTTP Routes
-| Decorator | Purpose |
-|-----------|---------|
-| `@Controller()` | Define route prefix |
-| `@Get('/'), @Post('/')` | HTTP method handlers |
-| `@Middleware(fn)` | Attach middleware |
-| `@Public()` | Skip auth (requires auth adapter) |
-| `@Roles('admin')` | Role-based access |
+
+| Decorator               | Purpose                           |
+| ----------------------- | --------------------------------- |
+| `@Controller()`         | Define route prefix               |
+| `@Get('/'), @Post('/')` | HTTP method handlers              |
+| `@Middleware(fn)`       | Attach middleware                 |
+| `@Public()`             | Skip auth (requires auth adapter) |
+| `@Roles('admin')`       | Role-based access                 |
 
 ### Dependency Injection
-| Decorator | Purpose |
-|-----------|---------|
-| `defineModule({...})` | Define feature module (factory; preferred — paired with `defineModules()` registry) |
-| `defineModules()` | Build the modules registry as a chainable list (`.mount(X())`) |
+
+| Decorator             | Purpose                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| `defineModule({...})` | Define feature module (factory; preferred — paired with `defineModules()` registry)        |
+| `defineModules()`     | Build the modules registry as a chainable list (`.mount(X())`)                             |
 | `AppModule` interface | Legacy module shape — `class X implements AppModule` (toggle via `modules.style: 'class'`) |
-| `@Service()` | Register singleton service |
-| `@Repository()` | Register repository |
-| `@Autowired()` | Property injection |
-| `@Inject('token')` | Token-based injection |
-| `@Value('VAR')` | Inject env variable |
+| `@Service()`          | Register singleton service                                                                 |
+| `@Repository()`       | Register repository                                                                        |
+| `@Autowired()`        | Property injection                                                                         |
+| `@Inject('token')`    | Token-based injection                                                                      |
+| `@Value('VAR')`       | Inject env variable                                                                        |
 
 ### Context Decorators
 
@@ -308,23 +326,23 @@ is a value other code reads off `ctx`.
 
 **Authoring** — pick the right factory:
 
-| Factory | When |
-|---------|------|
-| `defineHttpContextDecorator(spec)` | HTTP only (the common case). `Ctx` is `RequestContext`, so `ctx.req` / `ctx.params` / `ctx.query` are typed. |
-| `defineContextDecorator(spec)` | Transport-agnostic (HTTP + WS + queue + cron). `Ctx` is `ExecutionContext` — only `get` / `require` / `set` / `requestId`. |
-| `<either>.withParams<P>()(spec)` | The contributor takes per-call params. **Always use the curried form for params** — the positional form forces you to spell `K` and `D` and loses `deps` inference. |
+| Factory                            | When                                                                                                                                                                |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `defineHttpContextDecorator(spec)` | HTTP only (the common case). `Ctx` is `RequestContext`, so `ctx.req` / `ctx.params` / `ctx.query` are typed.                                                        |
+| `defineContextDecorator(spec)`     | Transport-agnostic (HTTP + WS + queue + cron). `Ctx` is `ExecutionContext` — only `get` / `require` / `set` / `requestId`.                                          |
+| `<either>.withParams<P>()(spec)`   | The contributor takes per-call params. **Always use the curried form for params** — the positional form forces you to spell `K` and `D` and loses `deps` inference. |
 
 Spec fields: `{ key, deps, dependsOn, optional, paramDefaults, requiredParams, onError, resolve }`.
 
 **Call sites — all five, precedence high → low:**
 
-| # | Site | Form |
-|---|------|------|
-| 1 | Method | `@LoadX` / `@LoadX({ ... })` above a controller method |
-| 2 | Class | `@LoadX` / `@LoadX({ ... })` above the controller class |
-| 3 | Module | `defineModule({ build: () => ({ contributors: () => [LoadX.registration] }) })` — or `AppModule.contributors?()` in class form |
-| 4 | Adapter | `AppAdapter.contributors?(): ContributorRegistration[]` |
-| 5 | Global | `bootstrap({ contributors: [LoadX.registration] })` |
+| #   | Site    | Form                                                                                                                           |
+| --- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | Method  | `@LoadX` / `@LoadX({ ... })` above a controller method                                                                         |
+| 2   | Class   | `@LoadX` / `@LoadX({ ... })` above the controller class                                                                        |
+| 3   | Module  | `defineModule({ build: () => ({ contributors: () => [LoadX.registration] }) })` — or `AppModule.contributors?()` in class form |
+| 4   | Adapter | `AppAdapter.contributors?(): ContributorRegistration[]`                                                                        |
+| 5   | Global  | `bootstrap({ contributors: [LoadX.registration] })`                                                                            |
 
 Sites 3–5 take **registrations**, not decorators:
 
@@ -347,10 +365,10 @@ enforcement at JS call sites.
 `| undefined`). Never `ctx.get('key')!` — it compiles even when the producing
 decorator isn't applied to the route.
 
-| Concept | Where it lives |
-|---------|----------------|
-| Type augmentation (value types) | `declare module '@forinda/kickjs' { interface ContextMeta { ... } }` |
-| Type augmentation (key-only) | `declare module '@forinda/kickjs' { interface ContextKeys { ... } }` — valid in `dependsOn`, value stays `unknown` |
+| Concept                         | Where it lives                                                                                                     |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Type augmentation (value types) | `declare module '@forinda/kickjs' { interface ContextMeta { ... } }`                                               |
+| Type augmentation (key-only)    | `declare module '@forinda/kickjs' { interface ContextKeys { ... } }` — valid in `dependsOn`, value stays `unknown` |
 
 Cycles and missing `dependsOn` keys throw at `app.setup()` (boot fails
 fast). The `onError` hook is async-permitted.
@@ -378,4 +396,3 @@ page and lists the local tools (`kick explain`, `kick doctor`, `kick inspect`,
 `.kickjs/types/`) that usually answer faster than a search.
 
 Start at <https://kickjs.app/>.
-

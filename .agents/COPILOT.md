@@ -1,4 +1,4 @@
-# COPILOT.md — 002-live
+# COPILOT.md — fullstack
 
 **Read `./AGENTS.md` first.** It is the canonical, multi-agent
 reference for this project — every convention, structure, decorator
