@@ -34,9 +34,9 @@ export const roleSchema = new Schema(
           let dbRole = await this.findOne({ name: role.name })
           if (!dbRole) {
             dbRole = await this.create({ name: role.name, description: role.description })
-            logger.info(`Created role: ${dbRole.name}`)
+            logger.debug(`Created role: ${dbRole.name}`)
           } else {
-            logger.info(`Role already exists: ${dbRole.name}`)
+            logger.debug(`Role already exists: ${dbRole.name}`)
           }
           for (const perm of role.permissions()) {
             ;(dbRole as RoleDocument).addPermission(perm)

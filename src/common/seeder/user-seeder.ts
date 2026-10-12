@@ -3,10 +3,9 @@ import { UserType } from '@/db/models/user'
 import { hashPassword } from '@/utils/password'
 import { getEnv, Inject, Service, Value, Logger } from '@forinda/kickjs'
 
-const baseUser: Pick<UserType, 'email' | 'name' | 'password'> = {
+const baseUser: Pick<UserType, 'email' | 'name' > = {
   name: 'Base User',
   email: getEnv('BASE_USER_EMAIL'),
-  password: 'password123',
 }
 
 const logger = Logger.for('UserSeeder')
@@ -26,13 +25,13 @@ export class UserSeeder {
         })
       }
       // Initilize roles
-      logger.info('Initializing roles...')
+      logger.debug('Initializing roles...')
       await this.db.Role.initialize()
       // Assign default role to the base user
       // 1st user is an administrator
       const adminRole = await this.db.Role.findOne({ name: 'Admin' })
       if (adminRole && existingUser) {
-        logger.info(`Assigning Administrator role to user: ${existingUser.email}`)
+        logger.debug(`Assigning Administrator role to user: ${existingUser.email}`)
         existingUser.role = adminRole._id
         //  adminRole
         await existingUser.save()
