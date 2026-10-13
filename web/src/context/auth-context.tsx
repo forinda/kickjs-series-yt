@@ -1,0 +1,43 @@
+import type { LoginResponse } from "@/features/auth/mutations";
+import React from "react";
+
+export const authStorageKey = 'blog:platform:auth'
+
+export type AuthContextType = {
+  user: LoginResponse;
+  login: (user: LoginResponse) => void;
+  logout: () => void;
+};
+
+const syncAuthStateWithLocalStorage = () => {
+  const storedUser = localStorage.getItem(authStorageKey);
+  return storedUser ? JSON.parse(storedUser) : null;
+};
+
+const AuthContext = React.createContext<AuthContextType | null>(null);
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = React.useState<LoginResponse | null>(syncAuthStateWithLocalStorage());
+
+  const login = (user: LoginResponse) => {
+    setUser(user);
+    localStorage.setItem(authStorageKey, JSON.stringify(user));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem(authStorageKey);
+  };
+
+  return <AuthContext.Provider value={{ user: user!, login, logout }}>{children}</AuthContext.Provider>;
+};
+
+
+// oxlint-disable-next-line react/only-export-components
+export const useAuth = () => {
+  const context = React.useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};

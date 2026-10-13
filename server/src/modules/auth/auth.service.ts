@@ -3,7 +3,7 @@ import type { AuthResponseDTO } from './dtos/auth-response.dto'
 import type { RegisterAuthDTO } from './dtos/register-auth.dto'
 import type { LoginAuthDTO } from './dtos/login-auth.dto'
 import { DB, type Db } from '@/db'
-import { hashPassword } from '@/utils/password'
+import { comparePassword, hashPassword } from '@/utils/password'
 import { JWT, Jwt } from '@/utils/jwt'
 import { Types } from 'mongoose'
 import { UserSeeder } from '@/common/seeder/user-seeder'
@@ -48,7 +48,11 @@ export class AuthService {
     if (!user) {
       throw HttpException.badRequest('Invalid email or password')
     }
-    const { password: _, ...userWithoutPassword } = user.toObject()
+    const { password, ...userWithoutPassword } = user.toObject()
+    const match = await comparePassword(dto.password!, password)
+    if (!match) {
+      throw HttpException.badRequest('Invalid email or password')
+    }
     const session = await this.createUserSession({
       _id: userWithoutPassword._id,
       name: userWithoutPassword.name,

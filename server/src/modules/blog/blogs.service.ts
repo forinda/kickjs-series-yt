@@ -22,10 +22,8 @@ export class BlogsService {
   }
 
   async findAll() {
-    const userId = getRequestValue('auth')?.id
 
     const allBlogs = await this.repo.Blog.find({
-      createdBy: userId,
     })
       .populate('createdBy', { id: 1, name: 1 })
       .populate('category', { id: 1, description: 1 })

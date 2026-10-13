@@ -14,8 +14,9 @@ import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { BlogsService } from './blogs.service'
 import { createBlogPostSchema } from './dtos/create-blogs.dto'
 import { updateBlogSchema } from './dtos/update-blogs.dto'
-import { S3Key, S3Uploader } from '@/adapters/s3.adapter'
+import { S3Key, type S3Uploader } from '@/adapters/s3.adapter'
 import { PermissionRequired } from '@/contributors/permission.contributor'
+import { PublicRoute } from '@/contributors/auth.contributor'
 
 @Controller()
 @ApiBearerAuth()
@@ -25,6 +26,7 @@ export class BlogsController {
   @Inject(S3Key) private readonly uploader!: S3Uploader
 
   @Get('/')
+  @PublicRoute
   async list(_ctx: Ctx<KickRoutes.BlogsController['list']>) {
     return reply.ok(await this.blogsService.findAll())
   }

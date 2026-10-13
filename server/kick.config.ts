@@ -14,6 +14,9 @@ export default defineConfig({
   },
   typegen: {
     schemaValidator: 'kickjs-schema',
+    client:{
+      enabled: true
+    }
   },
 
   commands: kickCommands
