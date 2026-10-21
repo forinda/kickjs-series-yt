@@ -26,6 +26,20 @@ const actions: { label: string; to: string; icon: Icon; keywords?: string[] }[] 
   { label: "View the blog", to: "/", icon: IconExternalLink, keywords: ["home", "public", "site"] },
 ];
 
+const escapeRegex = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/**
+ * Every typed word must appear in the item's visible text (its keywords). cmdk's default
+ * scorer matches letters in order anywhere ("kube" hit "KickJS published") and also searched
+ * `value`, which holds database ids. Word-start matches rank above mid-word ones.
+ */
+const filter = (_value: string, search: string, keywords: string[] = []) => {
+  const text = keywords.join(" ").toLowerCase();
+  const words = search.toLowerCase().split(/\s+/).filter(Boolean);
+  if (!words.every((w) => text.includes(w))) return 0;
+  return words.every((w) => new RegExp(`(^|\\W)${escapeRegex(w)}`).test(text)) ? 1 : 0.5;
+};
+
 const groupHeading =
   "[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:pt-3 [&_[cmdk-group-heading]]:pb-1 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground";
 // Same highlight as the Combobox, so pickers and the palette feel like one control.
@@ -73,6 +87,10 @@ export function CommandSearch() {
 
 function Palette({ close }: { close: () => void }) {
   const navigate = useNavigate();
+  // Controlled so a new query always highlights its best match; cmdk otherwise keeps the
+  // previous highlight if it still matches, even when a better result ranks above it.
+  const [search, setSearch] = useState("");
+  const [highlighted, setHighlighted] = useState("");
   const { user } = useAuth();
   const { data: articles = [] } = useAllMyBlogs(user?.user._id ?? "");
   const { data: categories = [] } = useCategories();
@@ -83,11 +101,16 @@ function Palette({ close }: { close: () => void }) {
   };
 
   return (
-    <Command loop className="flex flex-col">
+    <Command loop filter={filter} value={highlighted} onValueChange={setHighlighted} className="flex flex-col">
       <div className="flex items-center gap-2 border-b px-3">
         <IconSearch className="size-4 shrink-0 text-muted-foreground" />
         <Command.Input
           autoFocus
+          value={search}
+          onValueChange={(next) => {
+            setSearch(next);
+            setHighlighted(""); // cmdk re-selects the first (best) item
+          }}
           placeholder="Search pages, actions, articles, categories…"
           className="h-12 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
@@ -98,7 +121,7 @@ function Palette({ close }: { close: () => void }) {
         <Command.Group heading="Pages">
           {dashboardSidebarItems.map((item) =>
             item.isSection ? null : (
-              <Command.Item key={item.href} value={`page ${item.title}`} onSelect={() => go(item.href)} className={itemClass}>
+              <Command.Item key={item.href} value={`page ${item.title}`} keywords={[item.title, "page"]} onSelect={() => go(item.href)} className={itemClass}>
                 <item.icon />
                 {item.title}
               </Command.Item>
@@ -108,7 +131,7 @@ function Palette({ close }: { close: () => void }) {
 
         <Command.Group heading="Actions">
           {actions.map((a) => (
-            <Command.Item key={a.label} value={`action ${a.label}`} keywords={a.keywords} onSelect={() => go(a.to)} className={itemClass}>
+            <Command.Item key={a.label} value={`action ${a.label}`} keywords={[a.label, ...(a.keywords ?? [])]} onSelect={() => go(a.to)} className={itemClass}>
               <a.icon />
               {a.label}
             </Command.Item>
