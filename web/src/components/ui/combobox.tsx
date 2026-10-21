@@ -211,7 +211,7 @@ export function Combobox(props: ComboboxProps) {
           {selected.map((it) => (
             <span
               key={it.value}
-              className="inline-flex items-center gap-1 rounded bg-secondary px-1.5 py-0.5 text-xs text-secondary-foreground"
+              className="inline-flex items-center gap-1 rounded bg-primary/10 px-1.5 py-0.5 text-xs text-primary"
             >
               {it.label}
               <button
@@ -242,7 +242,7 @@ export function Combobox(props: ComboboxProps) {
             aria-expanded={open}
             aria-haspopup="listbox"
             className={cn(
-              'flex h-8 touch:h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-2.5 text-[13px] outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/20 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive',
+              'flex h-8 touch:h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-2.5 text-[13px] outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-expanded:border-ring aria-expanded:ring-3 aria-expanded:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive',
               triggerClassName,
             )}
           >
@@ -308,12 +308,12 @@ export function Combobox(props: ComboboxProps) {
                         keywords={[it.label, it.description ?? ''].filter(Boolean)}
                         disabled={it.disabled ?? false}
                         onSelect={() => !it.disabled && pick(it.value)}
-                        className="flex cursor-pointer items-start gap-2 rounded-sm px-2 py-1.5 text-[13px] aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
+                        className="flex cursor-pointer items-start gap-2 rounded-sm px-2 py-1.5 text-[13px] aria-selected:bg-primary/10 aria-selected:text-foreground data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-50"
                       >
                         <IconCheck
                           className={cn(
                             'mt-0.5 size-3.5 shrink-0',
-                            isSelected ? 'text-foreground' : 'text-transparent',
+                            isSelected ? 'text-primary' : 'text-transparent',
                           )}
                         />
                         <div className="min-w-0">
