@@ -7,7 +7,7 @@ export const useBlogPosts = function () {
     queryKey: blogPostsKey.all,
     queryFn: async () => {
       // Replace this with your actual data fetching logic
-      return await api.get("/blogs");
+      return await api.get("/articles");
     },
   });
 };
@@ -18,7 +18,7 @@ export const useBlogPost = function (id: string) {
   return useQuery({
     queryKey: blogPostsKey.detail(id),
     queryFn: async () => {
-      return await api.get(`/blogs/:id`, { params: { id } });
+      return await api.get("/articles/:id", { params: { id } });
     },
   });
 };
@@ -28,7 +28,7 @@ export const useAllMyBlogs = function (userId: string) {
   return useQuery({
     queryKey: blogPostsKey.allMine(userId),
     queryFn: async () => {
-      return await api.get(`/blogs/mine`, { params: { id: userId } });
+      return await api.get("/me/articles");
     },
   });
 };
@@ -37,7 +37,7 @@ export const useMyBlog = function (userId: string, blogId: string) {
   return useQuery({
     queryKey: blogPostsKey.mine(userId, blogId),
     queryFn: async () => {
-      return await api.get(`/blogs/mine/:id`, { params: { id: blogId } });
+      return await api.get("/me/articles/:id", { params: { id: blogId } });
     },
     enabled: !!blogId,
   });

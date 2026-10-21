@@ -43,7 +43,7 @@ export const useUpdateProfile = () => {
     const onSuccess = useProfileSaved()
     return useMutation({
         mutationFn: ({ dob, ...rest }: ProfileInput) =>
-            api.put("/auth/update-profile", { body: { ...rest, dob: dob || null } }),
+            api.put("/me", { body: { ...rest, dob: dob || null } }),
         onSuccess,
     })
 }
@@ -55,7 +55,7 @@ export const useUploadAvatar = () => {
         mutationFn: async (file: File) => {
             const form = new FormData()
             form.append("avatar", file)
-            const res = await http.post("/api/v1/auth/avatar", form)
+            const res = await http.post("/api/v1/me/avatar", form)
             return res.data
         },
         onSuccess,
@@ -65,7 +65,7 @@ export const useUploadAvatar = () => {
 export const useRemoveAvatar = () => {
     const onSuccess = useProfileSaved()
     return useMutation({
-        mutationFn: () => api.delete("/auth/avatar"),
+        mutationFn: () => api.delete("/me/avatar"),
         onSuccess,
     })
 }

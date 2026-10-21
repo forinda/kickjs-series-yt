@@ -9,7 +9,7 @@ export const useMyProfile = () => {
         queryKey: authKeys.me,
         queryFn: async () => {
             try {
-                const response = await api.get("/auth/profile");
+                const response = await api.get("/me");
                 return response;
             } catch {
                 throw new Error("Failed to fetch user");

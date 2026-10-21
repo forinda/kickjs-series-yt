@@ -8,7 +8,7 @@ export const useCreateBlog = () => {
     const client = useQueryClient()
     return useMutation({
         mutationFn: async (newBlog: BlogFormInput) => {
-            return await api.post("/blogs", { body: newBlog });
+            return await api.post("/articles", { body: newBlog });
         },
         onSuccess: () => {
             client.invalidateQueries({ queryKey: blogPostsKey.all });
@@ -21,7 +21,7 @@ export const useUpdateBlog = () => {
     const client = useQueryClient()
     return useMutation({
         mutationFn: async ({ id, ...body }: BlogFormInput & { id: string }) => {
-            return await api.put("/blogs/:id", { params: { id }, body });
+            return await api.put("/articles/:id", { params: { id }, body });
         },
         onSuccess: () => {
             client.invalidateQueries({ queryKey: blogPostsKey.all });
@@ -36,7 +36,7 @@ export const useUploadThumbnail = () => {
         mutationFn: async ({ id, file }: { id: string; file: File }) => {
             const form = new FormData();
             form.append("document", file);
-            const res = await http.post(`/api/v1/blogs/upload-thumbnail/${id}`, form);
+            const res = await http.post(`/api/v1/articles/${id}/thumbnail`, form);
             return res.data;
         },
         onSuccess: () => {

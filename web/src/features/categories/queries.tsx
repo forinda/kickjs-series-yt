@@ -6,7 +6,7 @@ export const useCategories = () => {
   return useQuery({
     queryKey: categoryKeys.all,
     queryFn: async () => {
-      return await api.get("/category");
+      return await api.get("/categories");
     },
   });
 };

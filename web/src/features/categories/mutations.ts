@@ -28,7 +28,7 @@ export const useSaveCategory = () => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...body }: CategoryInput & { id?: string }) =>
-      id ? api.put("/category/:id", { params: { id }, body }) : api.post("/category", { body }),
+      id ? api.put("/categories/:id", { params: { id }, body }) : api.post("/categories", { body }),
     onSuccess: () => {
       client.invalidateQueries({ queryKey: categoryKeys.all });
     },

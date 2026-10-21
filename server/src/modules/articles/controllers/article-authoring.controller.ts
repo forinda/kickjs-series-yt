@@ -1,0 +1,62 @@
+import {
+  Autowired,
+  Controller,
+  Delete,
+  FileUpload,
+  HttpException,
+  Post,
+  Put,
+  reply,
+  type Ctx,
+} from '@forinda/kickjs'
+import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
+import { PermissionRequired } from '@/contributors/permission.contributor'
+import { createArticleSchema, updateArticleSchema } from '../dtos/create-article.dto'
+import { CreateArticleUseCase } from '../use-cases/create-article.use-case'
+import { UpdateArticleUseCase } from '../use-cases/update-article.use-case'
+import { DeleteArticleUseCase } from '../use-cases/delete-article.use-case'
+import { SetArticleThumbnailUseCase } from '../use-cases/set-article-thumbnail.use-case'
+
+/** Writing: needs WRITE, and every change is limited to the writer's own articles. */
+@Controller()
+@ApiBearerAuth()
+@ApiTags('Articles')
+export class ArticleAuthoringController {
+  @Autowired() private readonly createArticle!: CreateArticleUseCase
+  @Autowired() private readonly updateArticle!: UpdateArticleUseCase
+  @Autowired() private readonly deleteArticle!: DeleteArticleUseCase
+  @Autowired() private readonly setThumbnail!: SetArticleThumbnailUseCase
+
+  @Post('/', { body: createArticleSchema, name: 'CreateArticle' })
+  @PermissionRequired({ permission: 'WRITE' })
+  async create(ctx: Ctx<KickRoutes.ArticleAuthoringController['create']>) {
+    return reply.created(await this.createArticle.execute(ctx.require('auth').id, ctx.body))
+  }
+
+  @Put('/:id', { body: updateArticleSchema, name: 'UpdateArticle' })
+  @PermissionRequired({ permission: 'WRITE' })
+  async update(ctx: Ctx<KickRoutes.ArticleAuthoringController['update']>) {
+    await this.updateArticle.execute(ctx.params.id, ctx.require('auth').id, ctx.body)
+    return reply.noContent()
+  }
+
+  @Delete('/:id', { name: 'DeleteArticle' })
+  @PermissionRequired({ permission: 'WRITE' })
+  async remove(ctx: Ctx<KickRoutes.ArticleAuthoringController['remove']>) {
+    await this.deleteArticle.execute(ctx.params.id, ctx.require('auth').id)
+    return reply.noContent()
+  }
+
+  @FileUpload({
+    mode: 'single',
+    fieldName: 'document',
+    maxSize: 5 * 1024 * 1024, // 5 MB
+    allowedTypes: ['image/*'],
+  })
+  @Post('/:id/thumbnail', { name: 'SetArticleThumbnail' })
+  @PermissionRequired({ permission: 'WRITE' })
+  async thumbnail(ctx: Ctx<KickRoutes.ArticleAuthoringController['thumbnail']>) {
+    if (!ctx.file) throw HttpException.badRequest('No file uploaded in the "document" field')
+    return reply.ok(await this.setThumbnail.execute(ctx.params.id, ctx.require('auth').id, ctx.file))
+  }
+}
