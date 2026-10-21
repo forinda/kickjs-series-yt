@@ -254,3 +254,13 @@
   padding: 0;
   background: transparent;
 }
+
+/* Code keeps its shape in the editor: long lines scroll sideways instead of wrapping like prose
+   (matches the article page). Two classes beat ProseMirror's injected `.ProseMirror pre { pre-wrap }`. */
+.tiptap.ProseMirror pre {
+  white-space: pre;
+  overflow-x: auto;
+}
+.tiptap.ProseMirror pre code {
+  white-space: inherit;
+}

@@ -43,6 +43,8 @@ import { Input } from "./ui/input";
 import { Combobox } from "./ui/combobox";
 import { toArticleHtml } from "@/lib/article-html";
 import { CODE_LANGUAGES } from "@/lib/code-languages";
+import { guessLanguage, looksLikeCode } from "@/lib/paste-detect";
+import { MarkdownLinkInput } from "@/lib/tiptap-markdown-link";
 import { extractError } from "@/lib/api";
 import { useUploadArticleImage } from "@/features/blogs/mutations";
 
@@ -144,7 +146,10 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
       }),
       CodeBlockLowlight.configure({ lowlight, defaultLanguage: "plaintext" }),
       Placeholder.configure({ placeholder: placeholder ?? "Start writing… Markdown shortcuts and pasting Markdown work too." }),
-      Image,
+      // No `![alt](url)` typing shortcut: the server only keeps uploaded images, so an
+      // external one would silently vanish on save. Images come in via upload/drop/paste.
+      Image.extend({ addInputRules: () => [] }),
+      MarkdownLinkInput,
       TableKit.configure({ table: { resizable: false } }), // widths aren't kept by the server anyway
       Markdown,
       FileHandler.configure({
@@ -159,15 +164,33 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
       attributes: {
         class: "prose prose-neutral dark:prose-invert max-w-none min-h-[28rem] px-4 py-3 focus:outline-none",
       },
-      // Pasted plain text that looks like Markdown becomes formatted content.
+      // Plain-text paste (no HTML): code becomes a code block, Markdown becomes formatting.
+      // Files go to FileHandler; HTML (VS Code, web pages) to Tiptap's own handling, which
+      // already maps <pre><code> and VS Code's clipboard data to code blocks.
       handlePaste: (_view, event) => {
+        const editor = editorRef.current;
         const data = event.clipboardData;
         const text = data?.getData("text/plain") ?? "";
-        if (!editorRef.current || data?.files.length || data?.getData("text/html") || !looksLikeMarkdown(text)) {
-          return false; // files → FileHandler, HTML → Tiptap's own paste
+        if (!editor || !text || data?.files.length || data?.getData("text/html")) return false;
+        if (editor.isActive("codeBlock")) return false; // pasting into code: keep it verbatim
+        if (looksLikeCode(text)) {
+          const code = text.replace(/\n+$/, "");
+          editor
+            .chain()
+            .focus()
+            .insertContent({
+              type: "codeBlock",
+              attrs: { language: guessLanguage(lowlight, code) },
+              content: [{ type: "text", text: code }],
+            })
+            .run();
+          return true;
         }
-        editorRef.current.commands.insertContent(text, { contentType: "markdown" });
-        return true;
+        if (looksLikeMarkdown(text)) {
+          editor.commands.insertContent(text, { contentType: "markdown" });
+          return true;
+        }
+        return false;
       },
     },
     // An empty editor still holds "<p></p>"; report "" so required-field validation works.
@@ -216,8 +239,14 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
   // Markdown mode edits the source; every change flows through the editor so the
   // form value (HTML) stays current and switching back is lossless.
   const toggleMarkdown = () => {
-    if (markdown === null) setMarkdown(editor.getMarkdown());
-    else setMarkdown(null);
+    // While the source is being edited, the rendered side is a read-only preview of it.
+    if (markdown === null) {
+      setMarkdown(editor.getMarkdown());
+      editor.setEditable(false);
+    } else {
+      setMarkdown(null);
+      editor.setEditable(true);
+    }
   };
   const onMarkdownChange = (next: string) => {
     setMarkdown(next);
@@ -371,18 +400,28 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
         </div>
       )}
 
-      {markdown !== null && (
-        <textarea
-          aria-label="Markdown source"
-          value={markdown}
-          onChange={(e) => onMarkdownChange(e.target.value)}
-          onBlur={() => onBlur?.()}
-          spellCheck={false}
-          className="block min-h-[28rem] w-full resize-y bg-transparent px-4 py-3 font-mono text-sm leading-relaxed outline-none"
-        />
-      )}
-      <div hidden={markdown !== null}>
-        <EditorContent editor={editor} />
+      {/* Markdown mode: source on the left, live rendered preview on the right (stacked on phones). */}
+      <div className={markdown !== null ? "grid md:grid-cols-2 md:divide-x" : undefined}>
+        {markdown !== null && (
+          <div className="flex flex-col border-b md:border-b-0">
+            <span className="border-b bg-muted/20 px-4 py-1.5 text-xs font-medium text-muted-foreground">Markdown</span>
+            <textarea
+              aria-label="Markdown source"
+              autoFocus
+              value={markdown}
+              onChange={(e) => onMarkdownChange(e.target.value)}
+              onBlur={() => onBlur?.()}
+              spellCheck={false}
+              className="block min-h-[28rem] w-full flex-1 resize-y bg-transparent px-4 py-3 font-mono text-sm leading-relaxed outline-none"
+            />
+          </div>
+        )}
+        <div className="flex min-w-0 flex-col">
+          {markdown !== null && (
+            <span className="border-b bg-muted/20 px-4 py-1.5 text-xs font-medium text-muted-foreground">Preview</span>
+          )}
+          <EditorContent editor={editor} />
+        </div>
       </div>
     </div>
   );
