@@ -14,6 +14,8 @@ import { useAuth } from "@/context/auth-context";
 import { useAllMyBlogs, type BlogPostType } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
 import { displayName } from "@/lib/utils";
+import { can, userRole } from "@/lib/permissions";
+import { BecomeWriterCard } from "@/components/dashboard/become-writer-card";
 
 const quickActions: { label: string; description: string; to: string; icon: Icon }[] = [
   {
@@ -71,6 +73,9 @@ export default function DashboardIndex() {
         <h1 className="text-2xl font-bold">Welcome back, {displayName(user?.user)}</h1>
         <p className="text-muted-foreground">Here's how your writing is doing.</p>
       </div>
+
+      {/* Only readers on the default role can request; others' roles are set by an admin. */}
+      {!can(user?.user, "WRITE") && userRole(user?.user)?.name === "User" && <BecomeWriterCard />}
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {stats.map((stat) => (

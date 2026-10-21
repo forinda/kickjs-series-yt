@@ -2,30 +2,39 @@ import { Link, matchPath, useLocation } from "react-router";
 import type { Icon } from "@tabler/icons-react";
 import { useAuth } from "@/context/auth-context";
 import { can, type PermissionKey } from "@/lib/permissions";
+import { visibleNavItems } from "@/lib/data/nav-data";
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { usePendingWriterRequestCount } from "@/features/writer-requests/api";
+
+/** Counters a nav item can show as a badge. */
+export type NavBadge = "pendingWriterRequests";
 
 export type NavItem =
   | { isSection: true; label: string; permission?: PermissionKey }
-  | { isSection?: false; title: string; icon: Icon; href: string; exact?: boolean; permission?: PermissionKey };
+  | {
+      isSection?: false;
+      title: string;
+      icon: Icon;
+      href: string;
+      exact?: boolean;
+      permission?: PermissionKey;
+      badge?: NavBadge;
+    };
 
-/** Items the user may see; a section disappears when it has nothing left under it. */
-export const visibleNavItems = (items: NavItem[], allowed: (key: PermissionKey) => boolean) => {
-  const permitted = items.filter((item) => !item.permission || allowed(item.permission));
-  return permitted.filter(
-    (item, i) => !item.isSection || (permitted[i + 1] !== undefined && !permitted[i + 1].isSection),
-  );
-};
 
 /** Sidebar navigation. The active item follows the URL, so deep links and back/forward stay right. */
 export function NavMain({ items }: { items: NavItem[] }) {
   const { pathname } = useLocation();
   const { user } = useAuth();
+  const { data: pendingWriterRequests = 0 } = usePendingWriterRequestCount(can(user?.user, "ADMIN"));
+  const badges: Record<NavBadge, number> = { pendingWriterRequests };
 
   return visibleNavItems(items, (key) => can(user?.user, key)).map((item) =>
     item.isSection ? (
@@ -48,8 +57,20 @@ export function NavMain({ items }: { items: NavItem[] }) {
               <Link to={item.href}>
                 <item.icon />
                 {item.title}
+                {item.badge && badges[item.badge] > 0 && (
+                  <span className="sr-only">, {badges[item.badge]} pending</span>
+                )}
               </Link>
             </SidebarMenuButton>
+            {item.badge && badges[item.badge] > 0 && (
+              // Brand pill; inverted on the active (brand-coloured) row so it stays readable.
+              <SidebarMenuBadge
+                aria-hidden
+                className="top-2! right-2! rounded-full! bg-primary! text-primary-foreground! peer-data-active/menu-button:bg-primary-foreground! peer-data-active/menu-button:text-primary!"
+              >
+                {badges[item.badge] > 99 ? "99+" : badges[item.badge]}
+              </SidebarMenuBadge>
+            )}
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroup>

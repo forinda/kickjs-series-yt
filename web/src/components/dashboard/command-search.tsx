@@ -7,6 +7,7 @@ import {
   IconCategoryPlus,
   IconExternalLink,
   IconPencilPlus,
+  IconPencilStar,
   IconSearch,
   IconUserEdit,
   type Icon,
@@ -15,8 +16,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { useAuth } from "@/context/auth-context";
 import { useAllMyBlogs } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
-import { dashboardSidebarItems } from "@/lib/data/nav-data";
-import { visibleNavItems } from "./main-nav";
+import { dashboardSidebarItems, visibleNavItems } from "@/lib/data/nav-data";
 import { can } from "@/lib/permissions";
 
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
@@ -25,6 +25,7 @@ const actions: { label: string; to: string; icon: Icon; keywords?: string[] }[] 
   { label: "Write a new article", to: href("/dashboard/articles/new"), icon: IconPencilPlus, keywords: ["create", "post", "draft"] },
   { label: "Add a category", to: `${href("/dashboard/categories")}?new`, icon: IconCategoryPlus, keywords: ["create", "new"] },
   { label: "Edit your profile", to: href("/dashboard/profile"), icon: IconUserEdit, keywords: ["account", "bio", "avatar", "settings"] },
+  { label: "Writer access", to: href("/dashboard/writer-access"), icon: IconPencilStar, keywords: ["request", "become a writer", "status", "track"] },
   { label: "View the blog", to: "/", icon: IconExternalLink, keywords: ["home", "public", "site"] },
 ];
 

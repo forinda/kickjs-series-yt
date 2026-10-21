@@ -10,6 +10,8 @@ import AccountProfile from "./pages/account-profile";
 import DashboardPostEditor from "./pages/dashboard-post-editor";
 import DashboardCategories from "./pages/dashboard-categories";
 import DashboardUsers from "./pages/dashboard-users";
+import DashboardWriterRequests from "./pages/dashboard-writer-requests";
+import DashboardWriterAccess from "./pages/dashboard-writer-access";
 import Protect from "./components/auth/protect";
 export const router = createBrowserRouter([
   {
@@ -60,6 +62,18 @@ export const router = createBrowserRouter([
                 <DashboardUsers />
               </Protect>
             ),
+          },
+          {
+            path: "/dashboard/writer-requests",
+            element: (
+              <Protect permission="ADMIN">
+                <DashboardWriterRequests />
+              </Protect>
+            ),
+          },
+          {
+            path: "/dashboard/writer-access",
+            element: <DashboardWriterAccess />,
           },
           {
             path:'/dashboard/profile',
