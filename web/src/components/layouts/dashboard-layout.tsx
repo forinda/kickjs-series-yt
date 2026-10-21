@@ -6,9 +6,14 @@ import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import ProfileDropdown from "../dashboard/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Outlet } from "react-router";
+import Protect from "../auth/protect";
+import { useAuth } from "@/context/auth-context";
+import { initials } from "@/lib/utils";
 
 const Page = () => {
+  const { user } = useAuth();
   return (
+    <Protect>
     <SidebarProvider>
       <AppSidebar />
       {/* ---------------- Main ---------------- */}
@@ -33,7 +38,7 @@ const Page = () => {
                   <div id="profile-dropdown-trigger" className="rounded-full cursor-pointer">
                     <Avatar className="size-7 rounded-full">
                       <AvatarImage src="" />
-                      <AvatarFallback>NJ</AvatarFallback>
+                      <AvatarFallback>{initials(user?.user)}</AvatarFallback>
                     </Avatar>
                   </div>
                 }
@@ -46,6 +51,7 @@ const Page = () => {
         </main>
       </div>
     </SidebarProvider>
+    </Protect>
   );
 };
 

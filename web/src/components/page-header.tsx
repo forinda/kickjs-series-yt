@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { Button } from "./ui/button";
 import CreateArticleDialog from "./create-article-dialog";
 import { href, Link } from "react-router";
+import { displayName } from "@/lib/utils";
 
 export default function PageHeader() {
   const [isCreateArticleDialogOpen, setIsCreateArticleDialogOpen] = React.useState(false);
@@ -50,7 +51,7 @@ export default function PageHeader() {
                   variant={"ghost"}
                   className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
                 >
-                  {user.user.name}
+                  {displayName(user.user)}
                 </Button>
                 <Button
                   aria-label="Account menu"

@@ -2,6 +2,7 @@ import { Service, Inject, HttpException, Autowired } from '@forinda/kickjs'
 import type { AuthResponseDTO } from './dtos/auth-response.dto'
 import type { RegisterAuthDTO } from './dtos/register-auth.dto'
 import type { LoginAuthDTO } from './dtos/login-auth.dto'
+import type { UpdateProfileDTO } from './dtos/update-profile.dto'
 import { DB, type Db } from '@/db'
 import { comparePassword, hashPassword } from '@/utils/password'
 import { JWT, Jwt } from '@/utils/jwt'
@@ -18,7 +19,7 @@ export class AuthService {
   ) {}
 
   async me(id: string) {
-    return await this.repo.User.findById(id).populate('role', { name: 1 })
+    return await this.repo.User.findById(id).select('-password').populate('role', { name: 1 })
   }
 
   async findAll(): Promise<AuthResponseDTO[]> {
@@ -60,12 +61,18 @@ export class AuthService {
     return { user: userWithoutPassword, jwt: session }
   }
 
-  async update(id: string, dto: LoginAuthDTO) {
-    return this.repo.User.updateOne({ id }, dto)
+  async update(id: string, dto: UpdateProfileDTO) {
+    const user = await this.repo.User.findByIdAndUpdate(id, { $set: dto }, { new: true })
+      .select('-password')
+      .populate('role', { name: 1 })
+    if (!user) {
+      throw HttpException.notFound('User not found')
+    }
+    return user
   }
 
   async delete(id: string): Promise<void> {
-    await this.repo.User.deleteOne({ id })
+    await this.repo.User.deleteOne({ _id: id })
   }
 
   private createUserSession(user: { _id: Types.ObjectId; name: string }) {

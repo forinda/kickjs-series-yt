@@ -2,11 +2,15 @@ import type { LoginResponse } from "@/features/auth/mutations";
 import React from "react";
 
 export const authStorageKey = 'blog:platform:auth'
+// Fired by the API client on a 401 for an authenticated request.
+export const sessionExpiredEvent = 'auth:session-expired'
 
 export type AuthContextType = {
   user: LoginResponse;
   login: (user: LoginResponse) => void;
   logout: () => void;
+  /** Replace the stored session user with fresh server data (JWT kept). */
+  updateUser: (fresh: LoginResponse["user"]) => void;
 };
 
 const syncAuthStateWithLocalStorage = () => {
@@ -29,7 +33,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem(authStorageKey);
   };
 
-  return <AuthContext.Provider value={{ user: user!, login, logout }}>{children}</AuthContext.Provider>;
+  const updateUser = (fresh: LoginResponse["user"]) => {
+    if (user) login({ ...user, user: fresh });
+  };
+
+  // The API client fires this on a 401 for an authenticated request.
+  React.useEffect(() => {
+    const onExpired = () => {
+      setUser(null);
+      localStorage.removeItem(authStorageKey);
+    };
+    globalThis.addEventListener(sessionExpiredEvent, onExpired);
+    return () => globalThis.removeEventListener(sessionExpiredEvent, onExpired);
+  }, []);
+
+  return <AuthContext.Provider value={{ user: user!, login, logout, updateUser }}>{children}</AuthContext.Provider>;
 };
 
 

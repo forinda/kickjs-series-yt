@@ -1,7 +1,6 @@
-"use client";
-
 import type { ReactElement } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { href, Link, useNavigate } from "react-router";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IconBookmark, IconLogout, IconReceipt, IconSettings, IconUser, type Icon } from "@tabler/icons-react";
-
+import { IconExternalLink, IconLogout, IconUser } from "@tabler/icons-react";
+import { useAuth } from "@/context/auth-context";
+import { displayName, initials } from "@/lib/utils";
 
 type Props = {
   trigger: ReactElement;
@@ -20,88 +20,54 @@ type Props = {
   align?: "start" | "center" | "end";
 };
 
-type MenuItem = {
-  label: string;
-  icon: Icon;
-  destructive?: boolean;
-};
-
-const PROFILE_ITEMS: MenuItem[] = [
-  { label: "My Profile", icon: IconUser },
-  { label: "My Subscription", icon: IconBookmark },
-  { label: "My Invoice", icon: IconReceipt },
-];
-
-const SETTINGS_ITEMS: MenuItem[] = [
-  { label: "Account Settings", icon: IconSettings },
-];
-
-const LOGOUT_ITEM: MenuItem = {
-  label: "Signout",
-  icon: IconLogout,
-  destructive: true,
-};
-
 const itemClass = "px-4 py-2.5 text-base cursor-pointer gap-3";
 
 const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  // Leave the dashboard first (committed synchronously) so <Protect> doesn't bounce us to /auth?_next=…
+  const signOut = () => {
+    navigate("/", { flushSync: true });
+    logout();
+  };
+
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
       <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-80" align={align}>
+      <DropdownMenuContent className="w-72" align={align}>
         <DropdownMenuGroup>
-          {/* User Info */}
-          <DropdownMenuLabel className="flex items-center gap-4 px-4 py-2.5 font-normal">
-            <div className="relative">
-              <Avatar className="size-10">
-                <AvatarImage
-                  src="https://images.shadcnspace.com/assets/profiles/user-11.jpg"
-                  alt="David McMichael"
-                />
-                <AvatarFallback>DM</AvatarFallback>
-              </Avatar>
-              <span className="ring-card absolute right-0 bottom-0 size-2 rounded-full bg-green-600 ring-2" />
-            </div>
-
-            <div className="flex flex-col">
-              <span className="text-foreground text-lg font-semibold">
-                David McMichael
-              </span>
-              <span className="text-muted-foreground text-sm">
-                david.mcmichael@example.com
-              </span>
+          <DropdownMenuLabel className="flex items-center gap-3 px-4 py-2.5 font-normal">
+            <Avatar className="size-10">
+              <AvatarFallback>{initials(user?.user)}</AvatarFallback>
+            </Avatar>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate font-semibold text-foreground">{displayName(user?.user)}</span>
+              <span className="truncate text-sm text-muted-foreground">{user?.user.email}</span>
             </div>
           </DropdownMenuLabel>
 
           <DropdownMenuSeparator />
 
-          {/* Main Links */}
-          {PROFILE_ITEMS.map(({ label, icon: Icon }) => (
-            <DropdownMenuItem key={label} className={itemClass}>
-              <Icon size={20} className="text-foreground" />
-              <span>{label}</span>
-            </DropdownMenuItem>
-          ))}
+          <DropdownMenuItem asChild className={itemClass}>
+            <Link to={href("/dashboard/profile")}>
+              <IconUser size={20} className="text-foreground" />
+              My profile
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild className={itemClass}>
+            <Link to="/">
+              <IconExternalLink size={20} className="text-foreground" />
+              View blog
+            </Link>
+          </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 
-          {/* Settings */}
-          <DropdownMenuGroup>
-            {SETTINGS_ITEMS.map(({ label, icon: Icon }) => (
-              <DropdownMenuItem key={label} className={itemClass}>
-                <Icon size={20} className="text-foreground" />
-                <span>{label}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuGroup>
-
-          <DropdownMenuSeparator />
-
-          {/* Logout */}
-          <DropdownMenuItem variant="destructive" className={itemClass}>
-            <LOGOUT_ITEM.icon size={20} />
-            <span>{LOGOUT_ITEM.label}</span>
+          <DropdownMenuItem variant="destructive" className={itemClass} onSelect={signOut}>
+            <IconLogout size={20} />
+            Sign out
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

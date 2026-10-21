@@ -37,7 +37,8 @@ export const useMyBlog = function (userId: string, blogId: string) {
   return useQuery({
     queryKey: blogPostsKey.mine(userId, blogId),
     queryFn: async () => {
-      return await api.get(`/blogs/mine`, { params: { id: blogId } });
+      return await api.get(`/blogs/mine/:id`, { params: { id: blogId } });
     },
+    enabled: !!blogId,
   });
 };

@@ -1,236 +1,258 @@
-"use client";
-
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Field, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { IconCamera, IconTrash } from "@tabler/icons-react";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
+import {
+  IconBrandGithub,
+  IconBrandLinkedin,
+  IconBrandX,
+  IconLoader2,
+  IconWorld,
+  type Icon,
+} from "@tabler/icons-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
+import { useUpdateProfile } from "@/features/auth/mutations";
+import { useMyProfile } from "@/features/auth/queries";
+import { PROFILE_LIMITS, profileResolver, type ProfileInput } from "@/features/auth/schema";
+import { extractError } from "@/lib/api";
+import { displayName, initials } from "@/lib/utils";
 
-const notificationPrefs = [
-  {
-    id: "product-updates",
-    title: "Product updates",
-    description: "New features, improvements, and announcements.",
-    defaultChecked: true,
-  },
-  {
-    id: "security-alerts",
-    title: "Security alerts",
-    description: "Sign-ins from new devices and password changes.",
-    defaultChecked: true,
-  },
-  {
-    id: "billing-emails",
-    title: "Billing emails",
-    description: "Invoices, receipts, and payment reminders.",
-    defaultChecked: false,
-  },
-  {
-    id: "marketing-emails",
-    title: "Marketing emails",
-    description: "Tips, offers, and product surveys.",
-    defaultChecked: false,
-  },
-];
-
-const AccountProfile = () => {
-  const [deleteConfirm, setDeleteConfirm] = useState("");
-
-  const saveProfile = () => {
-    toast.success("Profile updated successfully");
-  };
-
-  const updatePassword = () => {
-    toast.success("Password updated successfully");
-  };
-
-  return (
-    <div className="flex w-full max-w-3xl flex-col gap-6">
-      {/* ---------------- Profile ---------------- */}
-      <Card className="gap-0">
-        <CardHeader className="gap-1 border-b border-border">
-          <CardTitle className="text-base font-medium">Profile</CardTitle>
-          <CardDescription>
-            Update your personal details and how others see you.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-6 py-6 sm:flex-row">
-          <div className="flex flex-col items-center gap-3 ">
-            <Avatar className="size-20">
-              <AvatarImage
-                src="https://images.shadcnspace.com/assets/shadcn-dashboard/profile/user-1.webp"
-                alt="Sunil Joshi"
-              />
-              <AvatarFallback>SJ</AvatarFallback>
-            </Avatar>
-            <div className="flex items-center gap-2">
-              <Button  className="gap-1.5">
-                <IconCamera className="size-3.5" />
-                Change
-              </Button>
-              <Button variant="destructive">
-                Remove
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="fullname" className="text-sm font-normal text-foreground">
-                Full name
-              </FieldLabel>
-              <Input id="fullname" defaultValue="Sunil Joshi" />
-            </Field>
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="username" className="text-sm font-normal text-foreground">
-                Username
-              </FieldLabel>
-              <Input id="username" defaultValue="sunil.joshi" />
-            </Field>
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="email" className="text-sm font-normal text-foreground">
-                Email
-              </FieldLabel>
-              <Input id="email" type="email" defaultValue="sunil.joshi@shadcndashboard.com" />
-            </Field>
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="phone" className="text-sm font-normal text-foreground">
-                Phone
-              </FieldLabel>
-              <Input id="phone" type="tel" defaultValue="+1 (555) 012-3456" />
-            </Field>
-            <Field className="gap-1.5 sm:col-span-2">
-              <FieldLabel htmlFor="bio" className="text-sm font-normal text-foreground">
-                Bio
-              </FieldLabel>
-              <Input id="bio" defaultValue="Product designer based in Bengaluru." />
-            </Field>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col items-start gap-3  sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm ">Last updated: 17 Jan, 2026</p>
-          <div className="flex items-center gap-3">
-            <Button variant="destructive">Cancel</Button>
-            <Button onClick={saveProfile}>Save changes</Button>
-          </div>
-        </CardFooter>
-      </Card>
-
-      {/* ---------------- Password & Security ---------------- */}
-      <Card className="gap-0">
-        <CardHeader className="gap-1 border-b border-border">
-          <CardTitle className="text-base font-medium">Password & security</CardTitle>
-          <CardDescription>Change your password and manage account access.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-6 py-6">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="current-password" className="text-sm font-normal text-foreground">
-                Current password
-              </FieldLabel>
-              <Input id="current-password" type="password" placeholder="••••••••" />
-            </Field>
-            <div className="hidden sm:block" />
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="new-password" className="text-sm font-normal text-foreground">
-                New password
-              </FieldLabel>
-              <Input id="new-password" type="password" placeholder="••••••••" />
-            </Field>
-            <Field className="gap-1.5">
-              <FieldLabel htmlFor="confirm-password" className="text-sm font-normal text-foreground">
-                Confirm new password
-              </FieldLabel>
-              <Input id="confirm-password" type="password" placeholder="••••••••" />
-            </Field>
-          </div>
-
-         
-
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium text-foreground">
-                  Two-factor authentication
-                </Label>
-                <Badge variant="outline" className="text-xs font-normal">
-                  Recommended
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Add an extra layer of security to your account.
-              </p>
-            </div>
-            <Switch id="two-factor" className="cursor-pointer"/>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button onClick={updatePassword}>Update password</Button>
-        </CardFooter>
-      </Card>
-
-      {/* ---------------- Notifications ---------------- */}
-      <Card className="gap-0">
-        <CardHeader className="gap-1 border-b border-border">
-          <CardTitle className="text-base font-medium">Notifications</CardTitle>
-          <CardDescription>Choose what you want to be notified about.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col divide-y divide-border py-2 px-0">
-          {notificationPrefs.map((pref) => (
-            <div key={pref.id} className="flex items-center justify-between gap-4 py-4 px-4">
-              <div className="flex flex-col gap-1">
-                <Label htmlFor={pref.id} className="text-sm font-medium text-foreground">
-                  {pref.title}
-                </Label>
-                <p className="text-sm text-muted-foreground">{pref.description}</p>
-              </div>
-              <Switch id={pref.id} defaultChecked={pref.defaultChecked} className={"cursor-pointer"}/>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-
-      {/* ---------------- Danger Zone ---------------- */}
-      <Card className="gap-0 ">
-        <CardHeader className="gap-1 border-b border-destructive/40">
-          <CardTitle className="text-base font-medium text-destructive">Danger zone</CardTitle>
-          <CardDescription>
-            Deleting your account removes all of your data permanently.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3 py-6">
-          <Field className="gap-2">
-            <FieldLabel htmlFor="delete-confirm" className="text-sm font-normal text-foreground">
-              Type <span className="font-medium text-foreground">delete my account</span> to confirm
-            </FieldLabel>
-            <Input
-              id="delete-confirm"
-              value={deleteConfirm}
-              onChange={(e) => setDeleteConfirm(e.target.value)}
-              placeholder="delete my account"
-            />
-          </Field>
-        </CardContent>
-        <CardFooter className="flex justify-end   ">
-          <Button
-            variant="destructive"
-            disabled={deleteConfirm !== "delete my account"}
-            className="gap-1.5"
-            onClick={() => toast.success("Account deletion scheduled")}
-          >
-            <IconTrash className="size-3.5" />
-            Delete account
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  );
+const EMPTY: ProfileInput = {
+  name: "",
+  firstName: "",
+  lastName: "",
+  dob: "",
+  bio: "",
+  socials: { website: "", x: "", github: "", linkedin: "" },
 };
 
-export default AccountProfile;
+const socialFields: { key: keyof ProfileInput["socials"]; label: string; icon: Icon; placeholder: string }[] = [
+  { key: "website", label: "Website", icon: IconWorld, placeholder: "https://yoursite.com" },
+  { key: "x", label: "X (Twitter)", icon: IconBrandX, placeholder: "https://x.com/username" },
+  { key: "github", label: "GitHub", icon: IconBrandGithub, placeholder: "https://github.com/username" },
+  { key: "linkedin", label: "LinkedIn", icon: IconBrandLinkedin, placeholder: "https://linkedin.com/in/username" },
+];
+
+const today = new Date().toISOString().slice(0, 10);
+
+export default function AccountProfile() {
+  const { data: profile, isLoading } = useMyProfile();
+  const save = useUpdateProfile();
+  const form = useForm<ProfileInput>({ resolver: profileResolver, defaultValues: EMPTY, mode: "onTouched" });
+
+  const toFormValues = (p: NonNullable<typeof profile>): ProfileInput => ({
+    name: p.name,
+    firstName: p.firstName ?? "",
+    lastName: p.lastName ?? "",
+    dob: p.dob?.slice(0, 10) ?? "",
+    bio: p.bio ?? "",
+    socials: {
+      website: p.socials?.website ?? "",
+      x: p.socials?.x ?? "",
+      github: p.socials?.github ?? "",
+      linkedin: p.socials?.linkedin ?? "",
+    },
+  });
+
+  useEffect(() => {
+    if (profile) form.reset(toFormValues(profile));
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- reset only when fresh data arrives
+  }, [profile]);
+
+  const [name, firstName, lastName, bio] = useWatch({
+    control: form.control,
+    name: ["name", "firstName", "lastName", "bio"],
+  });
+  const preview = { name, firstName, lastName };
+
+  const onSubmit = form.handleSubmit((values) =>
+    save.mutate(values, {
+      onSuccess: (user) => {
+        form.reset(toFormValues(user));
+        toast.success("Profile updated.");
+      },
+      onError: (error) => toast.error(extractError(error, "Could not update your profile.")),
+    }),
+  );
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-6 p-2 md:p-4">
+        <Skeleton className="h-80" />
+        <Skeleton className="h-64" />
+      </div>
+    );
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={onSubmit} noValidate className="mx-auto max-w-3xl space-y-6 p-2 md:p-4">
+        <div>
+          <h1 className="text-2xl font-bold">Profile</h1>
+          <p className="text-muted-foreground">How you appear as an author on Inkwell.</p>
+        </div>
+
+        <Card className="gap-0">
+          <CardHeader className="gap-1 border-b">
+            <CardTitle className="text-base font-medium">Personal details</CardTitle>
+            <CardDescription>
+              First and last name are optional. When both are empty, your account name is shown.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-6 py-6 sm:flex-row">
+            <div className="flex flex-col items-center gap-2 sm:w-40">
+              <Avatar className="size-20 text-xl">
+                <AvatarFallback>{initials(preview)}</AvatarFallback>
+              </Avatar>
+              <p className="text-center font-medium">{displayName(preview) || "Your name"}</p>
+              <p className="text-center text-xs text-muted-foreground">{profile?.email}</p>
+            </div>
+
+            <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2">
+              <FormField
+                name="name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="sm:col-span-2">
+                    <FormLabel>
+                      Account name <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="firstName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Optional" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="lastName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Optional" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="dob"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Date of birth</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="date" max={today} />
+                    </FormControl>
+                    <FormDescription>Optional. Never shown publicly.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="bio"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem className="sm:col-span-2">
+                    <div className="flex items-center justify-between">
+                      <FormLabel>Bio</FormLabel>
+                      <span
+                        className={`text-xs tabular-nums ${bio.trim().length > PROFILE_LIMITS.bio ? "text-destructive" : "text-muted-foreground"}`}
+                      >
+                        {bio.trim().length}/{PROFILE_LIMITS.bio}
+                      </span>
+                    </div>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="A few words about you and what you write about."
+                        className="min-h-24 resize-y"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="gap-0">
+          <CardHeader className="gap-1 border-b">
+            <CardTitle className="text-base font-medium">Social links</CardTitle>
+            <CardDescription>Optional. Use full links, e.g. https://github.com/you.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 gap-4 py-6 sm:grid-cols-2">
+            {socialFields.map(({ key, label, icon: SocialIcon, placeholder }) => (
+              <FormField
+                key={key}
+                name={`socials.${key}`}
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-1.5">
+                      <SocialIcon className="size-4" /> {label}
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} type="url" placeholder={placeholder} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+          </CardContent>
+          <CardFooter className="flex justify-end gap-3 border-t pt-6">
+            <Button
+              type="button"
+              variant="outline"
+              disabled={!form.formState.isDirty || save.isPending}
+              onClick={() => profile && form.reset(toFormValues(profile))}
+            >
+              Discard changes
+            </Button>
+            <Button type="submit" disabled={!form.formState.isDirty || save.isPending}>
+              {save.isPending && <IconLoader2 className="animate-spin" />}
+              Save changes
+            </Button>
+          </CardFooter>
+        </Card>
+      </form>
+    </Form>
+  );
+}

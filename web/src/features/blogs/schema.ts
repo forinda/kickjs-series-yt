@@ -10,3 +10,11 @@ export const createBlogSchema = z.object({
 
 export type CreateBlogInput = z.infer<typeof createBlogSchema>;
 export const createBlogResolver = zodResolver(createBlogSchema);
+export const blogPostStatuses = ["draft", "in-review", "published", "archived"] as const;
+
+export const blogFormSchema = createBlogSchema.extend({
+  status: z.enum(blogPostStatuses),
+});
+
+export type BlogFormInput = z.infer<typeof blogFormSchema>;
+export const blogFormResolver = zodResolver(blogFormSchema);

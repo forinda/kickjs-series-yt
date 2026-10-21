@@ -1,4 +1,4 @@
-import { Service, Inject } from '@forinda/kickjs'
+import { Service, Inject, HttpException } from '@forinda/kickjs'
 import type { ParsedQuery } from '@forinda/kickjs'
 import { getAuditObj } from '@/utils/session'
 import type { CategoryResponseDTO } from './dtos/category-response.dto'
@@ -29,14 +29,30 @@ export class CategoryService {
       .skip(offset ?? 0)
   }
 
+  // Names are unique case-insensitively ("Web Dev" == "web dev").
+  private async assertNameAvailable(name: string, exceptId?: string) {
+    const existing = await this.repo.Category.findOne({
+      name,
+      ...(exceptId ? { _id: { $ne: exceptId } } : {}),
+    }).collation({ locale: 'en', strength: 2 })
+    if (existing) {
+      throw HttpException.conflict(`A category named "${name}" already exists`)
+    }
+  }
+
   async create(dto: CreateCategoryDTO) {
     const payload = getAuditObj(dto, 'create')
+    await this.assertNameAvailable(payload.name)
     return await this.repo.Category.create(payload)
   }
 
   async update(id: string, dto: UpdateCategoryDTO) {
     const payload = getAuditObj(dto, 'update')
+    if (payload.name) await this.assertNameAvailable(payload.name, id)
     const updatedCategory = await this.repo.Category.findByIdAndUpdate({ _id: id }, { $set: payload }, { new: true })
+    if (!updatedCategory) {
+      throw HttpException.notFound('Category not found')
+    }
     return updatedCategory
   }
 

@@ -2,6 +2,7 @@ import type { BlogPostType } from "@/features/blogs/queries";
 import { href, Link } from "react-router";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { Badge } from "./ui/badge";
+import { displayName, initials } from "@/lib/utils";
 
 type BlogPostCardProps = {
   post: BlogPostType;
@@ -11,7 +12,8 @@ type BlogPostCardProps = {
 const refField = (ref: unknown, field: "name") =>
   typeof ref === "object" && ref !== null ? ((ref as Record<string, string>)[field] ?? "") : "";
 
-export const postAuthor = (post: BlogPostType) => refField(post.createdBy, "name") || "Unknown";
+export const postAuthor = (post: BlogPostType) =>
+  (typeof post.createdBy === "object" && displayName(post.createdBy)) || "Unknown";
 export const postCategory = (post: BlogPostType) => refField(post.category, "name");
 
 export const postExcerpt = (post: BlogPostType, length = 160) => {
@@ -52,7 +54,7 @@ export function PostMeta({ post }: BlogPostCardProps) {
   return (
     <div className="flex items-center gap-2 text-sm text-muted-foreground">
       <Avatar className="size-6">
-        <AvatarFallback className="text-[10px]">{author.slice(0, 2).toUpperCase()}</AvatarFallback>
+        <AvatarFallback className="text-[10px]">{initials({ name: author })}</AvatarFallback>
       </Avatar>
       <span className="font-medium text-foreground">{author}</span>
       <span aria-hidden>·</span>

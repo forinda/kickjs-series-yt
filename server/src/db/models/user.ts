@@ -7,6 +7,17 @@ export const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: Schema.Types.ObjectId, ref: 'Role', default: null },
+    // Optional profile details; `name` stays the fallback display name.
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    dob: { type: Date, default: null },
+    bio: { type: String, trim: true },
+    socials: {
+      website: { type: String, trim: true },
+      x: { type: String, trim: true },
+      github: { type: String, trim: true },
+      linkedin: { type: String, trim: true },
+    },
   },
   {
     timestamps: true,

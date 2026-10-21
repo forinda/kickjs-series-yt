@@ -12,7 +12,7 @@ export class BlogsService {
 
   async findById(id: string) {
     const blog = await this.repo.Blog.findOne({ _id: id })
-      .populate('createdBy', { id: 1, name: 1 })
+      .populate('createdBy', { id: 1, name: 1, firstName: 1, lastName: 1 })
       .populate('category', { id: 1, name: 1, description: 1 })
     if (blog?.thumbnail) {
       blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
@@ -48,7 +48,7 @@ export class BlogsService {
 
     const allBlogs = await this.repo.Blog.find({
     })
-      .populate('createdBy', { id: 1, name: 1 })
+      .populate('createdBy', { id: 1, name: 1, firstName: 1, lastName: 1 })
       .populate('category', { id: 1, name: 1, description: 1 })
     await Promise.all(
       allBlogs.map(async (blog) => {
@@ -69,7 +69,7 @@ export class BlogsService {
     const existingBlogPost = await this.repo.Blog.findOne({
       title: payload.title,
       createdBy: payload.createdBy,
-    }).populate('createdBy', { id: 1, name: 1 })
+    }).populate('createdBy', { id: 1, name: 1, firstName: 1, lastName: 1 })
     if (existingBlogPost) {
       throw HttpException.conflict('Blog post with this title already exists')
     }

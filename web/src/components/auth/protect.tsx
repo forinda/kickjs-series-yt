@@ -11,7 +11,7 @@ export default function Protect({ children, role, notAuthorized }: Props) {
   const navigate = useNavigate();
   const auth = useAuth();
   const currentPath = useLocation();
-  const nextPath = currentPath.pathname;
+  const nextPath = currentPath.pathname + currentPath.search;
 
   useEffect(() => {
     if (!auth.user) {

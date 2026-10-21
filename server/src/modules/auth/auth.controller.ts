@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Autowired, reply, type Ctx } from '
 import { AuthService } from './auth.service'
 import { registerAuthSchema } from './dtos/register-auth.dto'
 import { loginAuthSchema } from './dtos/login-auth.dto'
+import { updateProfileSchema } from './dtos/update-profile.dto'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { PublicRoute } from '@/contributors/auth.contributor'
 import { assignRoleSchema } from './dtos/assign-role.dto'
@@ -35,7 +36,7 @@ export class AuthController {
     return reply.ok(await this.authService.login(ctx.body))
   }
 
-  @Put('/update-profile', { body: loginAuthSchema, name: 'UpdateAuth' })
+  @Put('/update-profile', { body: updateProfileSchema, name: 'UpdateAuth' })
   @PublicRoute.off
   async updateProfile(ctx: Ctx<KickRoutes.AuthController['updateProfile']>) {
     return this.authService.update(ctx.require('auth').id, ctx.body)
