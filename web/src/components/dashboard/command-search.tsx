@@ -16,6 +16,8 @@ import { useAuth } from "@/context/auth-context";
 import { useAllMyBlogs } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
 import { dashboardSidebarItems } from "@/lib/data/nav-data";
+import { visibleNavItems } from "./main-nav";
+import { can } from "@/lib/permissions";
 
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
@@ -119,7 +121,7 @@ function Palette({ close }: { close: () => void }) {
         <Command.Empty className="py-10 text-center text-sm text-muted-foreground">No results.</Command.Empty>
 
         <Command.Group heading="Pages">
-          {dashboardSidebarItems.map((item) =>
+          {visibleNavItems(dashboardSidebarItems, (key) => can(user?.user, key)).map((item) =>
             item.isSection ? null : (
               <Command.Item key={item.href} value={`page ${item.title}`} keywords={[item.title, "page"]} onSelect={() => go(item.href)} className={itemClass}>
                 <item.icon />

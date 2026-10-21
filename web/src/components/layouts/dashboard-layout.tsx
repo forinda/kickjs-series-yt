@@ -7,9 +7,20 @@ import { Outlet } from "react-router";
 import Protect from "../auth/protect";
 import { useAuth } from "@/context/auth-context";
 import { initials } from "@/lib/utils";
+import { useEffect } from "react";
+import { useMyProfile } from "@/features/auth/queries";
+import type { LoginResponse } from "@/features/auth/mutations";
 
 const Page = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
+  // The stored session can be stale (an admin may have changed this user's role); the
+  // dashboard re-reads the profile on load so menus and guards reflect the current role.
+  const { data: profile } = useMyProfile(!!user);
+  useEffect(() => {
+    if (profile) updateUser(profile as unknown as LoginResponse["user"]);
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- only when fresh profile data arrives
+  }, [profile]);
+
   return (
     <Protect>
     <SidebarProvider>

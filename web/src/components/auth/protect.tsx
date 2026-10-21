@@ -1,13 +1,16 @@
 import { useAuth } from "@/context/auth-context";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
-export type UserRoles = "Admin" | "User" | "Writer" | "Moderator";
+import { can, type PermissionKey } from "@/lib/permissions";
+
 type Props = {
   children: React.ReactNode;
-  role?: UserRoles;
+  /** Also require this permission; signed-in users without it see `notAuthorized`. */
+  permission?: PermissionKey;
   notAuthorized?: React.ReactNode;
 };
-export default function Protect({ children, role, notAuthorized }: Props) {
+
+export default function Protect({ children, permission, notAuthorized }: Props) {
   const navigate = useNavigate();
   const auth = useAuth();
   const currentPath = useLocation();
@@ -22,8 +25,15 @@ export default function Protect({ children, role, notAuthorized }: Props) {
   if (!auth.user) {
     return null;
   }
-  if (role && auth.user.user.role !== role) {
-    return notAuthorized ?? null;
+  if (permission && !can(auth.user.user, permission)) {
+    return (
+      notAuthorized ?? (
+        <div className="mx-auto max-w-md p-8 text-center">
+          <h1 className="text-xl font-semibold">You don't have access to this page</h1>
+          <p className="mt-2 text-muted-foreground">Ask an administrator if you think you should.</p>
+        </div>
+      )
+    );
   }
   return <>{children}</>;
 }

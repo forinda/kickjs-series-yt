@@ -9,6 +9,8 @@ import SingleBlogPage from "./pages/single-blog-page";
 import AccountProfile from "./pages/account-profile";
 import DashboardPostEditor from "./pages/dashboard-post-editor";
 import DashboardCategories from "./pages/dashboard-categories";
+import DashboardUsers from "./pages/dashboard-users";
+import Protect from "./components/auth/protect";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -50,6 +52,14 @@ export const router = createBrowserRouter([
           {
             path: "/dashboard/categories",
             element: <DashboardCategories />,
+          },
+          {
+            path: "/dashboard/users",
+            element: (
+              <Protect permission="ADMIN">
+                <DashboardUsers />
+              </Protect>
+            ),
           },
           {
             path:'/dashboard/profile',

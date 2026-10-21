@@ -7,6 +7,8 @@ export const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: Schema.Types.ObjectId, ref: 'Role', default: null },
+    // Set by an admin. Disabled users can't sign in, and existing sessions stop working.
+    disabled: { type: Boolean, default: false },
     // Optional profile details; `name` stays the fallback display name.
     firstName: { type: String, trim: true },
     lastName: { type: String, trim: true },

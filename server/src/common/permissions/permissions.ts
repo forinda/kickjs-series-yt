@@ -26,19 +26,30 @@ export const systemRoles = {
     description: 'User with write permissions.',
     permissions: () => [...systemRoles.USER.permissions(), PERMISSIONS.WRITE],
   },
+  // Moderators keep the community in order (comments, reactions); they don't publish.
+  // Not derived from WRITER on purpose: moderation and authorship are separate grants.
   MODERATOR: {
     name: 'Moderator',
     isDefault: false,
-    description: 'User with moderation permissions.',
-    permissions: () => [...systemRoles.WRITER.permissions(), PERMISSIONS.MODERATE],
+    description: 'Moderates articles and comments; cannot publish.',
+    permissions: () => [...systemRoles.USER.permissions(), PERMISSIONS.MODERATE],
   },
   ADMIN: {
     name: 'Admin',
     isDefault: false,
     description: 'User with all permissions.',
-    permissions: () => [...systemRoles.MODERATOR.permissions(), PERMISSIONS.ADMIN],
+    permissions: () => [
+      ...systemRoles.USER.permissions(),
+      PERMISSIONS.WRITE,
+      PERMISSIONS.MODERATE,
+      PERMISSIONS.ADMIN,
+    ],
   },
 } as const
 
 export type SystemRoles = typeof systemRoles
+
+/** Bitmask check: does a role's `permissions` value include `key`? */
+export const hasPermission = (permissions: number, key: PermissionKeys) =>
+  (permissions & PERMISSIONS[key]) === PERMISSIONS[key]
 export type PermissionKeys = keyof typeof PERMISSIONS

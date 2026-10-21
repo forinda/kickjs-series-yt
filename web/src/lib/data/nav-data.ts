@@ -1,5 +1,5 @@
 import type { NavItem } from "@/components/dashboard/main-nav";
-import { IconArticle, IconCategory, IconLayoutDashboard, IconUserCircle } from "@tabler/icons-react";
+import { IconArticle, IconCategory, IconLayoutDashboard, IconUserCircle, IconUsers } from "@tabler/icons-react";
 import { href } from "react-router";
 
 export const dashboardSidebarItems: NavItem[] = [
@@ -10,6 +10,9 @@ export const dashboardSidebarItems: NavItem[] = [
   { label: "Content", isSection: true },
   { title: "Articles", icon: IconArticle, href: href("/dashboard/articles") },
   { title: "Categories", icon: IconCategory, href: href("/dashboard/categories") },
+
+  { label: "Administration", isSection: true, permission: "ADMIN" },
+  { title: "Users", icon: IconUsers, href: href("/dashboard/users"), permission: "ADMIN" },
 
   { label: "Account", isSection: true },
   { title: "Profile", icon: IconUserCircle, href: href("/dashboard/profile") },

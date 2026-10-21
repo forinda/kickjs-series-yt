@@ -1,6 +1,6 @@
 import { Autowired, HttpException, Inject, Service } from '@forinda/kickjs'
 import { DB, type Db } from '@/db'
-import { UserPresenter } from '@/common/presenters/user.presenter'
+import { ROLE_FIELDS, UserPresenter } from '@/common/presenters/user.presenter'
 
 @Service()
 export class GetProfileUseCase {
@@ -8,7 +8,7 @@ export class GetProfileUseCase {
   @Autowired() private readonly users!: UserPresenter
 
   async execute(userId: string) {
-    const user = await this.db.User.findById(userId).select('-password').populate('role', { name: 1 })
+    const user = await this.db.User.findById(userId).select('-password').populate('role', ROLE_FIELDS)
     if (!user) throw HttpException.notFound('User not found')
     return this.users.present(user.toObject())
   }
