@@ -1,55 +1,79 @@
 import type { BlogPostType } from "@/features/blogs/queries";
 import { href, Link } from "react-router";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Badge } from "./ui/badge";
 
 type BlogPostCardProps = {
   post: BlogPostType;
 };
 
-const formatAuthor = (author: any) => {
-  if (typeof author === "string") return null;
-  if (typeof author === "object" && author?.name) return author.name.slice(0, 2);
-  return "";
+// Populated refs come back as objects; unpopulated ones as id strings.
+const refField = (ref: unknown, field: "name") =>
+  typeof ref === "object" && ref !== null ? ((ref as Record<string, string>)[field] ?? "") : "";
+
+export const postAuthor = (post: BlogPostType) => refField(post.createdBy, "name") || "Unknown";
+export const postCategory = (post: BlogPostType) => refField(post.category, "name");
+
+export const postExcerpt = (post: BlogPostType, length = 160) => {
+  const text = (post.body ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return text.length > length ? `${text.slice(0, length).trimEnd()}…` : text;
 };
 
-export default function BlogPostCard({ post }: BlogPostCardProps) {
-  // const
+export const postReadTime = (post: BlogPostType) =>
+  `${Math.max(1, Math.round((post.body ?? "").split(/\s+/).length / 200))} min read`;
+
+export const postDate = (post: BlogPostType) =>
+  post.createdAt
+    ? new Date(post.createdAt).toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      })
+    : "";
+
+export const postLink = (post: BlogPostType) => href("/blogs/:id", { id: post._id });
+
+export function PostThumbnail({ post, className }: BlogPostCardProps & { className?: string }) {
   return (
-    <div className="flex gap-2">
-      {/* Left thumbnail */}
-      <div className="overflow-hidden rounded-b-md">
+    <div className={`overflow-hidden rounded-xl border bg-muted ${className ?? ""}`}>
+      {post.thumbnail && (
         <img
-          src={post.thumbnail!}
-          alt="Image fallback"
-          className="h-24 aspect-square rounded-b-md border"
+          src={post.thumbnail}
+          alt=""
+          className="size-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-      </div>
-      {/* Right content */}
-      <div>
-        {/* Top */}
-        <div>
-          <small>
-            {new Date(post.createdAt ?? "").toLocaleDateString() ?? "Unknown"}. Articles
-          </small>
-        </div>
-        {/* Content */}
-        <div>
-          <Link
-            to={href("/blogs/:id", { id: post._id })}
-            className="text-lg font-semibold hover:underline"
-          >
-            {post.title}
-          </Link>
-          <p className="text-muted-foreground">This is a brief summary of the article content.</p>
-        </div>
-        {/* Author */}
-        <div>
-          <Avatar>
-            <AvatarImage src="" alt="@shadcn" className="grayscale" />
-            <AvatarFallback>{formatAuthor(post.createdBy)}</AvatarFallback>
-          </Avatar>
-        </div>
-      </div>
+      )}
     </div>
+  );
+}
+
+export function PostMeta({ post }: BlogPostCardProps) {
+  const author = postAuthor(post);
+  return (
+    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <Avatar className="size-6">
+        <AvatarFallback className="text-[10px]">{author.slice(0, 2).toUpperCase()}</AvatarFallback>
+      </Avatar>
+      <span className="font-medium text-foreground">{author}</span>
+      <span aria-hidden>·</span>
+      <time dateTime={post.createdAt}>{postDate(post)}</time>
+      <span aria-hidden>·</span>
+      <span>{postReadTime(post)}</span>
+    </div>
+  );
+}
+
+export default function BlogPostCard({ post }: BlogPostCardProps) {
+  const category = postCategory(post);
+  return (
+    <Link to={postLink(post)} className="group flex flex-col gap-4">
+      <PostThumbnail post={post} className="aspect-video" />
+      <div className="space-y-2">
+        {category && <Badge variant="secondary">{category}</Badge>}
+        <h3 className="text-xl font-semibold leading-snug group-hover:underline">{post.title}</h3>
+        <p className="line-clamp-2 text-muted-foreground">{postExcerpt(post)}</p>
+      </div>
+      <PostMeta post={post} />
+    </Link>
   );
 }
