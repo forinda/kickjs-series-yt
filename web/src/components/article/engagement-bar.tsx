@@ -2,7 +2,7 @@ import { href, Link, useLocation } from "react-router";
 import { toast } from "sonner";
 import { IconBookmark, IconBookmarkFilled, IconHeart, IconHeartFilled, IconMessageCircle } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useEngagement, useToggleReaction } from "@/features/engagement/api";
 import { extractError } from "@/lib/api";
 

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RequestDialog } from "@/components/dashboard/become-writer-card";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useMyWriterRequestHistory } from "@/features/writer-requests/api";
 import { can, userRole } from "@/lib/permissions";
 

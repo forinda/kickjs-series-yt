@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { IconLoader2 } from "@tabler/icons-react";
 import { signUpResolver } from "@/features/auth/schema";
 import { useSignUpMutation } from "@/features/auth/mutations";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { extractError } from "@/lib/api";
 import {
   Form,

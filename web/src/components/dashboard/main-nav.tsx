@@ -1,6 +1,6 @@
 import { Link, matchPath, useLocation } from "react-router";
 import type { Icon } from "@tabler/icons-react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { can, type PermissionKey } from "@/lib/permissions";
 import { visibleNavItems } from "@/lib/data/nav-data";
 import {

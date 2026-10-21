@@ -12,6 +12,8 @@ import {
 } from '@forinda/kickjs'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { updateProfileSchema } from '../dtos/update-profile.dto'
+import { changePasswordSchema, deleteAccountSchema } from '../dtos/security.dto'
+import { ChangePasswordUseCase } from '../use-cases/change-password.use-case'
 import { GetProfileUseCase } from '../use-cases/get-profile.use-case'
 import { UpdateProfileUseCase } from '../use-cases/update-profile.use-case'
 import { SetAvatarUseCase } from '../use-cases/set-avatar.use-case'
@@ -26,6 +28,7 @@ export class ProfileController {
   @Autowired() private readonly updateProfile!: UpdateProfileUseCase
   @Autowired() private readonly setAvatar!: SetAvatarUseCase
   @Autowired() private readonly deleteAccount!: DeleteAccountUseCase
+  @Autowired() private readonly changePassword!: ChangePasswordUseCase
 
   @Get('/', { name: 'GetProfile' })
   async show(ctx: Ctx<KickRoutes.ProfileController['show']>) {
@@ -37,9 +40,16 @@ export class ProfileController {
     return this.updateProfile.execute(ctx.require('auth').id, ctx.body)
   }
 
-  @Delete('/', { name: 'DeleteAccount' })
+  /** Permanently deletes the account and everything it owns. The password confirms it. */
+  @Delete('/', { body: deleteAccountSchema, name: 'DeleteAccount' })
   async destroy(ctx: Ctx<KickRoutes.ProfileController['destroy']>) {
-    await this.deleteAccount.execute(ctx.require('auth').id)
+    await this.deleteAccount.execute(ctx.require('auth').id, ctx.body.password)
+    return reply.noContent()
+  }
+
+  @Put('/password', { body: changePasswordSchema, name: 'ChangePassword' })
+  async password(ctx: Ctx<KickRoutes.ProfileController['password']>) {
+    await this.changePassword.execute(ctx.require('auth').id, ctx.body)
     return reply.noContent()
   }
 

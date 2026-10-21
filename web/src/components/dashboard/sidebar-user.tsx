@@ -1,7 +1,7 @@
 import { IconSelector } from "@tabler/icons-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { displayName, initials } from "@/lib/utils";
 import ProfileDropdown from "./dropdown-profile";
 

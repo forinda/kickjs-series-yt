@@ -5,7 +5,7 @@ import ProfileDropdown from "../dashboard/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Outlet } from "react-router";
 import Protect from "../auth/protect";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { initials } from "@/lib/utils";
 import { useEffect } from "react";
 import { useMyProfile } from "@/features/auth/queries";

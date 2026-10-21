@@ -1,5 +1,5 @@
 import { href, Link, NavLink } from "react-router";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { initials } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";

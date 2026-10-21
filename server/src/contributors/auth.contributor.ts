@@ -20,6 +20,8 @@ export const Auth = defineHttpContextDecorator({
   key: 'auth',
   deps: { jwt: JWT, db: DB },
   skipWhen: 'auth.public',
+  // 401 before validation's 422, and route @Middleware (e.g. rate limits) can read ctx.get('auth').
+  beforeValidation: true,
   resolve: async (ctx, { jwt, db }): Promise<AuthContext> => {
     const { authorization } = ctx.headers
     if (!authorization) {

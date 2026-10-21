@@ -1,4 +1,4 @@
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { can, type PermissionKey } from "@/lib/permissions";
@@ -28,7 +28,7 @@ export default function Protect({ children, permission, notAuthorized }: Props) 
   if (permission && !can(auth.user.user, permission)) {
     return (
       notAuthorized ?? (
-        <div className="mx-auto max-w-md p-8 text-center">
+        <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center p-8 text-center">
           <h1 className="text-xl font-semibold">You don't have access to this page</h1>
           <p className="mt-2 text-muted-foreground">Ask an administrator if you think you should.</p>
         </div>

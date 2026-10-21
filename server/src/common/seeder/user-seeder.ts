@@ -52,7 +52,9 @@ export class UserSeeder {
       )
       if (stamped) logger.debug(`Stamped publishedAt on ${stamped} article(s)`)
     } catch (error) {
-      logger.error('Failed to seed base user:', error)
+      // Log and rethrow: a half-finished setup must not report success.
+      logger.error('Setup failed:', error)
+      throw error
     }
   }
 }

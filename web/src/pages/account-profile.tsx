@@ -42,6 +42,7 @@ import { useMyProfile } from "@/features/auth/queries";
 import { PROFILE_LIMITS, profileResolver, type ProfileInput } from "@/features/auth/schema";
 import { extractError } from "@/lib/api";
 import { displayName, initials } from "@/lib/utils";
+import { DeleteAccountSection, SecuritySection } from "@/components/account/security-section";
 
 type Profile = NonNullable<ReturnType<typeof useMyProfile>["data"]>;
 
@@ -172,6 +173,9 @@ export default function AccountProfile() {
           )}
         </CardContent>
       </Card>
+
+      <SecuritySection />
+      <DeleteAccountSection />
 
       <EditProfileSheet profile={profile} open={editing} onOpenChange={setEditing} />
     </div>

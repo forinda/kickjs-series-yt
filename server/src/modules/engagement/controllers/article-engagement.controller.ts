@@ -1,4 +1,4 @@
-import { Autowired, Controller, Delete, Get, Post, Put, reply, type Ctx } from '@forinda/kickjs'
+import { Autowired, Controller, Delete, Get, Middleware, Post, Put, rateLimitGuard, reply, type Ctx } from '@forinda/kickjs'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { PublicRoute } from '@/contributors/auth.contributor'
 import { PermissionRequired } from '@/contributors/permission.contributor'
@@ -56,6 +56,8 @@ export class ArticleEngagementController {
 
   @Post('/:id/comments', { body: addCommentSchema, name: 'AddComment' })
   @PermissionRequired({ permission: 'COMMENT' })
+  // Per reader, not per IP: one person can't flood a thread, a shared network isn't punished.
+  @Middleware(rateLimitGuard({ max: 5, windowMs: 60_000, message: 'You are commenting too fast. Try again in a minute.', keyGenerator: (ctx) => ctx.get('auth')?.id ?? ctx.ip ?? 'global' }))
   async comment(ctx: Ctx<KickRoutes.ArticleEngagementController['comment']>) {
     return reply.created(await this.addComment.execute(ctx.require('auth').id, ctx.params.id, ctx.body.body))
   }

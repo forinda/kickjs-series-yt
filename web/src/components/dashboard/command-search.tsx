@@ -13,7 +13,7 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useAllMyBlogs } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
 import { dashboardSidebarItems, isVisible, visibleNavItems } from "@/lib/data/nav-data";

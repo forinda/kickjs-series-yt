@@ -1,61 +1,41 @@
-import type { LoginResponse } from "@/features/auth/mutations";
 import React from "react";
+import type { LoginResponse } from "@/features/auth/mutations";
+import {
+  AuthContext,
+  authStorageKey,
+  readStoredSession,
+  sessionExpiredEvent,
+  sessionRefreshedEvent,
+} from "./auth-store";
 
-export const authStorageKey = 'blog:platform:auth'
-// Fired by the API client on a 401 for an authenticated request.
-export const sessionExpiredEvent = 'auth:session-expired'
-
-export type AuthContextType = {
-  user: LoginResponse;
-  login: (user: LoginResponse) => void;
-  logout: () => void;
-  /** Replace the stored session user with fresh server data (JWT kept). */
-  updateUser: (fresh: LoginResponse["user"]) => void;
+const persist = (session: LoginResponse | null) => {
+  if (session) localStorage.setItem(authStorageKey, JSON.stringify(session));
+  else localStorage.removeItem(authStorageKey);
+  return session;
 };
-
-const syncAuthStateWithLocalStorage = () => {
-  const storedUser = localStorage.getItem(authStorageKey);
-  return storedUser ? JSON.parse(storedUser) : null;
-};
-
-const AuthContext = React.createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = React.useState<LoginResponse | null>(syncAuthStateWithLocalStorage());
+  const [user, setUser] = React.useState<LoginResponse | null>(readStoredSession);
 
-  const login = (user: LoginResponse) => {
-    setUser(user);
-    localStorage.setItem(authStorageKey, JSON.stringify(user));
-  };
+  const login = (session: LoginResponse) => setUser(persist(session));
+  const logout = () => setUser(persist(null));
+  // Functional updates: always build on the latest session (the token may have been refreshed).
+  const updateUser = (fresh: LoginResponse["user"]) =>
+    setUser((prev) => (prev ? persist({ ...prev, user: fresh }) : prev));
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem(authStorageKey);
-  };
-
-  const updateUser = (fresh: LoginResponse["user"]) => {
-    if (user) login({ ...user, user: fresh });
-  };
-
-  // The API client fires this on a 401 for an authenticated request.
   React.useEffect(() => {
-    const onExpired = () => {
-      setUser(null);
-      localStorage.removeItem(authStorageKey);
+    const onExpired = () => setUser(persist(null));
+    const onRefreshed = (e: Event) => {
+      const jwt = (e as CustomEvent<string>).detail;
+      setUser((prev) => (prev ? persist({ ...prev, jwt }) : prev));
     };
     globalThis.addEventListener(sessionExpiredEvent, onExpired);
-    return () => globalThis.removeEventListener(sessionExpiredEvent, onExpired);
+    globalThis.addEventListener(sessionRefreshedEvent, onRefreshed);
+    return () => {
+      globalThis.removeEventListener(sessionExpiredEvent, onExpired);
+      globalThis.removeEventListener(sessionRefreshedEvent, onRefreshed);
+    };
   }, []);
 
   return <AuthContext.Provider value={{ user: user!, login, logout, updateUser }}>{children}</AuthContext.Provider>;
-};
-
-
-// oxlint-disable-next-line react/only-export-components
-export const useAuth = () => {
-  const context = React.useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
 };

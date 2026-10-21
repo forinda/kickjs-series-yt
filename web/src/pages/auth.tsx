@@ -1,7 +1,7 @@
 import { Navigate, useSearchParams } from "react-router";
 import LoginPage from "../components/auth/login-page";
 import SignUp from "../components/auth/sign-up";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 
 type AuthPage = "login" | "register";
 

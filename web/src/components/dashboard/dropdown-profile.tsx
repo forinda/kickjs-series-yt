@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { IconExternalLink, IconLayoutDashboard, IconLogout, IconUser } from "@tabler/icons-react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { displayName, initials } from "@/lib/utils";
 
 type Props = {

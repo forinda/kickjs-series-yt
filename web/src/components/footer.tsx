@@ -1,5 +1,5 @@
 import { href, Link } from "react-router";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { Logo } from "./page-header";
 
 const year = new Date().getFullYear();

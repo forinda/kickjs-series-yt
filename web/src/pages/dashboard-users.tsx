@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useAssignRole, useRoles, useSetUserStatus, useUsers, type UserRow, type UsersFilter } from "@/features/users/api";
 import { extractError } from "@/lib/api";
 import { userRole } from "@/lib/permissions";

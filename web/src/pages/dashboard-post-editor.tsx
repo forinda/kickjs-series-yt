@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Combobox } from "@/components/ui/combobox";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useMyBlog } from "@/features/blogs/queries";
 import { useCreateBlog, useUpdateBlog, useUploadThumbnail } from "@/features/blogs/mutations";
 import { blogFormResolver, writerStatuses, type BlogFormInput } from "@/features/blogs/schema";

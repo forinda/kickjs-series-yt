@@ -4,7 +4,7 @@ import { PostThumbnail, postCategory, postDate } from "@/components/blog-post-ca
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useAllMyBlogs, type BlogPostType } from "@/features/blogs/queries";
 
 const statusVariant = {

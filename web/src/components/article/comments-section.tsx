@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useAddComment, useComments, useDeleteComment, type CommentRow } from "@/features/engagement/api";
 import { extractError } from "@/lib/api";
 import { can } from "@/lib/permissions";

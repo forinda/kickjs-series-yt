@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, http } from "@/lib/api";
 import type { ProfileInput, SignInSchema, SignUpSchema } from "./schema";
 import { authKeys } from "./keys";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 
 export const useLoginMutation = () => {
 
@@ -69,3 +69,13 @@ export const useRemoveAvatar = () => {
         onSuccess,
     })
 }
+
+export const useChangePassword = () =>
+    useMutation({
+        mutationFn: (body: { currentPassword: string; newPassword: string }) => api.put("/me/password", { body }),
+    })
+
+export const useDeleteAccount = () =>
+    useMutation({
+        mutationFn: (password: string) => api.delete("/me", { body: { password } }),
+    })

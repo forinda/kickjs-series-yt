@@ -18,7 +18,7 @@ import type { Visibility } from "@/components/dashboard/main-nav";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import { useAllMyBlogs, useBlogPosts, type BlogPostType } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
 import { useUsers } from "@/features/users/api";

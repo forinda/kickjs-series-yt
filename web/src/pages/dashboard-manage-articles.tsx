@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/context/auth-store";
 import type { BlogPostType } from "@/features/blogs/queries";
 import {
   useDeleteManagedArticle,
@@ -44,6 +44,7 @@ const STATUS_ITEMS = [
 ];
 const STATUS_BADGE = { published: "default", draft: "secondary", "in-review": "outline", archived: "outline" } as const;
 
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const formatDate = (iso: string | Date) => new Date(iso).toLocaleDateString(undefined, { dateStyle: "medium" });
 
 function useDebounced<T>(value: T, ms = 300) {
@@ -156,7 +157,7 @@ export default function DashboardManageArticles() {
                       <div className="min-w-0">
                         <div className="font-medium">{row.title}</div>
                         <div className="text-xs text-muted-foreground">
-                          {postCategory(post) || "Uncategorised"} · {row.likeCount ?? 0} likes · {row.commentCount ?? 0} comments
+                          {postCategory(post) || "Uncategorised"} · {plural(row.likeCount ?? 0, "like")} · {plural(row.commentCount ?? 0, "comment")}
                           {row.commentsEnabled === false && " · comments closed"}
                         </div>
                         {takedown && (

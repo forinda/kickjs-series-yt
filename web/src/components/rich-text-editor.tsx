@@ -42,7 +42,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Combobox } from "./ui/combobox";
 import { toArticleHtml } from "@/lib/article-html";
-import { CODE_LANGUAGES } from "@/lib/code-languages";
+import { CODE_LANGUAGES, canonicalLanguage } from "@/lib/code-languages";
 import { guessLanguage, looksLikeCode } from "@/lib/paste-detect";
 import { MarkdownLinkInput } from "@/lib/tiptap-markdown-link";
 import { extractError } from "@/lib/api";
@@ -349,7 +349,7 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
           <Combobox
             required
             aria-label="Code language"
-            value={state.codeLanguage}
+            value={canonicalLanguage(state.codeLanguage)}
             onChange={(language) => language && editor.chain().focus().updateAttributes("codeBlock", { language }).run()}
             items={LANGUAGE_ITEMS}
             searchPlaceholder="Search languages…"
