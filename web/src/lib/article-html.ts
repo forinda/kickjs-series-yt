@@ -1,4 +1,5 @@
 import DOMPurify from "dompurify";
+import hljs from "highlight.js/lib/common";
 
 const looksLikeHtml = (body: string) => /^\s*<[a-z][\s\S]*>/i.test(body);
 
@@ -22,8 +23,19 @@ export const toArticleHtml = (body: string | null | undefined) => {
  * Safe-to-render HTML. The server already sanitises on write; this is the second
  * line of defence for anything that reached the database another way.
  */
-export const safeArticleHtml = (body: string | null | undefined) =>
-  DOMPurify.sanitize(toArticleHtml(body), { ADD_ATTR: ["target"] });
+export const safeArticleHtml = (body: string | null | undefined) => {
+  // RETURN_DOM gives the sanitised <body> element (typed as plain Node).
+  const root = DOMPurify.sanitize(toArticleHtml(body), { ADD_ATTR: ["target"], RETURN_DOM: true }) as HTMLElement;
+  // Syntax-highlight code blocks the editor tagged with a language. highlight.js escapes
+  // the code itself, so its output is as safe as the text it replaces.
+  for (const code of root.querySelectorAll<HTMLElement>("pre > code[class*='language-']")) {
+    const language = code.className.match(/language-([\w+#-]+)/)?.[1];
+    if (!language || !hljs.getLanguage(language)) continue;
+    code.innerHTML = hljs.highlight(code.textContent ?? "", { language }).value;
+    code.classList.add("hljs");
+  }
+  return root.innerHTML;
+};
 
 /** Readable text of a body (excerpts, read time). Uses an inert document: nothing loads or runs. */
 export const articleText = (body: string | null | undefined) =>

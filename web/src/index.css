@@ -3,6 +3,7 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/nunito-sans";
 @plugin "@tailwindcss/typography";
+@import "highlight.js/styles/github-dark.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -244,4 +245,10 @@
   position: relative;
   border: 1px solid var(--border);
   padding: 0.25rem 0.5rem;
+}
+
+/* Code blocks: prose already pads and colours <pre>; keep highlight.js from doubling it. */
+.prose pre code.hljs {
+  padding: 0;
+  background: transparent;
 }

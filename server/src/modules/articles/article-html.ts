@@ -32,6 +32,8 @@ const OPTIONS: sanitizeHtml.IOptions = {
     'table', 'thead', 'tbody', 'tr', 'th', 'td',
   ],
   // target/rel are always overwritten by transformTags below.
+  // Code blocks carry their language for syntax highlighting ("language-ts").
+  allowedClasses: { code: ['language-*'] },
   allowedAttributes: {
     a: ['href', 'target', 'rel'],
     ol: ['start'],
@@ -50,6 +52,15 @@ const OPTIONS: sanitizeHtml.IOptions = {
 }
 
 export const sanitizeArticleHtml = (html: string) => sanitizeHtml(html, OPTIONS)
+
+const EMBEDDED_IMAGE = new RegExp(
+  `src="${ARTICLE_IMAGE_PATH.replace(/[/.]/g, '\\$&')}([a-f0-9]{16}\\.(?:png|jpg|gif|webp|avif))"`,
+  'g',
+)
+
+/** File names of our images embedded in a (sanitised) body. */
+export const embeddedImageFiles = (html: string | null | undefined) =>
+  new Set([...(html ?? '').matchAll(EMBEDDED_IMAGE)].map((m) => m[1]))
 
 /** Plain text of an article body (for "is it empty?" checks). */
 export const articleText = (html: string) =>

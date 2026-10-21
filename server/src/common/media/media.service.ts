@@ -29,6 +29,16 @@ export class MediaService {
     return this.storage.url(key, { expiresIn: URL_TTL[kind] })
   }
 
+  /** Every stored file under `folder/`, page by page. */
+  async *list(folder: string) {
+    let cursor: string | undefined
+    do {
+      const page = await this.storage.list({ prefix: `${folder}/`, cursor })
+      yield* page.files
+      cursor = page.cursor
+    } while (cursor)
+  }
+
   /** Never throws: a leftover file must not fail the request that replaced it. */
   async remove(key: string | null | undefined) {
     if (key) await this.storage.delete(key).catch(() => {})

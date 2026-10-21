@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { articleText, sanitizeArticleHtml } from './article-html'
+import { articleText, embeddedImageFiles, sanitizeArticleHtml } from './article-html'
 
 describe('sanitizeArticleHtml', () => {
   it('keeps editor formatting and strips anything executable', () => {
@@ -51,5 +51,25 @@ describe('embedded images and tables', () => {
         '<table style="min-width:50px"><tbody><tr><th colspan="2" style="x">H</th></tr><tr><td>1</td><td>2</td></tr></tbody></table>',
       ),
     ).toBe('<table><tbody><tr><th colspan="2">H</th></tr><tr><td>1</td><td>2</td></tr></tbody></table>')
+  })
+})
+
+describe('code blocks', () => {
+  it('keeps the language class for highlighting, drops other classes', () => {
+    expect(sanitizeArticleHtml('<pre><code class="language-ts evil">const a = 1</code></pre>')).toBe(
+      '<pre><code class="language-ts">const a = 1</code></pre>',
+    )
+    expect(sanitizeArticleHtml('<p class="x">hi</p>')).toBe('<p>hi</p>')
+  })
+})
+
+describe('embeddedImageFiles', () => {
+  it('finds only our image files', () => {
+    const html =
+      '<p><img src="/api/v1/articles/images/0123456789abcdef.png" alt="a"></p>' +
+      '<img src="/api/v1/articles/images/fedcba9876543210.webp">' +
+      '<a href="/api/v1/articles/images/aaaaaaaaaaaaaaaa.png">not an image tag</a>'
+    expect([...embeddedImageFiles(html)]).toEqual(['0123456789abcdef.png', 'fedcba9876543210.webp'])
+    expect(embeddedImageFiles(null).size).toBe(0)
   })
 })

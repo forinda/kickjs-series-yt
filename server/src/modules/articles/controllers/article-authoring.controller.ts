@@ -17,6 +17,7 @@ import { UpdateArticleUseCase } from '../use-cases/update-article.use-case'
 import { DeleteArticleUseCase } from '../use-cases/delete-article.use-case'
 import { SetArticleThumbnailUseCase } from '../use-cases/set-article-thumbnail.use-case'
 import { UploadArticleImageUseCase } from '../use-cases/upload-article-image.use-case'
+import { SweepArticleImagesUseCase } from '../use-cases/sweep-article-images.use-case'
 import { ARTICLE_IMAGE_TYPES } from '../article-html'
 
 /** Writing: needs WRITE, and every change is limited to the writer's own articles. */
@@ -29,6 +30,7 @@ export class ArticleAuthoringController {
   @Autowired() private readonly deleteArticle!: DeleteArticleUseCase
   @Autowired() private readonly setThumbnail!: SetArticleThumbnailUseCase
   @Autowired() private readonly uploadImage!: UploadArticleImageUseCase
+  @Autowired() private readonly sweepImages!: SweepArticleImagesUseCase
 
   @Post('/', { body: createArticleSchema, name: 'CreateArticle' })
   @PermissionRequired({ permission: 'WRITE' })
@@ -62,6 +64,13 @@ export class ArticleAuthoringController {
   async image(ctx: Ctx<KickRoutes.ArticleAuthoringController['image']>) {
     if (!ctx.file) throw HttpException.badRequest('No image uploaded in the "image" field')
     return reply.created(await this.uploadImage.execute(ctx.file))
+  }
+
+  /** Admin: delete embedded-image uploads older than 24h that no article references. */
+  @Post('/images/cleanup', { name: 'SweepArticleImages' })
+  @PermissionRequired({ permission: 'ADMIN' })
+  async sweep(_ctx: Ctx<KickRoutes.ArticleAuthoringController['sweep']>) {
+    return reply.ok(await this.sweepImages.execute())
   }
 
   @FileUpload({
