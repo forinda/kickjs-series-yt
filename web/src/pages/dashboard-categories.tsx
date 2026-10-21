@@ -174,7 +174,7 @@ function CategoryDialog({
 
         <Form {...form}>
           <form onSubmit={onSubmit} noValidate>
-            <div className="space-y-6 px-6 py-6">
+            <div className="space-y-5 px-6 py-6">
               <FormField
                 name="name"
                 control={form.control}

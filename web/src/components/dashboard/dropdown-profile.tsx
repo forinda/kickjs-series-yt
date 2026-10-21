@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { IconExternalLink, IconLogout, IconUser } from "@tabler/icons-react";
+import { IconExternalLink, IconLayoutDashboard, IconLogout, IconUser } from "@tabler/icons-react";
 import { useAuth } from "@/context/auth-context";
 import { displayName, initials } from "@/lib/utils";
 
@@ -51,6 +51,12 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
           <DropdownMenuSeparator />
 
+          <DropdownMenuItem asChild className={itemClass}>
+            <Link to={href("/dashboard")}>
+              <IconLayoutDashboard size={20} className="text-foreground" />
+              Dashboard
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild className={itemClass}>
             <Link to={href("/dashboard/profile")}>
               <IconUser size={20} className="text-foreground" />

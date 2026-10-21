@@ -112,8 +112,8 @@ export default function DashboardPostEditor() {
           </Button>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-6">
+        <div className="grid gap-5 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-5">
             <FormField
               name="title"
               control={form.control}
@@ -146,7 +146,7 @@ export default function DashboardPostEditor() {
             />
           </div>
 
-          <aside className="space-y-6">
+          <aside className="space-y-5">
             <FormField
               name="status"
               control={form.control}

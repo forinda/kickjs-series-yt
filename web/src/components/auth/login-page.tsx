@@ -1,89 +1,88 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+import { IconLoader2 } from "@tabler/icons-react";
 import { signInResolver } from "@/features/auth/schema";
-import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { useLoginMutation } from "@/features/auth/mutations";
+import { useAuth } from "@/context/auth-context";
+import { extractError } from "@/lib/api";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useLoginMutation } from "@/features/auth/mutations";
-import { toast } from "sonner";
-import { extractError } from "@/lib/api";
-import { useAuth } from "@/context/auth-context";
-import { useSearchParams, useNavigate } from "react-router";
+import { Card, CardContent } from "../ui/card";
+
 type LoginPageProps = {
   changePage: (newPage: "login" | "register") => void;
+  next: string;
 };
-export default function LoginPage({ changePage }: LoginPageProps) {
-  const auth = useAuth();
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const next = searchParams.get("_next");
-  const form = useForm({
-    resolver: signInResolver,
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-  const login = useLoginMutation();
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    await login.mutateAsync(data, {
+export default function LoginPage({ changePage, next }: LoginPageProps) {
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const login = useLoginMutation();
+  const form = useForm({ resolver: signInResolver, defaultValues: { email: "", password: "" } });
+
+  const handleSubmit = form.handleSubmit((data) =>
+    login.mutate(data, {
       onSuccess: (res) => {
-        toast.success("Login successful!");
         auth.login(res);
-        navigate(next ?? "/");
+        toast.success("Welcome back!");
+        navigate(next, { replace: true });
       },
-      onError: (error: any) => {
-        const msg = extractError(error, "Login failed. Please try again.");
-        toast.error(msg);
-      },
-    });
-  });
+      onError: (error) => toast.error(extractError(error, "Login failed. Please try again.")),
+    }),
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <Form {...form}>
-        <form
-          action=""
-          onSubmit={handleSubmit}
-          className="max-w-2xl flex flex-col gap-4 border mx-auto p-8 rounded-lg"
-        >
-          <div>
-            <h1 className="text-2xl font-bold mb-4">Login Page</h1>
-          </div>
-          <FormField
-            name="email"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <Input {...field} placeholder="example@gmail.com" autoComplete="email" />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            name="password"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <Input
-                  {...field}
-                  type="password"
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Login</Button>
-          <h1>Login Page</h1>
-          <p>Don't have an account? Register here.</p>
-          <Button type="button" variant={"ghost"} onClick={() => changePage("register")}>
-            Go to Register
-          </Button>
-        </form>
-      </Form>
-    </div>
+    <>
+      <div className="space-y-2 text-center">
+        <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+        <p className="text-muted-foreground">Sign in to write and manage your articles.</p>
+      </div>
+      <Card>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={handleSubmit} noValidate className="space-y-5">
+              <FormField
+                name="email"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="email" placeholder="you@example.com" autoComplete="email" autoFocus className="h-10" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="password" placeholder="Your password" autoComplete="current-password" className="h-10" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="h-10 w-full" disabled={login.isPending}>
+                {login.isPending && <IconLoader2 className="animate-spin" />}
+                Sign in
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+      <p className="text-center text-sm text-muted-foreground">
+        New to Inkwell?{" "}
+        <button type="button" onClick={() => changePage("register")} className="font-medium text-primary hover:underline">
+          Create an account
+        </button>
+      </p>
+    </>
   );
 }

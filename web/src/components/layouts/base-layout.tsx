@@ -5,11 +5,10 @@ import { Outlet, useLocation } from "react-router";
 export default function BaseLayout() {
   const currentPath = useLocation().pathname;
   const wrap = !currentPath.includes("dashboard");
-  // const auth = useAuth();
   return wrap ? (
-    <main className="w-full">
+    <main className="flex min-h-svh w-full flex-col">
       <PageHeader />
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-7xl flex-1">
         <Outlet />
       </div>
       <Footer />

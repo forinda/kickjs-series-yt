@@ -54,7 +54,7 @@ export class AuthService {
     })
     const { password: _, ...user } = created.toObject()
     const session = await this.createUserSession({ _id: user._id, name: user.name })
-    return { user, jwt: session }
+    return { user: await this.present(user), jwt: session }
   }
 
   async login(dto: LoginAuthDTO) {

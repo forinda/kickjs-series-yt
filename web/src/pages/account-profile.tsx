@@ -284,7 +284,7 @@ function EditProfileSheet({
         <Form {...form}>
           <form onSubmit={onSubmit} noValidate className="flex min-h-0 flex-1 flex-col">
             <div className="flex-1 space-y-8 overflow-y-auto px-6 py-6">
-              <section className="space-y-4">
+              <section className="space-y-5">
                 <h3 className="text-sm font-medium text-muted-foreground">Personal details</h3>
                 <FormField
                   name="name"
@@ -301,7 +301,7 @@ function EditProfileSheet({
                     </FormItem>
                   )}
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-5 sm:grid-cols-2">
                   <FormField
                     name="firstName"
                     control={form.control}
@@ -369,7 +369,7 @@ function EditProfileSheet({
                 />
               </section>
 
-              <section className="space-y-4">
+              <section className="space-y-5">
                 <h3 className="text-sm font-medium text-muted-foreground">Social links</h3>
                 {socialFields.map(({ key, label, icon: SocialIcon, placeholder }) => (
                   <FormField

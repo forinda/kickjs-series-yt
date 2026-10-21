@@ -11,9 +11,11 @@ export const signInSchema = z.object({
 export type SignInSchema = z.infer<typeof signInSchema>;
 export const signInResolver = zodResolver(signInSchema);
 
+// Mirrors server/src/modules/auth/dtos/register-auth.dto.ts
 export const signUpSchema = z.object({
-    ...signInSchema.shape,
-    name: z.string({ error: 'Name is required' }).min(1),
+    name: z.string().trim().min(2, 'Name must be at least 2 characters').max(80, 'Name must be at most 80 characters'),
+    email: z.email({ error: 'Invalid email address' }),
+    password: z.string().min(8, 'Password must be at least 8 characters').max(128, 'Password must be at most 128 characters'),
 });
 
 export type SignUpSchema = z.infer<typeof signUpSchema>;
