@@ -18,11 +18,14 @@ type Props = {
   trigger: ReactElement;
   defaultOpen?: boolean;
   align?: "start" | "center" | "end";
+  side?: "top" | "right" | "bottom" | "left";
+  /** The trigger is already a button: use it as the trigger instead of wrapping it in another. */
+  asChild?: boolean;
 };
 
 const itemClass = "px-4 py-2.5 text-base cursor-pointer gap-3";
 
-const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
+const ProfileDropdown = ({ trigger, defaultOpen, align = "end", side = "bottom", asChild }: Props) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -34,9 +37,9 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
 
   return (
     <DropdownMenu defaultOpen={defaultOpen}>
-      <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild={asChild}>{trigger}</DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-72" align={align}>
+      <DropdownMenuContent className="w-72" align={align} side={side} sideOffset={6}>
         <DropdownMenuGroup>
           <DropdownMenuLabel className="flex items-center gap-3 px-4 py-2.5 font-normal">
             <Avatar className="size-10">

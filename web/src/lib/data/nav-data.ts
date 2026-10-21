@@ -4,7 +4,8 @@ import { href } from "react-router";
 
 export const dashboardSidebarItems: NavItem[] = [
   { label: "Overview", isSection: true },
-  { title: "Dashboard", icon: IconLayoutDashboard, href: href("/dashboard") },
+  // exact: every dashboard page lives under /dashboard, so prefix matching would always light this up
+  { title: "Dashboard", icon: IconLayoutDashboard, href: href("/dashboard"), exact: true },
 
   { label: "Content", isSection: true },
   { title: "Articles", icon: IconArticle, href: href("/dashboard/articles") },
