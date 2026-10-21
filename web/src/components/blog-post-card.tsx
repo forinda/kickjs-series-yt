@@ -26,9 +26,12 @@ export const postExcerpt = (post: BlogPostType, length = 160) => {
 export const postReadTime = (post: BlogPostType) =>
   `${Math.max(1, Math.round((post.body ?? "").split(/\s+/).length / 200))} min read`;
 
+// Readers care when it went live; drafts (dashboard only) fall back to when they were started.
+const postDateIso = (post: BlogPostType) => post.publishedAt ?? post.createdAt;
+
 export const postDate = (post: BlogPostType) =>
-  post.createdAt
-    ? new Date(post.createdAt).toLocaleDateString(undefined, {
+  postDateIso(post)
+    ? new Date(postDateIso(post)!).toLocaleDateString(undefined, {
         month: "short",
         day: "numeric",
         year: "numeric",
@@ -61,7 +64,7 @@ export function PostMeta({ post }: BlogPostCardProps) {
       </Avatar>
       <span className="font-medium text-foreground">{author}</span>
       <span aria-hidden>·</span>
-      <time dateTime={post.createdAt}>{postDate(post)}</time>
+      <time dateTime={postDateIso(post)}>{postDate(post)}</time>
       <span aria-hidden>·</span>
       <span>{postReadTime(post)}</span>
     </div>

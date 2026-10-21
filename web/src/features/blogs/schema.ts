@@ -10,6 +10,10 @@ export const createBlogSchema = z.object({
 
 export const blogPostStatuses = ["draft", "in-review", "published", "archived"] as const;
 
+// Writers publish directly (becoming a writer is the approval). "in-review" is reserved for a
+// later moderation flow, so it isn't offered, but an article already in it still displays.
+export const writerStatuses = ["draft", "published", "archived"] as const;
+
 export const blogFormSchema = createBlogSchema.extend({
   status: z.enum(blogPostStatuses),
 });

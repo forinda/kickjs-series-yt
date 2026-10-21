@@ -16,9 +16,7 @@ export default function Home() {
   const { data: blogs, isLoading } = useBlogPosts();
   const [category, setCategory] = useState<string | null>(null);
 
-  const posts = [...(blogs ?? [])].sort(
-    (a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime(),
-  );
+  const posts = blogs ?? []; // already published-only, newest first, from the API
   const categories = [...new Set(posts.map(postCategory).filter(Boolean))];
   const filtered = category ? posts.filter((p) => postCategory(p) === category) : posts;
   const [featured, ...rest] = filtered;

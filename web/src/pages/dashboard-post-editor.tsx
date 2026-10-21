@@ -10,6 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,7 +26,7 @@ import {
 import { useAuth } from "@/context/auth-context";
 import { useMyBlog } from "@/features/blogs/queries";
 import { useCreateBlog, useUpdateBlog, useUploadThumbnail } from "@/features/blogs/mutations";
-import { blogFormResolver, blogPostStatuses, type BlogFormInput } from "@/features/blogs/schema";
+import { blogFormResolver, writerStatuses, type BlogFormInput } from "@/features/blogs/schema";
 import { useCategories } from "@/features/categories/queries";
 import { extractError } from "@/lib/api";
 
@@ -160,13 +161,14 @@ export default function DashboardPostEditor() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {blogPostStatuses.map((status) => (
+                      {[...new Set([...writerStatuses, field.value])].map((status) => (
                         <SelectItem key={status} value={status} className="capitalize">
                           {status.replace("-", " ")}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormDescription>Published articles are public. Drafts and archived ones only you can see.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

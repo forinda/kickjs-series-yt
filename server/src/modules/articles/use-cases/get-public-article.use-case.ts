@@ -9,7 +9,8 @@ export class GetPublicArticleUseCase {
   @Autowired() private readonly presenter!: ArticlePresenter
 
   async execute(articleId: string) {
-    const article = await this.db.Blog.findById(articleId)
+    // Drafts/archived read as missing, not forbidden, so their existence isn't leaked.
+    const article = await this.db.Blog.findOne({ _id: articleId, status: 'published' })
       .populate('createdBy', AUTHOR_FIELDS)
       .populate('category', CATEGORY_FIELDS)
     return article ? this.presenter.present(article) : null

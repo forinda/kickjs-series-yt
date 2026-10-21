@@ -12,9 +12,16 @@ export async function findOwnedArticle(db: Db, articleId: string, userId: string
   return article
 }
 
-/** Writers may only file articles under categories they created. */
-export async function assertCategoryUsable(db: Db, categoryId: string, userId: string) {
-  if (!(await db.Category.exists({ _id: categoryId, createdBy: userId }))) {
+/** Any existing category can be used; categories are curated by admins. */
+export async function assertCategoryExists(db: Db, categoryId: string) {
+  if (!(await db.Category.exists({ _id: categoryId }))) {
     throw HttpException.notFound('Category not found')
   }
 }
+
+/**
+ * `publishedAt` is stamped the first time an article goes live and kept after that,
+ * so archiving and re-publishing doesn't make an old article look new.
+ */
+export const publishedAtPatch = (status: string | undefined, current: Date | null | undefined) =>
+  status === 'published' && !current ? { publishedAt: new Date() } : {}

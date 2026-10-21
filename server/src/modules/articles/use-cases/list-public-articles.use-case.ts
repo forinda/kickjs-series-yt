@@ -9,8 +9,9 @@ export class ListPublicArticlesUseCase {
   @Autowired() private readonly presenter!: ArticlePresenter
 
   async execute() {
-    // ponytail: returns every status incl. drafts, as before; published-only filtering is the next step.
-    const articles = await this.db.Blog.find()
+    // Readers only see live articles, newest first.
+    const articles = await this.db.Blog.find({ status: 'published' })
+      .sort({ publishedAt: -1 })
       .populate('createdBy', AUTHOR_FIELDS)
       .populate('category', CATEGORY_FIELDS)
     return this.presenter.presentAll(articles)

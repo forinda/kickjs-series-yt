@@ -1,6 +1,6 @@
 import { Inject, Service } from '@forinda/kickjs'
 import { DB, type Db } from '@/db'
-import { assertCategoryUsable, findOwnedArticle } from '../article.queries'
+import { assertCategoryExists, findOwnedArticle, publishedAtPatch } from '../article.queries'
 import type { UpdateArticleDTO } from '../dtos/create-article.dto'
 
 @Service()
@@ -9,8 +9,8 @@ export class UpdateArticleUseCase {
 
   async execute(articleId: string, userId: string, dto: UpdateArticleDTO) {
     const article = await findOwnedArticle(this.db, articleId, userId)
-    if (dto.category) await assertCategoryUsable(this.db, dto.category, userId)
-    Object.assign(article, dto, { updatedBy: userId })
+    if (dto.category) await assertCategoryExists(this.db, dto.category)
+    Object.assign(article, dto, publishedAtPatch(dto.status, article.publishedAt), { updatedBy: userId })
     await article.save()
   }
 }

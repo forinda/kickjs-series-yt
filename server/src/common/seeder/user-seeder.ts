@@ -44,6 +44,13 @@ export class UserSeeder {
         )
         if (modifiedCount) logger.debug(`Gave ${modifiedCount} user(s) the default role ${defaultRole.name}`)
       }
+      // Backfill: articles published before publishedAt was tracked go live as of their creation.
+      const { modifiedCount: stamped } = await this.db.Blog.updateMany(
+        { status: 'published', publishedAt: null },
+        [{ $set: { publishedAt: '$createdAt' } }],
+        { updatePipeline: true }, // Mongoose 9 rejects pipeline updates without this opt-in
+      )
+      if (stamped) logger.debug(`Stamped publishedAt on ${stamped} article(s)`)
     } catch (error) {
       logger.error('Failed to seed base user:', error)
     }
