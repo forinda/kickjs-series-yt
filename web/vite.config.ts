@@ -18,7 +18,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": "http://localhost:8000"
+      "/api": "http://localhost:8000",
+      // Feeds live at the site root on the server (FeedsModule).
+      "/rss.xml": "http://localhost:8000",
+      "/sitemap.xml": "http://localhost:8000",
+      "/robots.txt": "http://localhost:8000",
     }
   },
 })

@@ -7,7 +7,13 @@ const year = new Date().getFullYear();
 export default function Footer() {
   const { user } = useAuth();
   const cols: [string, [string, string][]][] = [
-    ["Read", [["Latest articles", "/"]]],
+    [
+      "Read",
+      [
+        ["Latest articles", "/"],
+        ["RSS feed", "/rss.xml"],
+      ],
+    ],
     [
       "Write",
       [
@@ -43,7 +49,8 @@ export default function Footer() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {links.map(([label, to]) => (
                   <li key={label}>
-                    <Link to={to} className="transition-colors hover:text-foreground">
+                    {/* The feed is served by the API, not a client route, so load it as a document. */}
+                    <Link to={to} reloadDocument={to.endsWith(".xml")} className="transition-colors hover:text-foreground">
                       {label}
                     </Link>
                   </li>

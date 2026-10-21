@@ -27,6 +27,8 @@ const envSchema = fromZod(
     // S3_* storage vars are validated by S3Settings (@forinda/kickjs-storage), see src/adapters/storage.ts
     BASE_USER_EMAIL: z.email(),
     BASE_USER_PASSWORD: z.string(),
+    // Public origin of the site, for absolute links in the RSS feed, sitemap and share tags.
+    SITE_URL: z.url().default('http://localhost:5173'),
   }),
 )
 

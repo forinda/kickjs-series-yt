@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { IconArrowLeft } from "@tabler/icons-react";
 import BlogPostCard, { PostMeta, PostThumbnail, postCategory } from "@/components/blog-post-card";
@@ -12,6 +13,15 @@ export default function SingleBlogPage() {
   const { id } = useParams();
   const { data: blog, error, isLoading } = useBlogPost(id!);
   const { data: blogs } = useBlogPosts();
+
+  // The server writes the share tags on first load; in-app navigation only needs the tab title.
+  useEffect(() => {
+    if (!blog) return;
+    document.title = `${blog.title} · Inkwell`;
+    return () => {
+      document.title = "Inkwell";
+    };
+  }, [blog]);
 
   const category = blog ? postCategory(blog) : "";
   const related = (blogs ?? [])

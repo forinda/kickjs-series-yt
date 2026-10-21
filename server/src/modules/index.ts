@@ -6,6 +6,7 @@ import { ArticlesModule } from './articles/articles.module'
 import { CategoriesModule } from './categories/categories.module'
 import { WriterRequestsModule } from './writer-requests/writer-requests.module'
 import { EngagementModule } from './engagement/engagement.module'
+import { FeedsModule } from './feeds/feeds.module'
 
 // Every module the app mounts. `kick g module <name>` appends a `.mount(...)`
 // line here; `kick rm module <name>` takes one out.
@@ -17,3 +18,4 @@ export const modules = defineModules()
   .mount(CategoriesModule())
   .mount(WriterRequestsModule())
   .mount(EngagementModule())
+  .mount(FeedsModule())
