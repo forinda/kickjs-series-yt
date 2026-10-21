@@ -9,29 +9,26 @@ importers:
   .:
     devDependencies:
       '@forinda/kickjs-cli':
-        specifier: ^8.7.9
-        version: 8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
+        specifier: ^8.14.5
+        version: 8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
 
   server:
     dependencies:
-      '@aws-sdk/client-s3':
-        specifier: ^3.1149.0
-        version: 3.1149.0
-      '@aws-sdk/s3-request-presigner':
-        specifier: ^3.1149.0
-        version: 3.1149.0
       '@forinda/kickjs':
-        specifier: ^9.2.0
-        version: 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+        specifier: ^10.9.0
+        version: 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
       '@forinda/kickjs-devtools':
-        specifier: ^7.9.0
-        version: 7.9.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(ws@8.22.0)(zod@4.6.6)
+        specifier: ^7.15.0
+        version: 7.15.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(ws@8.22.0)(zod@4.6.6)
       '@forinda/kickjs-schema':
-        specifier: ^0.2.3
+        specifier: ^0.2.4
         version: 0.2.4(zod@4.6.6)
+      '@forinda/kickjs-storage':
+        specifier: ^0.3.1
+        version: 0.3.1(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(zod@4.6.6)
       '@forinda/kickjs-swagger':
-        specifier: ^7.3.1
-        version: 7.3.1(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(zod@4.6.6)
+        specifier: ^7.3.3
+        version: 7.3.3(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(zod@4.6.6)
       bcryptjs:
         specifier: ^3.0.3
         version: 3.0.3
@@ -58,14 +55,14 @@ importers:
         version: 4.6.6
     devDependencies:
       '@forinda/kickjs-cli':
-        specifier: ^8.7.4
-        version: 8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
+        specifier: ^8.14.5
+        version: 8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
       '@forinda/kickjs-testing':
-        specifier: ^8.2.0
-        version: 8.2.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(supertest@7.3.1)(vitest@5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)))
+        specifier: ^8.3.1
+        version: 8.3.1(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(supertest@7.3.1)(vitest@5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)))
       '@forinda/kickjs-vite':
-        specifier: ^8.0.1
-        version: 8.0.1(@forinda/kickjs-cli@8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6))(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))
+        specifier: ^8.1.1
+        version: 8.1.1(@forinda/kickjs-cli@8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6))(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))
       '@swc/core':
         specifier: ^1.16.13
         version: 1.16.18
@@ -213,82 +210,6 @@ importers:
         version: 8.3.4(@types/node@24.19.2)(jiti@2.7.0)
 
 packages:
-
-  '@aws-sdk/checksums@3.1001.2':
-    resolution: {integrity: sha512-gKRj5IXZ/O0ehk2rwfb55YygdNKNhK5N1l/Ztg/w06tk21AJtCPuyErETk2RS/6XOmpBkcZY6CN3GlQ2fWTh1g==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/client-s3@3.1149.0':
-    resolution: {integrity: sha512-wEccG+3/ap7iIBO4DbWwqNHh2u5Qm5OCQJzJaAvtVFIoZbp0qia8HIXv4rpnNmJJEX8205mlq67F9QJ0nKlcxg==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/core@3.978.2':
-    resolution: {integrity: sha512-ViOBLuGSSyPAmkKGJ6KJXtVN7MOEp3rnI7uH+kWxnHccvo8C9cvunEAnN5/oaZH1laQfsTBw7IOnmNkWlFZl2A==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-env@3.972.73':
-    resolution: {integrity: sha512-PxlFZiF5IPUsPnuVSqjM9jlmRwZhL0xx40ccWfZiLQS8TRnHQpegpK1uAidatWuEqbJtbbY97A2Sezikz2AMUw==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-http@3.972.75':
-    resolution: {integrity: sha512-Q/uIDy8eAVN7JgSKDg16F/f+hmNJj/ZyLJN8AkW2ofVdDgJVh8fO/A26iZ7YsvM2/k76hsf/u2lLAtyXsK8Ziw==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-ini@3.973.18':
-    resolution: {integrity: sha512-KoyjZ9vdjuxEQ8obAH06xKP8H0WKqGhwUZLMqAOiS7G0xgUAht4X8f0ASLC/vhNLCWGblZOD3VQHWyTROGJHLg==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-login@3.972.80':
-    resolution: {integrity: sha512-xF9A0gaO7k+1dYPFoo69OQatA9Ov0QuDZfqE8H0FLyIoOph+mlEC+I1Qo9UULupGuDfSYh+kVpfcDSxSYf/2fg==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-node@3.972.85':
-    resolution: {integrity: sha512-CrFcML/xImiSlquH4W3V6Npz3aSkPXHDVciAU1JOBN0vqjmkcz9H9up2sCHQqN76J/WrT+TJ580L8h2joksQrg==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-process@3.972.73':
-    resolution: {integrity: sha512-tyNnT4aVuOEXmKKKZPExBi828vRd9heshobBsKF0bov5EORHSJc1AGsHOMRP57sDt+dIuVASUOywaixiX26t4g==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-sso@3.973.17':
-    resolution: {integrity: sha512-gxKTWaUk2gSbBOH4m3NPRfEKcGXeDAOgHr7nNG5JktR1xZLo0R+DpMjbcleoHbB0uJREOG7hjIRE635IuBWsRQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/credential-provider-web-identity@3.972.79':
-    resolution: {integrity: sha512-/jn0Gs/qm6fs6nTIA5yncHayybz42SATZ3rNxCEBYPJ9v69PLrDRgk07E9xTT2gpRcNmDXXbi27ZbuU06N0Z6Q==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/middleware-sdk-s3@3.972.78':
-    resolution: {integrity: sha512-W1kXIqMBkfrpVTbOOUSt63D2mEM4882TLqGWXjkZ1OcJ2ggSEWzgyjlyVDIHu/goGJSREd5s/KQ9wAgVZ0djeQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/nested-clients@3.997.47':
-    resolution: {integrity: sha512-bovCKvDsLocNTzaj6VrrMVJ2BGROqO0JlwcGseO67a+I9Bo+08nUJhSQfZUIx4+A4a7I4101GEJd/AYm7dQ68w==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/s3-request-presigner@3.1149.0':
-    resolution: {integrity: sha512-baBynYmUAeUkcgY/PZJJsEFzVYLhbvQo9e0kVm5NA4zmNQornvoN5FID4gaDvxZVnZjXsBEcEygjtbYg1l2gMQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/signature-v4-multi-region@3.996.48':
-    resolution: {integrity: sha512-cFDXfEbXaGwbnpvR/DyqfxfjxpjXVRVthQLgkwvcfDS5u3+8G9WSj1X1Ag/pTRg/QOeOno1Tq3ycEdrKsCUcOA==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/token-providers@3.1149.0':
-    resolution: {integrity: sha512-CAwYyA8eVk1w6h8YgLvkjIOakWPwURaUFrP7BRVgkxTFUM+O87thyKsGKJ6rVPbP8eoEV10cBWQ5YfaYl3qSVQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/types@3.974.6':
-    resolution: {integrity: sha512-v/clNZzZnDxGyvpHMOGpJKVXFAExJzUNAAjaWGdcx8QAcXLGwTaOkw33p5SHAi0YAioK32xB3hWwOekRVfmfKg==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws-sdk/xml-builder@3.972.41':
-    resolution: {integrity: sha512-ctjVSyCMegrWfXlx6VqzSBFI6UqmQ5ZlnfMhdLIiWmhoH8UAQxSCP5N3OpG7X3k4LnS7ou74C4mt20+bfTW2aQ==}
-    engines: {node: '>=20.0.0'}
-
-  '@aws/lambda-invoke-store@0.3.0':
-    resolution: {integrity: sha512-sl4Bm6yiMNYrZKkqqDFWN0UfnWhlS8ivKxrYl+6t0gCLrqr8y3B2IqZZbFRkfaVVp7C/baApyh71P+LeE1A2sQ==}
-    engines: {node: '>=18.0.0'}
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -522,8 +443,8 @@ packages:
     peerDependencies:
       commander: '>=12.0.0'
 
-  '@forinda/kickjs-cli@8.7.9':
-    resolution: {integrity: sha512-9gffX6D89v20iMVa92HR7avQEzJUMv9pe1Uoc8gnO9NvEZIDYWYScLGe3swIX3yH/dUAD35E9dttgpJMUMD0Ew==}
+  '@forinda/kickjs-cli@8.14.5':
+    resolution: {integrity: sha512-VFSh/RWoBwrTziO0fJbG90HekCjeb2/woUKTHG4tCOtj4uakeJN1secz6guAqc5lISk40mHyi4b6vQBExP1D3w==}
     engines: {node: '>=20.0'}
     hasBin: true
     peerDependencies:
@@ -539,17 +460,20 @@ packages:
     resolution: {integrity: sha512-T0hTBnadWPrP28m+D7JhYW8DHnaFl4nSLK2YweRWPx7B7C5D+4AQpMWDyp6P3IskxUBA5Xf4I0ojDk8nkWZv9A==}
     engines: {node: '>=20.0'}
 
-  '@forinda/kickjs-db@8.6.0':
-    resolution: {integrity: sha512-z+BgoZRl8RON3Yw+xbboYek1VR7+OplJLkblfeae0OzFgIrjv/szPIxlPvCSC+S1TRUWUtOhhDfS6MZBJ7NGWA==}
+  '@forinda/kickjs-db@8.11.0':
+    resolution: {integrity: sha512-4hHVJt7mMcppC8YLcAYxkmAOhKI+77KwntBu92IZYpLplCMHr9WCNNpPGJ4CsfRSGNck+q/V4ii7ywHoYrwuog==}
     engines: {node: '>=20.0'}
     hasBin: true
     peerDependencies:
+      '@electric-sql/pglite': '>=0.5.5'
       '@forinda/kickjs': '>=8.8.0'
       '@forinda/kickjs-devtools-kit': '>=7.0.0'
       better-sqlite3: '>=12.0.0'
       mysql2: '>=3.0.0'
       pg: '>=8.11.0'
     peerDependenciesMeta:
+      '@electric-sql/pglite':
+        optional: true
       '@forinda/kickjs-devtools-kit':
         optional: true
       better-sqlite3:
@@ -568,12 +492,16 @@ packages:
       '@forinda/kickjs':
         optional: true
 
-  '@forinda/kickjs-devtools@7.9.0':
-    resolution: {integrity: sha512-ESE+w4EC7zIIO+lvsG86Z4nF+MekWlSlNVPODhrLzCEQrsQZ5OorW3fVGdMDmWbkIUxN0kKlSg91JzgZTKhJVw==}
+  '@forinda/kickjs-devtools@7.15.0':
+    resolution: {integrity: sha512-y9sX5w+Z/rsW1MCI33EAk2gmSLRVrFqf8uGZJft/0Xcsc1kfQW0dyxfqVpPxfrl8bgBjtGZYTE9VbGwga4FPYQ==}
     engines: {node: '>=20.0'}
     peerDependencies:
       '@forinda/kickjs': '>=8.6.0'
       ws: ^8.0.0
+
+  '@forinda/kickjs-di@0.3.0':
+    resolution: {integrity: sha512-skb/GMFu2mhIoGAqgoJxsMNs6EI8xMosmrjXdWmKcgN1YKMu0/bwsltdUq7XvZrnHwnJJl2cLyfoeq1YOHGPJA==}
+    engines: {node: '>=20.0'}
 
   '@forinda/kickjs-schema@0.2.4':
     resolution: {integrity: sha512-5/4xj217ymT2/PEcBPVdgXb3p4N0NW3rG39HNBVJWhkczP9mhmwQu8GyXndf0PoJt3V2nI0EqcIBxf8PTTyA4g==}
@@ -593,53 +521,68 @@ packages:
       zod:
         optional: true
 
-  '@forinda/kickjs-swagger@7.3.1':
-    resolution: {integrity: sha512-FHxTLvdN/W+YpEcxIoFJ7fnRRWwZj9JMp4hbZUXCEmillPjn5sSchB1e3G3USIEim93eWBT51BCtF9s0Wt0IHw==}
+  '@forinda/kickjs-storage@0.3.1':
+    resolution: {integrity: sha512-Ktlgrbr0cRH4N/KaU1Q+Takp77R3KQXRFaxQsO3OxXUIOq1/6BZBhBPfT73l/DV5clCVMUDAUx0HOJapfpKHUg==}
+    engines: {node: '>=20.0'}
+    peerDependencies:
+      '@forinda/kickjs': '>=10.1.0'
+    peerDependenciesMeta:
+      '@forinda/kickjs':
+        optional: true
+
+  '@forinda/kickjs-swagger@7.3.3':
+    resolution: {integrity: sha512-/pa72FoKVwOpInEtKFGmMkKDdRP9M1L3TMrHaL3gq93+CN4KC2v6HcYlJQkZu0oQx1CbaL+EtGvoCC1xcxjMuQ==}
     engines: {node: '>=20.0'}
     peerDependencies:
       '@forinda/kickjs': '>=5.18.0'
-      express: ^5.1.0
       zod: ^4.0.0
     peerDependenciesMeta:
       zod:
         optional: true
 
-  '@forinda/kickjs-testing@8.2.0':
-    resolution: {integrity: sha512-tGypa822STrsttCmylZoqb4qS8F7myLVD8eSkzSwByl32E1ejXSzZb6sHt7hsFzaHmc2TS1N5bNRRh93j0Wzpg==}
+  '@forinda/kickjs-testing@8.3.1':
+    resolution: {integrity: sha512-40w7Qz57p8A/jPynh+eP5b5LZKOveqEER/Ai8tFRJ6PeAIZ0t1GeasAhIOkrp6Vrmet988gImj6e3PKVtGOqSA==}
     engines: {node: '>=20.0'}
     peerDependencies:
       '@forinda/kickjs': '>=5.18.0'
-      express: ^5.1.0
+      express: ^5.3.0
       supertest: '>=7.0.0'
+      testcontainers: '>=11.0.0'
       vitest: '>=3.0.0'
     peerDependenciesMeta:
+      express:
+        optional: true
       supertest:
+        optional: true
+      testcontainers:
         optional: true
       vitest:
         optional: true
 
-  '@forinda/kickjs-vite@8.0.1':
-    resolution: {integrity: sha512-JrdfxyauXjqhwhvkHudvx7o/QyBJ0Y26bkX7cVRXkE0DmDtvb209lbCtnIS+UVg+6bz52BB5iHWLO9nDUJyJRA==}
+  '@forinda/kickjs-vite@8.1.1':
+    resolution: {integrity: sha512-+HoHPeeHVWlYtdQJ+n9IFeOi/EXux8nsOUnhMWqXdXI/KNxrB9mFheAobU9oIRRMzWAlpaDEPtHatrIgmfcQdQ==}
     engines: {node: ^22.18.0 || >=24.11.0}
     peerDependencies:
       '@forinda/kickjs': '>=5.18.0'
       '@forinda/kickjs-cli': '>=6.2.0'
-      express: ^5.1.0
       vite: '>=6.0.0'
     peerDependenciesMeta:
+      '@forinda/kickjs':
+        optional: true
       '@forinda/kickjs-cli':
         optional: true
 
-  '@forinda/kickjs@9.2.0':
-    resolution: {integrity: sha512-XlFtIFVGco/xwhYqEtexPgm+ghHoyRcsRlDB+Cn8kcuht28UzRV7tuUAa2m69FplMVJ96jpSBMl0xtjIX9MCmw==}
+  '@forinda/kickjs@10.9.0':
+    resolution: {integrity: sha512-1OYn7bIqH05kvcWiHpQUUYFbgforJxbAStfADaU5JRp0y6+mP+sfxEXSFg/yjWmtj7UNSsDoqsZZBSzPvcquUg==}
     engines: {node: '>=20.0'}
     peerDependencies:
       '@fastify/middie': ^9.0.0
-      '@fastify/multipart': ^10.1.2
+      '@fastify/multipart': ^10.1.4
       croner: ^10.0.1
       dotenv: ^17.0.0
       express: ^5.1.0
       fastify: ^5.0.0
+      h3: ^2.0.0
       multer: ^2.0.0
       serve-static: ^1.15.0 || ^2.0.0
       zod: ^4.0.0
@@ -652,7 +595,11 @@ packages:
         optional: true
       dotenv:
         optional: true
+      express:
+        optional: true
       fastify:
+        optional: true
+      h3:
         optional: true
       multer:
         optional: true
@@ -855,150 +802,135 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@oxc-parser/binding-android-arm-eabi@0.152.0':
-    resolution: {integrity: sha512-393VtirINkae4XHBTkq/yQxhOwEr4V+r0et37P2fp+sYZSdYgZTRDPo5Um8vBh0QjMZ+RmaMy4PP0qwr4cTMwA==}
+  '@oxc-parser/binding-android-arm-eabi@0.153.0':
+    resolution: {integrity: sha512-BcWu25dMwMjHpaDCEidmpAi7rGg1qZoihJeUUH9bD55pVZ0z4Wa5CQgqSTo0R41H81oozisQKW3WqvAN2m77IQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxc-parser/binding-android-arm64@0.152.0':
-    resolution: {integrity: sha512-iYFcExATJNZ0rZj0o02THbD1Nc9jAW0nVgIQPee6ejbSASpbZXlIMw8jxtpzaG14JQTWwGSZ6U5dEtRJXE6V3Q==}
+  '@oxc-parser/binding-android-arm64@0.153.0':
+    resolution: {integrity: sha512-9l5rdp2DhRqVriBHsNpu5cEf+hizZ4B58rt93HzyQEBUgZiC6qe2oFpaAAnXGCxHGnQExI1s7S2G0QhFacUZ6w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxc-parser/binding-darwin-arm64@0.152.0':
-    resolution: {integrity: sha512-fnU+DfUzi5/rFy0LzmipYRz06PAUUkOS8kCJQ3Eg6oqlunC1XZXoffFqxmdL51RmcbYtUG3P8DVG1U5fckoa2A==}
+  '@oxc-parser/binding-darwin-arm64@0.153.0':
+    resolution: {integrity: sha512-EcpsyRXHhENDpekpG4QNaSZj2F/BAz4Gh4o89zZwNss86R8KyRSQ6sXbAj74Xyeb4z3j/yBZZ6joQZhraIWyfw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxc-parser/binding-darwin-x64@0.152.0':
-    resolution: {integrity: sha512-Y3U2okryWTs7hDld6UhjJwLNf8/do+x4g4C+1U5SiGwrTLwbO83WJYJA8+l9iFSilWBgnfpd/+U76tfeNxUHzA==}
+  '@oxc-parser/binding-darwin-x64@0.153.0':
+    resolution: {integrity: sha512-hlj80HUQy07/2lYp6rmxH+3u+H2ik3rjLR52CUdPApxmZCNxASDUf/+ykTzAHS/fehftmVMATKvPaWmuLHuasg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxc-parser/binding-freebsd-x64@0.152.0':
-    resolution: {integrity: sha512-XkhkRrrPffEw+ZLv/d/5pEni0buxinm/E/N6fLbJCunD1DBbeCTtVP23ESV+4CWCWdSz397asks1ViGslpmWiQ==}
+  '@oxc-parser/binding-freebsd-x64@0.153.0':
+    resolution: {integrity: sha512-fWRcv2pMSh1qtez46MOu8vuUJ5fiaQZPHSphbWulbL7SHBMKfRgZl2PzjXZYQJbq7NEXyXbgIuIuUm+/Rmkv8w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.152.0':
-    resolution: {integrity: sha512-MLzsRRbdfmdzo6JEhbC1yKU9ItfvM8tEf18HM32jCiNYZEz6J3bRBRl3cTkKR0vBdrk9ZVlcARXtwHccs+epDA==}
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.153.0':
+    resolution: {integrity: sha512-paZeUK1GXShl/bOJQET1/8AQxayFeuN4SIWAkgTRxE7ZQwv9uYSB2n0648smygP22N7jcI3zxAm0Z+ALNiIKxg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxc-parser/binding-linux-arm-musleabihf@0.152.0':
-    resolution: {integrity: sha512-HHerTEJz7Iy10Ji6BGsk4gqG6PU0UzFuBu91jIEOX89FnrI5ECWSEr7BLpkYQhp7U0QFtMnBhNfQKI0hYZK78w==}
+  '@oxc-parser/binding-linux-arm-musleabihf@0.153.0':
+    resolution: {integrity: sha512-qFPp5NwMf4K1C0O+DCVGmcbOaYyYAq98Rvv9p4VSfb777iUwlJCqMUxf6QG9N5f5ls4TEX6LitOZHi+6GL6rYQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxc-parser/binding-linux-arm64-gnu@0.152.0':
-    resolution: {integrity: sha512-9Bb8GyzZ2uSLzRDZ27usaKokr07mxiBe2dDF5b6bd2janmaJTT1gL51UfP7AU30yFiXrJvcRyFKREAgKwZYs0w==}
+  '@oxc-parser/binding-linux-arm64-gnu@0.153.0':
+    resolution: {integrity: sha512-oufEhZCX7saeo27Logra8cvBR1jQ/yw2zUI2hHmWw3qA/XYqEW31FOvLQBv7DWN32NjVdlcaP11WBBZTJo4k9g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-arm64-musl@0.152.0':
-    resolution: {integrity: sha512-om7iDMUroI74A/lfRRWY9/Ev3VWrVsrUZ4tyvyh8raBey/sdcfyAD7tYWc+iykAiotnmftyKTpUKFr1QnaBrAQ==}
+  '@oxc-parser/binding-linux-arm64-musl@0.153.0':
+    resolution: {integrity: sha512-zXYzuAqng85h6+LI3iRm0zeMLX1/K2z41ZAMWxVRgt0D10VvZUaV5q+TEB46KDhoKBpdexoTLC6QoB/EiP2oqQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-ppc64-gnu@0.152.0':
-    resolution: {integrity: sha512-Lf1OL2lMTqwDMFC6jnRb30B+WYHKV0XT+bPHcFM6xHtNVwxpobiTzUIvKH6a0LWpvfwyru8Yu6zCGHqqFHH+gg==}
+  '@oxc-parser/binding-linux-ppc64-gnu@0.153.0':
+    resolution: {integrity: sha512-J7+NLwLEzdkKM9cKyPHH/AjXXstWOs98KYgLrPPnO4N9MO8EZRBfPNnBcS3S67uMOBkRpUmCl2FhRnWdQ5CbBA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-riscv64-gnu@0.152.0':
-    resolution: {integrity: sha512-BYWSMQK+YJ9ZILStPcmmiSVq8KEG9Qdq/c4BHPC3rUEq/fEDCVjUIwdj5ZzjgZ9P9is9PKu0tcAXzq1ZXg4urQ==}
+  '@oxc-parser/binding-linux-riscv64-gnu@0.153.0':
+    resolution: {integrity: sha512-sD0K11GQTLWylln54nPMMTtgmBbQrR5It/vMpZpy/fogiw8O2AvIE+9LuWUXddrWk9zvFIHGRcSgFn4IHOfoYg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-riscv64-musl@0.152.0':
-    resolution: {integrity: sha512-d2LqHNNNqdH185sRK5dPKWZu201JrNu9/CRFuVEuT+ht7n/QaVblEMWT9MALQPrDWYvhG10P+NSKJFquDWZ09w==}
+  '@oxc-parser/binding-linux-riscv64-musl@0.153.0':
+    resolution: {integrity: sha512-7L66uql2BhvSz51LwfExjOdn6et/ydTiQxl23VApdKzJhTc3TczA1Qt6VR/UcvlQrL2ZbytIJb447vh7p5wmUw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.152.0':
-    resolution: {integrity: sha512-8gBeHt5rA/8+pKhHl+zLggfa3L/V/L2at96p7ty6pBE7id6lFO19nFUc15u2PcjC4OYeYK465MKy1fhhbpFIGw==}
+  '@oxc-parser/binding-linux-s390x-gnu@0.153.0':
+    resolution: {integrity: sha512-hXV3T7mNyrPR19rbPYkglkQJtoM/UNo/xwbZeeqdAxEg8PXgb4LXXuxPpGgI4bzRRCWwLUxdDSS58xIyC2u1TA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-x64-gnu@0.152.0':
-    resolution: {integrity: sha512-ltgrSF6L+yPTVsIdaAyqKq3zTqzj/1VlNbxWZuxAe8flR3sWdyNsKvdXukoO8/ucJbLickhmieRBge+o/e8Ugw==}
+  '@oxc-parser/binding-linux-x64-gnu@0.153.0':
+    resolution: {integrity: sha512-Da8Vqs1xdtoDYtEjmozD7wGgJeLBQkMbR0WUBECOSxodyX5DXy8ySlvJWbukyO2Q0+TM9EK+4LT6tbq0jCg4hQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-x64-musl@0.152.0':
-    resolution: {integrity: sha512-LcMp6BvrBnewSfdkLHoSqidhoAq4syKOTBV5TYHWd+2VnGkfD/nPRRVIzTBt/Lkbt7pfOFDGtkiTntFS0p6sQQ==}
+  '@oxc-parser/binding-linux-x64-musl@0.153.0':
+    resolution: {integrity: sha512-zGAPxNTIIw6X5WyTRscIFE/oDjpdNtrrl32ing6NOXdGjzRucadnxBilexLdeYQ9YxixF93GujpXyQ0jw7ddSg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-openharmony-arm64@0.152.0':
-    resolution: {integrity: sha512-jbhoMCslVxzRCRNQ8TSHxjYdSKRvk8O6ciLVDkahJvmyHDzBqba/bMQHM6ULKj/rgHNNbSzlIiakdx8SEfkJzA==}
+  '@oxc-parser/binding-openharmony-arm64@0.153.0':
+    resolution: {integrity: sha512-GoHzpqP5XyPIp9DHokoEdCp+K4UPl/h1neFj1uXnUB3pJYyOQ7NOhFVOttNUgCGcj2eywAvu5cRivTOSq4S10g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxc-parser/binding-win32-arm64-msvc@0.152.0':
-    resolution: {integrity: sha512-JZYVlhv36mr/nertnRB7vchJECOBb1Lz6lltalILsB+o9M/is+H6BEDRLQKdqA4JKs6NjJszo46+iM5sfwj6jQ==}
+  '@oxc-parser/binding-win32-arm64-msvc@0.153.0':
+    resolution: {integrity: sha512-xGcy12tO9k7zFbeyQzEuilfWfQpyRq23/fLPfN3wjSWuWv58k46fQT1hsO1KFNykZuVGW9xSJE/z592TmAoSDA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxc-parser/binding-win32-ia32-msvc@0.152.0':
-    resolution: {integrity: sha512-1X9oganvVsunRH0lH10UU05N+H9atpX6WsOybByUjwnfcd3h/0tYwvuv16XuHglrIUOnxV2TodbLVEwwafd64g==}
+  '@oxc-parser/binding-win32-ia32-msvc@0.153.0':
+    resolution: {integrity: sha512-o1ykUjWncvXX6N5a4KebgLjtD8zRui+f1llMhSGoSC9oP2KOqapRpdwmZ3NcNG0axFouwVKmhGBjd+IhA8BksA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxc-parser/binding-win32-x64-msvc@0.152.0':
-    resolution: {integrity: sha512-sw0M80/dn9rcpu+Rqqph/C+MjvDDce6MlXmFjsNQtPEymha0eJy3ml6+foSUTqFfpDIDyHZZ4eoJ43IoMe8bJw==}
+  '@oxc-parser/binding-win32-x64-msvc@0.153.0':
+    resolution: {integrity: sha512-gxQz7G96Up136fd+2zWrP+o6FYGs9NO4Dyv55IoeJFJUDwLFHcLYY11hhA5wQKs0HoM57Q8esQ3nEVhnCdsjAQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
 
-  '@oxc-project/types@0.152.0':
-    resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
-
   '@oxc-project/types@0.153.0':
     resolution: {integrity: sha512-jSNrRIyvPVLL5E1z/tS5zLAprosGz/FuI1PWwEOz59j3E4TTTzSpqKb/RDGqJhhW0QHYISGXxq582wGx6T11Tw==}
-
-  '@oxfmt/binding-android-arm-eabi@0.71.0':
-    resolution: {integrity: sha512-l31EyBfB4egJeFua11aQFEUE9nnDtfpWCadqQovm0WL30t/yUHtdFl/5HyFXvd5xT8Ewh3U4TI9f30GowrQ1fw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [android]
 
   '@oxfmt/binding-android-arm-eabi@0.72.0':
     resolution: {integrity: sha512-u4U1uaDOVBuorGNC/07NLm48nECHOiJJka002YGML16Md2DRvf38RGBt01lH60EOGvNlFVmbLoksQedNBoZHKw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
-    os: [android]
-
-  '@oxfmt/binding-android-arm64@0.71.0':
-    resolution: {integrity: sha512-E8q39SUZzSXQ08oZoFoTkxRADkdBNgL6De4qgZYr2O4JCunwqrZwAyCebxIF3yVHBafHM30WUkhTkDi+jNYZOw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
     os: [android]
 
   '@oxfmt/binding-android-arm64@0.72.0':
@@ -1007,22 +939,10 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@oxfmt/binding-darwin-arm64@0.71.0':
-    resolution: {integrity: sha512-pTteTrN88DicrmJ3DocBmpNDa6Umfh0iveEG8rnAlDFQpclmtDS7hnIvZbIEV9mDO0Ot1U0sjtoJQ1itd/ZMhQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [darwin]
-
   '@oxfmt/binding-darwin-arm64@0.72.0':
     resolution: {integrity: sha512-LjQ8tlevdtwraFlWC6AnQ1Forzde0clRmnsP3QmK+ydSElDt/J+5Jc+m+//Ly1G97aP7WCNUw110QMIUw2K7xA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
-    os: [darwin]
-
-  '@oxfmt/binding-darwin-x64@0.71.0':
-    resolution: {integrity: sha512-G5melRC3IiNEgXlNKJhSExJYQGAQIppHFp2cl/wFrqQcEwmc4k4TkrHaFTR29SDudjoW5AZq5cXPGJDqtlH/Yg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [darwin]
 
   '@oxfmt/binding-darwin-x64@0.72.0':
@@ -1031,32 +951,14 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@oxfmt/binding-freebsd-x64@0.71.0':
-    resolution: {integrity: sha512-Hb1P5yKb9aiH2VSbm3Ml37mKjzqpunYet9krw/YK7V5JsAUJDQlju3Yk/dEqQvJD/usBvpi01Vbk9ZDNo0a8Cw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [freebsd]
-
   '@oxfmt/binding-freebsd-x64@0.72.0':
     resolution: {integrity: sha512-yGPhA8sePEBFV9iGcprhyOk3Bz3fZshswMH3DpYIPZFLT1DG5LjiZ0j6AJQpSueaL6bUK0av1K+5+fe+ldy5EQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxfmt/binding-linux-arm-gnueabihf@0.71.0':
-    resolution: {integrity: sha512-r7n4JEO+rkp0kaP3ia+0hv6FzK3PQIHqaF0jxGuhjJ4JHVX9ZVRbgpDVDW+OloyuJsRWpWFDKIHe8gfl1p/4mQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [linux]
-
   '@oxfmt/binding-linux-arm-gnueabihf@0.72.0':
     resolution: {integrity: sha512-/g5axuqFMcAtoQrFLR5EJEMDjR5Ea4GuzpdDmMpPWAgrF1DmL4kD1NPNVlpXEOxpFJnD6lPvLKYj1lzdlrfifA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [linux]
-
-  '@oxfmt/binding-linux-arm-musleabihf@0.71.0':
-    resolution: {integrity: sha512-EEynTF4nakgqDhVCmd3cHQCmTcw0BM8ea6eHigTdtZ3yxdsBNv+dYkt+OpDDZx1n/jzjI7J+Ht7IgkqFWuJUxQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
@@ -1067,26 +969,12 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@oxfmt/binding-linux-arm64-gnu@0.71.0':
-    resolution: {integrity: sha512-7VgJIrywCwR/G6YMv+HqsccUt8Z4q4mbM2xR+Ry/6AeMk4pCmZ9aO4Srd3mmrvVu8PsCZGP7oHEHSXWTmyloaQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
-
   '@oxfmt/binding-linux-arm64-gnu@0.72.0':
     resolution: {integrity: sha512-WKjlyRAxpPjXoqeuwFBim5LscgvY+RNEiZ971C9JlRQZONhJTsXDki/oHFYQE+fzzRpzXh3owZvOdT3kNL2g+g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
-
-  '@oxfmt/binding-linux-arm64-musl@0.71.0':
-    resolution: {integrity: sha512-AOCaminv/+fhinUXKvtPZT4POhNYmN9GfvaJdgJa1AbvuzClWGwDIXfJg8eu3sYaVL2B68jNvmS7LZGAYa0z3A==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
 
   '@oxfmt/binding-linux-arm64-musl@0.72.0':
     resolution: {integrity: sha512-poafnbsPpJhR+5Mbwpf8CscugTyiRAzjTOxRVn8ra3X2jnURs2xL5Du2xl5g2iW85lICMglpmLf8jDjZEbNgzQ==}
@@ -1095,24 +983,10 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-ppc64-gnu@0.71.0':
-    resolution: {integrity: sha512-0SHxuaa4QRLM7jfsd8wc6L7KdLg+FR6/ah9k1eAvcrK/Sni7oxchMvsjwUsyakVAta+wBVDkjJTr7/RFU0uUGA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [ppc64]
-    os: [linux]
-    libc: [glibc]
-
   '@oxfmt/binding-linux-ppc64-gnu@0.72.0':
     resolution: {integrity: sha512-zNUi0gKRsO7S3IfPzsTbnm88OedPuX32hmZFWZRWHvWJlAoZRwVbeO6Nb3hng4vDgL7qUKp4TGqzPz1mhsycYg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
-    os: [linux]
-    libc: [glibc]
-
-  '@oxfmt/binding-linux-riscv64-gnu@0.71.0':
-    resolution: {integrity: sha512-UNKj1+rPorTK6uSlQzpN96vDNbHbL/63zcpznweo0ImQdkDdtQCS7G3puxX++2cESPKT2B56Y6DICUmFTJde5A==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
@@ -1123,13 +997,6 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-riscv64-musl@0.71.0':
-    resolution: {integrity: sha512-5cVXKj7a0mWu7GU6/bZgNyv+KtLgM5S9cnT26Os2/abj8pK/bklHsbdYEHGLLniGjNYkyzwem8mZciPCaDtilw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [riscv64]
-    os: [linux]
-    libc: [musl]
-
   '@oxfmt/binding-linux-riscv64-musl@0.72.0':
     resolution: {integrity: sha512-w18qfo8vEMD6EKEHtzTvjc6jH8yCyXIT1Bn7PFWJd0PpZyzH/VQDx4xvjCh0LGz6GRzqiezbisTdG9AoXtpkZQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1137,24 +1004,10 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-s390x-gnu@0.71.0':
-    resolution: {integrity: sha512-lNpcMuZvyU1V/CY5h19hac03m4E4PLSYRckcxZOynSPojI4Mwt6nEu9wT/gVf0bclH3xGEWjwqApnSTgjkd2oA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [s390x]
-    os: [linux]
-    libc: [glibc]
-
   '@oxfmt/binding-linux-s390x-gnu@0.72.0':
     resolution: {integrity: sha512-grW8HwEir+vK7fCcq1ZgL3NHQCfZ1PidiERE9Hbf+24xGys+DoDaoqTht4ccfn0PcBwbViLkwkda/KNpJu2KRQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
-    os: [linux]
-    libc: [glibc]
-
-  '@oxfmt/binding-linux-x64-gnu@0.71.0':
-    resolution: {integrity: sha512-5/Z6pUewQpknXqC4/ykK6Zc6RiteAnPem1Ci7K1RZLVF6w6MMjwHjR4vsjijW4Czidgv7HKeVglGjElADliT9w==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [linux]
     libc: [glibc]
 
@@ -1165,13 +1018,6 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-x64-musl@0.71.0':
-    resolution: {integrity: sha512-uVdG2N/4GEbOeljpQ+xv+NeEwJWJGj0WaxSiSYnoiqIYy3RWrWd3rGUmxWXP1A8+ferNvvwFoDAtvgsDUvBuSw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
   '@oxfmt/binding-linux-x64-musl@0.72.0':
     resolution: {integrity: sha512-T1B0uQzafxuGPjjaPrZJ497nxoi1BiI65JfsYc56nNpmev3msfb/iaTmH2kQuNFqa8PKxpMlf3GhWrWBvBPORQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1179,23 +1025,11 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-openharmony-arm64@0.71.0':
-    resolution: {integrity: sha512-1LwEZmSDRFKeBaGd/Hgj2xI3SmgGFpF4YtgkSx0sTYdTiZfHWbcFvRIBjL1YiDNdQd9Khda3Ij8CoqBULjskDg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [openharmony]
-
   '@oxfmt/binding-openharmony-arm64@0.72.0':
     resolution: {integrity: sha512-OKxxgTurl7+hypVplO8QRAbbQlwEs0j1Y6FZv+ZN2qNbdxQk2muMlzuJNBGTCWwxQ0rkkOD1uK/DW1fvzoUSJA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
-
-  '@oxfmt/binding-win32-arm64-msvc@0.71.0':
-    resolution: {integrity: sha512-5tplmkeMXmza3PUptJQy25wCPJbIAg5g5r7zs+DI+7eEYOqbY+7roMdSH2zbDvv1Pb4oTDJ6NWYx9IRxBxXwhQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [win32]
 
   '@oxfmt/binding-win32-arm64-msvc@0.72.0':
     resolution: {integrity: sha512-L78TKzURqvjuZOCo88ixMbPXf/RP7u31Y0cmjJ/KEmrHmfYhmhEvsDaTYPiyTRne64jUgCbADfY0YeoQk4/Xyw==}
@@ -1203,22 +1037,10 @@ packages:
     cpu: [arm64]
     os: [win32]
 
-  '@oxfmt/binding-win32-ia32-msvc@0.71.0':
-    resolution: {integrity: sha512-T2LWgh3Vx4PYDjtcqRRGDyCsVxeF/VE5xTpUQiCm65bNLwMpRnJYj6Hlkf6qRM3+jxCIOqHD1kVHNQCCiAVMNQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [ia32]
-    os: [win32]
-
   '@oxfmt/binding-win32-ia32-msvc@0.72.0':
     resolution: {integrity: sha512-gQtFW+Ii8BWgtJTAD17TY/WsdNS5gUfAPov8iI1jeq4r9lRRYImmxPL08UU00/RLaCfBJwh2UgINnDY0iOiZ+A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
-    os: [win32]
-
-  '@oxfmt/binding-win32-x64-msvc@0.71.0':
-    resolution: {integrity: sha512-L06SVp7Hu1EQTkh3+PHnKK26dxVbEpOG2InMwCooTE4MA437b5FgfTleCCiGn4ykISHnHU6UHaIg7SiMO7rBHA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [win32]
 
   '@oxfmt/binding-win32-x64-msvc@0.72.0':
@@ -2184,30 +2006,6 @@ packages:
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
 
-  '@smithy/core@3.35.2':
-    resolution: {integrity: sha512-ejTukBuP/Pg3t9N8Ux+0zKsXeHWm7p6W3HbXFOyltKasSxZwCFmvTut7kBdZSCF3m9y1bXXyVu6p2xuMFcsTyQ==}
-    engines: {node: '>=18.0.0'}
-
-  '@smithy/credential-provider-imds@4.5.2':
-    resolution: {integrity: sha512-A9uSdn72ozbRUSit0eib0TW7nXuNPlaeM0zcGkJ+nE6tFcSDbnmtwoxbTCFBukVQcszDAyvsd7+rTduPTXpygg==}
-    engines: {node: '>=18.0.0'}
-
-  '@smithy/fetch-http-handler@5.8.0':
-    resolution: {integrity: sha512-ycSJu3tFAQ4v04CBB0agqFMVsSQ1iG3yw+SpgxRqKfaURpQD4CZ8Wn0zPMmSnOuTpTh65Vz+EA0rMrw089wvkA==}
-    engines: {node: '>=18.0.0'}
-
-  '@smithy/node-http-handler@4.12.1':
-    resolution: {integrity: sha512-ThMkboGeONWXAelq9FvGsuJC4rOi+qyC4/zhUF58xYpxUg5sQKx2VXZYJmtNjr4dSuBJ1HeJXETQILCz3wOHvw==}
-    engines: {node: '>=18.0.0'}
-
-  '@smithy/signature-v4@5.7.4':
-    resolution: {integrity: sha512-tHy0K0VtqNd5Y7Y41h0a0Lhh0L1GzC08dTWg0F7vRJWFtTENg7IZikf3wQkanYIRdb7ngoIPMTmqgUi401fEeQ==}
-    engines: {node: '>=18.0.0'}
-
-  '@smithy/types@4.19.0':
-    resolution: {integrity: sha512-r7jh49VJxGerfAcTQA6gXcKc+98zOp/tqRwzYjgOE+iSQsP6cEU1hq2QzbuipmP68QtYdY9wKEhiCQZIzHgZ4Q==}
-    engines: {node: '>=18.0.0'}
-
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
@@ -2757,9 +2555,6 @@ packages:
   body-parser@2.3.0:
     resolution: {integrity: sha512-2cGmJupaNgg+QUwVLAucDuWuoMZ6EX9iHDRswZ5lsNYEmwPaRknMPCLZz07yTzVq/83p4o/wzbDZbBrTvGGTIw==}
     engines: {node: '>=18'}
-
-  bowser@2.14.1:
-    resolution: {integrity: sha512-tzPjzCxygAKWFOJP011oxFHs57HzIhOEracIgAePE4pqB3LikALKnSzUyU4MGs9/iCEUuHlAJTjTc5M+u7YEGg==}
 
   brace-expansion@5.0.12:
     resolution: {integrity: sha512-YovQ3rzhaLMIrDjNDMkNS01tea93qhEhG5xy8f6+R0l+dw3Ki+5sCoIoI942iuLZTHWogWktgwVDhU09iNEimQ==}
@@ -3880,22 +3675,9 @@ packages:
     resolution: {integrity: sha512-weP+BZ8MVNnlCm8c0Qdc1WSWq4Qn7I+9CJGm7Qali6g44e/PUzbjNqJX5NJ9ljlNMosfJvg1fKEGILklK9cwnw==}
     engines: {node: '>=18'}
 
-  oxc-parser@0.152.0:
-    resolution: {integrity: sha512-ZztsZgaCWmPeKYMdoTT5e0oV/oxD1NeLWNR3kAtr/G707cUPYaaozRlVDHLCGnszHJRszN9mJwmPNpqgwloC0A==}
+  oxc-parser@0.153.0:
+    resolution: {integrity: sha512-cEnpyyV1OJRXv++SFNw0z8i+2o/cr88rVLaOYJafELDoHM5yHvCAbwGRLvxuany6SNLcbblSMUyZaGzH+quSYg==}
     engines: {node: ^20.19.0 || >=22.12.0}
-
-  oxfmt@0.71.0:
-    resolution: {integrity: sha512-lUPUl0d/+Io5pDrsPXWs6rB4N/bpB78oj9CTDpnbulfDz+0r3XXcHPlQ7kRPJ2GjIT4nX+/mcqunOeP9BvsEtg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    hasBin: true
-    peerDependencies:
-      svelte: ^5.0.0
-      vite-plus: '*'
-    peerDependenciesMeta:
-      svelte:
-        optional: true
-      vite-plus:
-        optional: true
 
   oxfmt@0.72.0:
     resolution: {integrity: sha512-16OQeL0uhPZbfmT9S9WWM0Nv9+BmVi8Ra1uTYaSKj/qSCs6FB30KOhz9JoNYw6thT+K5bVxsk/tSEOu497i34g==}
@@ -4665,180 +4447,6 @@ packages:
 
 snapshots:
 
-  '@aws-sdk/checksums@3.1001.2':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/client-s3@3.1149.0':
-    dependencies:
-      '@aws-sdk/checksums': 3.1001.2
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/credential-provider-node': 3.972.85
-      '@aws-sdk/middleware-sdk-s3': 3.972.78
-      '@aws-sdk/signature-v4-multi-region': 3.996.48
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/fetch-http-handler': 5.8.0
-      '@smithy/node-http-handler': 4.12.1
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/core@3.978.2':
-    dependencies:
-      '@aws-sdk/types': 3.974.6
-      '@aws-sdk/xml-builder': 3.972.41
-      '@aws/lambda-invoke-store': 0.3.0
-      '@smithy/core': 3.35.2
-      '@smithy/signature-v4': 5.7.4
-      '@smithy/types': 4.19.0
-      bowser: 2.14.1
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-env@3.972.73':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-http@3.972.75':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/fetch-http-handler': 5.8.0
-      '@smithy/node-http-handler': 4.12.1
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-ini@3.973.18':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/credential-provider-env': 3.972.73
-      '@aws-sdk/credential-provider-http': 3.972.75
-      '@aws-sdk/credential-provider-login': 3.972.80
-      '@aws-sdk/credential-provider-process': 3.972.73
-      '@aws-sdk/credential-provider-sso': 3.973.17
-      '@aws-sdk/credential-provider-web-identity': 3.972.79
-      '@aws-sdk/nested-clients': 3.997.47
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/credential-provider-imds': 4.5.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-login@3.972.80':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/nested-clients': 3.997.47
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-node@3.972.85':
-    dependencies:
-      '@aws-sdk/credential-provider-env': 3.972.73
-      '@aws-sdk/credential-provider-http': 3.972.75
-      '@aws-sdk/credential-provider-ini': 3.973.18
-      '@aws-sdk/credential-provider-process': 3.972.73
-      '@aws-sdk/credential-provider-sso': 3.973.17
-      '@aws-sdk/credential-provider-web-identity': 3.972.79
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/credential-provider-imds': 4.5.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-process@3.972.73':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-sso@3.973.17':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/nested-clients': 3.997.47
-      '@aws-sdk/token-providers': 3.1149.0
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/credential-provider-web-identity@3.972.79':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/nested-clients': 3.997.47
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/middleware-sdk-s3@3.972.78':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/signature-v4-multi-region': 3.996.48
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/nested-clients@3.997.47':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/signature-v4-multi-region': 3.996.48
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/fetch-http-handler': 5.8.0
-      '@smithy/node-http-handler': 4.12.1
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/s3-request-presigner@3.1149.0':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/signature-v4-multi-region': 3.996.48
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/signature-v4-multi-region@3.996.48':
-    dependencies:
-      '@aws-sdk/types': 3.974.6
-      '@smithy/signature-v4': 5.7.4
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/token-providers@3.1149.0':
-    dependencies:
-      '@aws-sdk/core': 3.978.2
-      '@aws-sdk/nested-clients': 3.997.47
-      '@aws-sdk/types': 3.974.6
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/types@3.974.6':
-    dependencies:
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws-sdk/xml-builder@3.972.41':
-    dependencies:
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@aws/lambda-invoke-store@0.3.0': {}
-
   '@babel/code-frame@7.29.7':
     dependencies:
       '@babel/helper-validator-identifier': 7.29.7
@@ -5166,23 +4774,24 @@ snapshots:
     dependencies:
       commander: 15.0.0
 
-  '@forinda/kickjs-cli@8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)':
+  '@forinda/kickjs-cli@8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)':
     dependencies:
       '@clack/prompts': 1.8.1
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
       '@forinda/kickjs-cli-kit': 0.1.3(commander@15.0.0)
-      '@forinda/kickjs-db': 8.6.0(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
+      '@forinda/kickjs-db': 8.11.0(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
       commander: 15.0.0
       glob: 13.0.6
       jiti: 2.7.0
-      oxc-parser: 0.152.0
-      oxfmt: 0.71.0
+      oxc-parser: 0.153.0
+      oxfmt: 0.72.0
       picocolors: 1.1.1
       pluralize: 8.0.0
     optionalDependencies:
       '@typescript/typescript6': 6.0.2
       typescript: 7.0.2
     transitivePeerDependencies:
+      - '@electric-sql/pglite'
       - '@fastify/middie'
       - '@fastify/multipart'
       - '@forinda/kickjs-devtools-kit'
@@ -5192,6 +4801,7 @@ snapshots:
       - dotenv
       - express
       - fastify
+      - h3
       - multer
       - mysql2
       - pg
@@ -5204,24 +4814,24 @@ snapshots:
 
   '@forinda/kickjs-client@0.3.1': {}
 
-  '@forinda/kickjs-db@8.6.0(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))':
+  '@forinda/kickjs-db@8.11.0(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))':
     dependencies:
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
       '@forinda/kickjs-cli-kit': 0.1.3(commander@15.0.0)
       commander: 15.0.0
       jiti: 2.7.0
       kysely: 0.29.6
     optionalDependencies:
-      '@forinda/kickjs-devtools-kit': 7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
+      '@forinda/kickjs-devtools-kit': 7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
 
-  '@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))':
+  '@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))':
     optionalDependencies:
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
 
-  '@forinda/kickjs-devtools@7.9.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(ws@8.22.0)(zod@4.6.6)':
+  '@forinda/kickjs-devtools@7.15.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(ws@8.22.0)(zod@4.6.6)':
     dependencies:
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
-      '@forinda/kickjs-devtools-kit': 7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs-devtools-kit': 7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))
       '@forinda/kickjs-schema': 0.2.4(zod@4.6.6)
       reflect-metadata: 0.2.2
       ws: 8.22.0
@@ -5231,15 +4841,29 @@ snapshots:
       - yup
       - zod
 
+  '@forinda/kickjs-di@0.3.0':
+    dependencies:
+      reflect-metadata: 0.2.2
+
   '@forinda/kickjs-schema@0.2.4(zod@4.6.6)':
     optionalDependencies:
       zod: 4.6.6
 
-  '@forinda/kickjs-swagger@7.3.1(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(zod@4.6.6)':
+  '@forinda/kickjs-storage@0.3.1(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(zod@4.6.6)':
     dependencies:
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
       '@forinda/kickjs-schema': 0.2.4(zod@4.6.6)
-      express: 5.3.0
+    optionalDependencies:
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+    transitivePeerDependencies:
+      - '@valibot/to-json-schema'
+      - valibot
+      - yup
+      - zod
+
+  '@forinda/kickjs-swagger@7.3.3(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(zod@4.6.6)':
+    dependencies:
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs-schema': 0.2.4(zod@4.6.6)
       reflect-metadata: 0.2.2
       swagger-ui-dist: 5.33.1
     optionalDependencies:
@@ -5249,30 +4873,30 @@ snapshots:
       - valibot
       - yup
 
-  '@forinda/kickjs-testing@8.2.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(supertest@7.3.1)(vitest@5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)))':
+  '@forinda/kickjs-testing@8.3.1(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(supertest@7.3.1)(vitest@5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)))':
     dependencies:
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
-      express: 5.3.0
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
     optionalDependencies:
+      express: 5.3.0
       supertest: 7.3.1
       vitest: 5.0.3(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))
 
-  '@forinda/kickjs-vite@8.0.1(@forinda/kickjs-cli@8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6))(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(express@5.3.0)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))':
+  '@forinda/kickjs-vite@8.1.1(@forinda/kickjs-cli@8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6))(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6))(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0))':
     dependencies:
       '@babel/core': 8.0.7
-      '@forinda/kickjs': 9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
-      express: 5.3.0
       vite: 8.3.4(@types/node@26.6.5)(jiti@2.7.0)
     optionalDependencies:
-      '@forinda/kickjs-cli': 8.7.9(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
+      '@forinda/kickjs': 10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)
+      '@forinda/kickjs-cli': 8.14.5(@forinda/kickjs-devtools-kit@7.3.0(@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)))(@typescript/typescript6@6.0.2)(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(typescript@7.0.2)(zod@4.6.6)
 
-  '@forinda/kickjs@9.2.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)':
+  '@forinda/kickjs@10.9.0(dotenv@17.4.2)(express@5.3.0)(multer@2.4.0)(serve-static@2.2.1)(zod@4.6.6)':
     dependencies:
+      '@forinda/kickjs-di': 0.3.0
       '@forinda/kickjs-schema': 0.2.4(zod@4.6.6)
-      express: 5.3.0
       reflect-metadata: 0.2.2
     optionalDependencies:
       dotenv: 17.4.2
+      express: 5.3.0
       multer: 2.4.0
       serve-static: 2.2.1
       zod: 4.6.6
@@ -5433,176 +5057,117 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.3
 
-  '@oxc-parser/binding-android-arm-eabi@0.152.0':
+  '@oxc-parser/binding-android-arm-eabi@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-android-arm64@0.152.0':
+  '@oxc-parser/binding-android-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-arm64@0.152.0':
+  '@oxc-parser/binding-darwin-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-x64@0.152.0':
+  '@oxc-parser/binding-darwin-x64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-freebsd-x64@0.152.0':
+  '@oxc-parser/binding-freebsd-x64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.152.0':
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm-musleabihf@0.152.0':
+  '@oxc-parser/binding-linux-arm-musleabihf@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm64-gnu@0.152.0':
+  '@oxc-parser/binding-linux-arm64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm64-musl@0.152.0':
+  '@oxc-parser/binding-linux-arm64-musl@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-ppc64-gnu@0.152.0':
+  '@oxc-parser/binding-linux-ppc64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-riscv64-gnu@0.152.0':
+  '@oxc-parser/binding-linux-riscv64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-riscv64-musl@0.152.0':
+  '@oxc-parser/binding-linux-riscv64-musl@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.152.0':
+  '@oxc-parser/binding-linux-s390x-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-gnu@0.152.0':
+  '@oxc-parser/binding-linux-x64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-musl@0.152.0':
+  '@oxc-parser/binding-linux-x64-musl@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-openharmony-arm64@0.152.0':
+  '@oxc-parser/binding-openharmony-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-win32-arm64-msvc@0.152.0':
+  '@oxc-parser/binding-win32-arm64-msvc@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-win32-ia32-msvc@0.152.0':
+  '@oxc-parser/binding-win32-ia32-msvc@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-win32-x64-msvc@0.152.0':
+  '@oxc-parser/binding-win32-x64-msvc@0.153.0':
     optional: true
-
-  '@oxc-project/types@0.152.0': {}
 
   '@oxc-project/types@0.153.0': {}
 
-  '@oxfmt/binding-android-arm-eabi@0.71.0':
-    optional: true
-
   '@oxfmt/binding-android-arm-eabi@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-android-arm64@0.71.0':
     optional: true
 
   '@oxfmt/binding-android-arm64@0.72.0':
     optional: true
 
-  '@oxfmt/binding-darwin-arm64@0.71.0':
-    optional: true
-
   '@oxfmt/binding-darwin-arm64@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-darwin-x64@0.71.0':
     optional: true
 
   '@oxfmt/binding-darwin-x64@0.72.0':
     optional: true
 
-  '@oxfmt/binding-freebsd-x64@0.71.0':
-    optional: true
-
   '@oxfmt/binding-freebsd-x64@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-linux-arm-gnueabihf@0.71.0':
     optional: true
 
   '@oxfmt/binding-linux-arm-gnueabihf@0.72.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm-musleabihf@0.71.0':
-    optional: true
-
   '@oxfmt/binding-linux-arm-musleabihf@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-linux-arm64-gnu@0.71.0':
     optional: true
 
   '@oxfmt/binding-linux-arm64-gnu@0.72.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm64-musl@0.71.0':
-    optional: true
-
   '@oxfmt/binding-linux-arm64-musl@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-linux-ppc64-gnu@0.71.0':
     optional: true
 
   '@oxfmt/binding-linux-ppc64-gnu@0.72.0':
     optional: true
 
-  '@oxfmt/binding-linux-riscv64-gnu@0.71.0':
-    optional: true
-
   '@oxfmt/binding-linux-riscv64-gnu@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-linux-riscv64-musl@0.71.0':
     optional: true
 
   '@oxfmt/binding-linux-riscv64-musl@0.72.0':
     optional: true
 
-  '@oxfmt/binding-linux-s390x-gnu@0.71.0':
-    optional: true
-
   '@oxfmt/binding-linux-s390x-gnu@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-linux-x64-gnu@0.71.0':
     optional: true
 
   '@oxfmt/binding-linux-x64-gnu@0.72.0':
     optional: true
 
-  '@oxfmt/binding-linux-x64-musl@0.71.0':
-    optional: true
-
   '@oxfmt/binding-linux-x64-musl@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-openharmony-arm64@0.71.0':
     optional: true
 
   '@oxfmt/binding-openharmony-arm64@0.72.0':
     optional: true
 
-  '@oxfmt/binding-win32-arm64-msvc@0.71.0':
-    optional: true
-
   '@oxfmt/binding-win32-arm64-msvc@0.72.0':
     optional: true
 
-  '@oxfmt/binding-win32-ia32-msvc@0.71.0':
-    optional: true
-
   '@oxfmt/binding-win32-ia32-msvc@0.72.0':
-    optional: true
-
-  '@oxfmt/binding-win32-x64-msvc@0.71.0':
     optional: true
 
   '@oxfmt/binding-win32-x64-msvc@0.72.0':
@@ -6518,39 +6083,6 @@ snapshots:
 
   '@sindresorhus/merge-streams@4.0.0': {}
 
-  '@smithy/core@3.35.2':
-    dependencies:
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@smithy/credential-provider-imds@4.5.2':
-    dependencies:
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@smithy/fetch-http-handler@5.8.0':
-    dependencies:
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@smithy/node-http-handler@4.12.1':
-    dependencies:
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@smithy/signature-v4@5.7.4':
-    dependencies:
-      '@smithy/core': 3.35.2
-      '@smithy/types': 4.19.0
-      tslib: 2.8.1
-
-  '@smithy/types@4.19.0':
-    dependencies:
-      tslib: 2.8.1
-
   '@standard-schema/spec@1.1.0': {}
 
   '@standard-schema/utils@0.3.0': {}
@@ -6988,8 +6520,6 @@ snapshots:
       type-is: 2.1.0
     transitivePeerDependencies:
       - supports-color
-
-  bowser@2.14.1: {}
 
   brace-expansion@5.0.12:
     dependencies:
@@ -7964,53 +7494,29 @@ snapshots:
       string-width: 7.2.0
       strip-ansi: 7.2.0
 
-  oxc-parser@0.152.0:
+  oxc-parser@0.153.0:
     dependencies:
-      '@oxc-project/types': 0.152.0
+      '@oxc-project/types': 0.153.0
     optionalDependencies:
-      '@oxc-parser/binding-android-arm-eabi': 0.152.0
-      '@oxc-parser/binding-android-arm64': 0.152.0
-      '@oxc-parser/binding-darwin-arm64': 0.152.0
-      '@oxc-parser/binding-darwin-x64': 0.152.0
-      '@oxc-parser/binding-freebsd-x64': 0.152.0
-      '@oxc-parser/binding-linux-arm-gnueabihf': 0.152.0
-      '@oxc-parser/binding-linux-arm-musleabihf': 0.152.0
-      '@oxc-parser/binding-linux-arm64-gnu': 0.152.0
-      '@oxc-parser/binding-linux-arm64-musl': 0.152.0
-      '@oxc-parser/binding-linux-ppc64-gnu': 0.152.0
-      '@oxc-parser/binding-linux-riscv64-gnu': 0.152.0
-      '@oxc-parser/binding-linux-riscv64-musl': 0.152.0
-      '@oxc-parser/binding-linux-s390x-gnu': 0.152.0
-      '@oxc-parser/binding-linux-x64-gnu': 0.152.0
-      '@oxc-parser/binding-linux-x64-musl': 0.152.0
-      '@oxc-parser/binding-openharmony-arm64': 0.152.0
-      '@oxc-parser/binding-win32-arm64-msvc': 0.152.0
-      '@oxc-parser/binding-win32-ia32-msvc': 0.152.0
-      '@oxc-parser/binding-win32-x64-msvc': 0.152.0
-
-  oxfmt@0.71.0:
-    dependencies:
-      tinypool: 2.2.0
-    optionalDependencies:
-      '@oxfmt/binding-android-arm-eabi': 0.71.0
-      '@oxfmt/binding-android-arm64': 0.71.0
-      '@oxfmt/binding-darwin-arm64': 0.71.0
-      '@oxfmt/binding-darwin-x64': 0.71.0
-      '@oxfmt/binding-freebsd-x64': 0.71.0
-      '@oxfmt/binding-linux-arm-gnueabihf': 0.71.0
-      '@oxfmt/binding-linux-arm-musleabihf': 0.71.0
-      '@oxfmt/binding-linux-arm64-gnu': 0.71.0
-      '@oxfmt/binding-linux-arm64-musl': 0.71.0
-      '@oxfmt/binding-linux-ppc64-gnu': 0.71.0
-      '@oxfmt/binding-linux-riscv64-gnu': 0.71.0
-      '@oxfmt/binding-linux-riscv64-musl': 0.71.0
-      '@oxfmt/binding-linux-s390x-gnu': 0.71.0
-      '@oxfmt/binding-linux-x64-gnu': 0.71.0
-      '@oxfmt/binding-linux-x64-musl': 0.71.0
-      '@oxfmt/binding-openharmony-arm64': 0.71.0
-      '@oxfmt/binding-win32-arm64-msvc': 0.71.0
-      '@oxfmt/binding-win32-ia32-msvc': 0.71.0
-      '@oxfmt/binding-win32-x64-msvc': 0.71.0
+      '@oxc-parser/binding-android-arm-eabi': 0.153.0
+      '@oxc-parser/binding-android-arm64': 0.153.0
+      '@oxc-parser/binding-darwin-arm64': 0.153.0
+      '@oxc-parser/binding-darwin-x64': 0.153.0
+      '@oxc-parser/binding-freebsd-x64': 0.153.0
+      '@oxc-parser/binding-linux-arm-gnueabihf': 0.153.0
+      '@oxc-parser/binding-linux-arm-musleabihf': 0.153.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.153.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.153.0
+      '@oxc-parser/binding-linux-ppc64-gnu': 0.153.0
+      '@oxc-parser/binding-linux-riscv64-gnu': 0.153.0
+      '@oxc-parser/binding-linux-riscv64-musl': 0.153.0
+      '@oxc-parser/binding-linux-s390x-gnu': 0.153.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.153.0
+      '@oxc-parser/binding-linux-x64-musl': 0.153.0
+      '@oxc-parser/binding-openharmony-arm64': 0.153.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.153.0
+      '@oxc-parser/binding-win32-ia32-msvc': 0.153.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.153.0
 
   oxfmt@0.72.0:
     dependencies:

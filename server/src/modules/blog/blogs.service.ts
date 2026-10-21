@@ -1,5 +1,7 @@
 import { Service, Inject, HttpException, getRequestValue } from '@forinda/kickjs'
-import { S3Key, type S3Uploader } from '@/adapters/s3.adapter'
+import { STORAGE, type Storage } from '@/adapters/storage'
+import { randomBytes } from 'node:crypto'
+import path from 'node:path'
 import type { CreateBlogPostDTO } from './dtos/create-blogs.dto'
 import type { UpdateBlogDTO } from './dtos/update-blogs.dto'
 import { type Db, DB } from '@/db'
@@ -8,14 +10,14 @@ import { getAuditObj } from '@/utils/session'
 @Service()
 export class BlogsService {
   constructor(@Inject(DB) private readonly repo: Db) { }
-  @Inject(S3Key) private readonly uploader!: S3Uploader
+  @Inject(STORAGE) private readonly storage!: Storage
 
   async findById(id: string) {
     const blog = await this.repo.Blog.findOne({ _id: id })
       .populate('createdBy', { id: 1, name: 1, firstName: 1, lastName: 1 })
       .populate('category', { id: 1, name: 1, description: 1 })
     if (blog?.thumbnail) {
-      blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+      blog.thumbnail = await this.thumbnailUrl(blog.thumbnail)
     }
     return blog
   }
@@ -25,7 +27,7 @@ export class BlogsService {
     const blog = await this.repo.Blog.findOne({ _id: id, createdBy: userId })
       .populate('category', { id: 1, name: 1, description: 1 })
     if (blog?.thumbnail) {
-      blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+      blog.thumbnail = await this.thumbnailUrl(blog.thumbnail)
     }
     return blog
   }
@@ -37,7 +39,7 @@ export class BlogsService {
     await Promise.all(
       allBlogs.map(async (blog) => {
         if (blog.thumbnail) {
-          blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+          blog.thumbnail = await this.thumbnailUrl(blog.thumbnail)
         }
       }),
     )
@@ -53,7 +55,7 @@ export class BlogsService {
     await Promise.all(
       allBlogs.map(async (blog) => {
         if (blog.thumbnail) {
-          blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+          blog.thumbnail = await this.thumbnailUrl(blog.thumbnail)
         }
       }),
     )
@@ -111,8 +113,24 @@ export class BlogsService {
     await blogPost.deleteOne()
   }
 
-  attachThumbnail(blogId: string, thumbnailKey: string) {
+  // Signed for 15 minutes, matching the previous presigner default.
+  private thumbnailUrl(key: string) {
+    return this.storage.url(key, { expiresIn: 900 })
+  }
+
+  async uploadThumbnail(blogId: string, file: { buffer: Buffer; originalname: string; mimetype: string }) {
     const { id: userId } = getRequestValue('auth')!
-    return this.repo.Blog.updateOne({ _id: blogId, createdBy: userId }, { thumbnail: thumbnailKey })
+    const blog = await this.repo.Blog.findOne({ _id: blogId, createdBy: userId })
+    if (!blog) {
+      throw HttpException.notFound('Blog post not found')
+    }
+    const key = `thumbnails/${randomBytes(8).toString('hex')}${path.extname(file.originalname)}`
+    await this.storage.put(key, file.buffer, { contentType: file.mimetype })
+    const previous = blog.thumbnail
+    blog.thumbnail = key
+    await blog.save()
+    // Old file is unreachable once replaced; don't let cleanup failure fail the upload.
+    if (previous) await this.storage.delete(previous).catch(() => {})
+    return { key }
   }
 }

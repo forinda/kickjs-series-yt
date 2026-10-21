@@ -11,12 +11,11 @@
     "build:vercel": "kick build && kick build:vercel"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1149.0",
-    "@aws-sdk/s3-request-presigner": "^3.1149.0",
-    "@forinda/kickjs": "^9.2.0",
-    "@forinda/kickjs-devtools": "^7.9.0",
-    "@forinda/kickjs-schema": "^0.2.3",
-    "@forinda/kickjs-swagger": "^7.3.1",
+    "@forinda/kickjs": "^10.9.0",
+    "@forinda/kickjs-devtools": "^7.15.0",
+    "@forinda/kickjs-schema": "^0.2.4",
+    "@forinda/kickjs-storage": "^0.3.1",
+    "@forinda/kickjs-swagger": "^7.3.3",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
@@ -27,9 +26,9 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@forinda/kickjs-cli": "^8.7.4",
-    "@forinda/kickjs-testing": "^8.2.0",
-    "@forinda/kickjs-vite": "^8.0.1",
+    "@forinda/kickjs-cli": "^8.14.5",
+    "@forinda/kickjs-testing": "^8.3.1",
+    "@forinda/kickjs-vite": "^8.1.1",
     "@swc/core": "^1.16.13",
     "@types/express": "^5.0.6",
     "@types/multer": "^2.3.0",

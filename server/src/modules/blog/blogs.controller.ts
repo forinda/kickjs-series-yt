@@ -8,13 +8,12 @@ import {
   reply,
   type Ctx,
   FileUpload,
-  Inject,
+  HttpException,
 } from '@forinda/kickjs'
 import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { BlogsService } from './blogs.service'
 import { createBlogPostSchema } from './dtos/create-blogs.dto'
 import { updateBlogSchema } from './dtos/update-blogs.dto'
-import { S3Key, type S3Uploader } from '@/adapters/s3.adapter'
 import { PermissionRequired } from '@/contributors/permission.contributor'
 import { PublicRoute } from '@/contributors/auth.contributor'
 
@@ -23,7 +22,6 @@ import { PublicRoute } from '@/contributors/auth.contributor'
 @ApiTags('Blogs')
 export class BlogsController {
   @Autowired() private readonly blogsService!: BlogsService
-  @Inject(S3Key) private readonly uploader!: S3Uploader
 
   @Get('/')
   @PublicRoute
@@ -70,11 +68,10 @@ export class BlogsController {
   @Post('/upload-thumbnail/:id', { name: 'UploadDocumentThumbnail' })
   @PermissionRequired({ permission: 'WRITE' })
   async upload(ctx: Ctx<KickRoutes.BlogsController['upload']>) {
-    const buffer = ctx.file?.buffer
-    const key = this.uploader.prepareKey('thumbnails', ctx.file?.originalname || 'unknown')
-    const resp = await this.uploader.upload(buffer!, key, ctx.file?.mimetype)
-    await this.blogsService.attachThumbnail(ctx.params.id, key)
-    return reply.ok({ key, resp })
+    if (!ctx.file) {
+      throw HttpException.badRequest('No file uploaded in the "document" field')
+    }
+    return reply.ok(await this.blogsService.uploadThumbnail(ctx.params.id, ctx.file))
   }
 
   @PermissionRequired({ permission: 'WRITE' })

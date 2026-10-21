@@ -10,3 +10,7 @@ allowBuilds:
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
+
+# Our own framework packages: take fresh releases immediately (pnpm otherwise waits 24h).
+minimumReleaseAgeExclude:
+  - '@forinda/*'

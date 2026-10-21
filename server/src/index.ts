@@ -14,7 +14,10 @@ import express from 'express'
 export const app = await bootstrap({
   modules,
   runtime: expressRuntime(),
-  adapters: [...appAdapters,SpaAdapter({ clientDir: '../web/dist' })],
+  adapters: [
+    ...appAdapters,
+    SpaAdapter({ clientDir: '../web/dist' }),
+  ],
   logRouteTable: false,
   contributors: [Auth.registration],
   health: {

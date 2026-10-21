@@ -24,12 +24,7 @@ const envSchema = fromZod(
     LOG_LEVEL: z.string().default('info'),
     MONGO_URI: z.string(),
     JWT_SECRET: z.string().min(32),
-    // S3 Creds
-    S3_ACCESS_KEY_ID: z.string(),
-    S3_SECRET_ACCESS_KEY: z.string(),
-    S3_BUCKET_NAME: z.string().default('my-bucket'),
-    S3_REGION: z.string().default('us-east-1'),
-    S3_ENDPOINT: z.string().optional(),
+    // S3_* storage vars are validated by S3Settings (@forinda/kickjs-storage), see src/adapters/storage.ts
     BASE_USER_EMAIL: z.email(),
     BASE_USER_PASSWORD: z.string(),
   }),
