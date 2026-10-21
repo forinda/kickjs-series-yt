@@ -37,7 +37,7 @@ const Page = () => {
                 trigger={
                   <div id="profile-dropdown-trigger" className="rounded-full cursor-pointer">
                     <Avatar className="size-7 rounded-full">
-                      <AvatarImage src="" />
+                      <AvatarImage src={user?.user.avatar ?? undefined} alt="" className="object-cover" />
                       <AvatarFallback>{initials(user?.user)}</AvatarFallback>
                     </Avatar>
                   </div>

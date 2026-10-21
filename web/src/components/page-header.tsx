@@ -1,12 +1,10 @@
 import { useAuth } from "@/context/auth-context";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Button } from "./ui/button";
-import CreateArticleDialog from "./create-article-dialog";
 import { href, Link } from "react-router";
 import { displayName } from "@/lib/utils";
 
 export default function PageHeader() {
-  const [isCreateArticleDialogOpen, setIsCreateArticleDialogOpen] = React.useState(false);
   const { user, logout } = useAuth();
   const isAuthenticated = !!user;
   const links = useMemo(() => {
@@ -41,10 +39,6 @@ export default function PageHeader() {
         <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <>
-              <CreateArticleDialog
-                isOpen={isCreateArticleDialogOpen}
-                toggleModal={(state) => setIsCreateArticleDialogOpen(state)}
-              />
               <div className="relative">
                 <Button
                   aria-label="Account menu"

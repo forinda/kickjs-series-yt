@@ -8,8 +8,6 @@ export const createBlogSchema = z.object({
   category: z.string({error:'Category is required'}).min(1),
 });
 
-export type CreateBlogInput = z.infer<typeof createBlogSchema>;
-export const createBlogResolver = zodResolver(createBlogSchema);
 export const blogPostStatuses = ["draft", "in-review", "published", "archived"] as const;
 
 export const blogFormSchema = createBlogSchema.extend({

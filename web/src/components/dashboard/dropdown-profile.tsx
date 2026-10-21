@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import { href, Link, useNavigate } from "react-router";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,6 +40,7 @@ const ProfileDropdown = ({ trigger, defaultOpen, align = "end" }: Props) => {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="flex items-center gap-3 px-4 py-2.5 font-normal">
             <Avatar className="size-10">
+              <AvatarImage src={user?.user.avatar ?? undefined} alt="" className="object-cover" />
               <AvatarFallback>{initials(user?.user)}</AvatarFallback>
             </Avatar>
             <div className="flex min-w-0 flex-col">

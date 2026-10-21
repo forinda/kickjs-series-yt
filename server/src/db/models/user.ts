@@ -12,6 +12,8 @@ export const userSchema = new Schema(
     lastName: { type: String, trim: true },
     dob: { type: Date, default: null },
     bio: { type: String, trim: true },
+    // Storage key (not a URL); responses swap it for a signed URL.
+    avatar: { type: String, default: null },
     socials: {
       website: { type: String, trim: true },
       x: { type: String, trim: true },

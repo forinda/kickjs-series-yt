@@ -1,16 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, http } from "@/lib/api";
-import type { BlogFormInput, CreateBlogInput } from "./schema";
+import type { BlogFormInput } from "./schema";
 import { blogPostsKey } from "./keys";
 
 
 export const useCreateBlog = () => {
     const client = useQueryClient()
     return useMutation({
-        mutationFn: async (newBlog: CreateBlogInput & Partial<BlogFormInput>) => {
-            return await api.post("/blogs", {
-                body: { status: 'published', ...newBlog }
-            });
+        mutationFn: async (newBlog: BlogFormInput) => {
+            return await api.post("/blogs", { body: newBlog });
         },
         onSuccess: () => {
             client.invalidateQueries({ queryKey: blogPostsKey.all });

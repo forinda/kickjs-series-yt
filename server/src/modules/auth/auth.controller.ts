@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Put, Delete, Autowired, reply, type Ctx } from '@forinda/kickjs'
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Autowired,
+  reply,
+  type Ctx,
+  FileUpload,
+  HttpException,
+} from '@forinda/kickjs'
 import { AuthService } from './auth.service'
 import { registerAuthSchema } from './dtos/register-auth.dto'
 import { loginAuthSchema } from './dtos/login-auth.dto'
@@ -40,6 +51,27 @@ export class AuthController {
   @PublicRoute.off
   async updateProfile(ctx: Ctx<KickRoutes.AuthController['updateProfile']>) {
     return this.authService.update(ctx.require('auth').id, ctx.body)
+  }
+
+  @FileUpload({
+    mode: 'single',
+    fieldName: 'avatar',
+    maxSize: 2 * 1024 * 1024, // 2 MB
+    allowedTypes: ['image/*'],
+  })
+  @Post('/avatar', { name: 'UploadAvatar' })
+  @PublicRoute.off
+  async uploadAvatar(ctx: Ctx<KickRoutes.AuthController['uploadAvatar']>) {
+    if (!ctx.file) {
+      throw HttpException.badRequest('No image uploaded in the "avatar" field')
+    }
+    return this.authService.uploadAvatar(ctx.require('auth').id, ctx.file)
+  }
+
+  @Delete('/avatar', { name: 'RemoveAvatar' })
+  @PublicRoute.off
+  async removeAvatar(ctx: Ctx<KickRoutes.AuthController['removeAvatar']>) {
+    return this.authService.removeAvatar(ctx.require('auth').id)
   }
 
   @Delete('/delete-profile')

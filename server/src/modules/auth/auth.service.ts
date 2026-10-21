@@ -9,6 +9,12 @@ import { JWT, Jwt } from '@/utils/jwt'
 import { Types } from 'mongoose'
 import { UserSeeder } from '@/common/seeder/user-seeder'
 import { AssignRoleDTO } from './dtos/assign-role.dto'
+import { STORAGE, type Storage } from '@/adapters/storage'
+import { randomBytes } from 'node:crypto'
+import path from 'node:path'
+
+// Avatars sit in the stored session, so sign them for the max (7 days); the UI falls back to initials if one expires.
+export const AVATAR_URL_TTL = 604800
 
 @Service()
 export class AuthService {
@@ -16,10 +22,20 @@ export class AuthService {
     @Inject(DB) private readonly repo: Db,
     @Inject(JWT) private readonly jwt: Jwt,
     @Autowired() private readonly seeder: UserSeeder,
+    @Inject(STORAGE) private readonly storage: Storage,
   ) {}
 
+  /** Plain user object with `avatar` swapped from storage key to a signed URL. */
+  private async present<T extends { avatar?: string | null }>(user: T) {
+    return {
+      ...user,
+      avatar: user.avatar ? await this.storage.url(user.avatar, { expiresIn: AVATAR_URL_TTL }) : null,
+    }
+  }
+
   async me(id: string) {
-    return await this.repo.User.findById(id).select('-password').populate('role', { name: 1 })
+    const user = await this.repo.User.findById(id).select('-password').populate('role', { name: 1 })
+    return user ? this.present(user.toObject()) : null
   }
 
   async findAll(): Promise<AuthResponseDTO[]> {
@@ -58,7 +74,7 @@ export class AuthService {
       _id: userWithoutPassword._id,
       name: userWithoutPassword.name,
     })
-    return { user: userWithoutPassword, jwt: session }
+    return { user: await this.present(userWithoutPassword), jwt: session }
   }
 
   async update(id: string, dto: UpdateProfileDTO) {
@@ -68,7 +84,28 @@ export class AuthService {
     if (!user) {
       throw HttpException.notFound('User not found')
     }
-    return user
+    return this.present(user.toObject())
+  }
+
+  async uploadAvatar(id: string, file: { buffer: Buffer; originalname: string; mimetype: string }) {
+    const key = `avatars/${id}/${randomBytes(8).toString('hex')}${path.extname(file.originalname)}`
+    await this.storage.put(key, file.buffer, { contentType: file.mimetype })
+    return this.replaceAvatar(id, key)
+  }
+
+  removeAvatar(id: string) {
+    return this.replaceAvatar(id, null)
+  }
+
+  private async replaceAvatar(id: string, key: string | null) {
+    const previous = await this.repo.User.findByIdAndUpdate(id, { $set: { avatar: key } })
+    if (!previous) {
+      if (key) await this.storage.delete(key).catch(() => {})
+      throw HttpException.notFound('User not found')
+    }
+    // Old file is unreachable once replaced; don't let cleanup failure fail the request.
+    if (previous.avatar) await this.storage.delete(previous.avatar).catch(() => {})
+    return (await this.me(id))!
   }
 
   async delete(id: string): Promise<void> {
