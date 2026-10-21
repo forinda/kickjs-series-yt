@@ -1,4 +1,5 @@
 import { AppSidebar } from "../dashboard/sidebar";
+import { CommandSearch } from "../dashboard/command-search";
 import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import ProfileDropdown from "../dashboard/dropdown-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -16,7 +17,10 @@ const Page = () => {
       {/* ---------------- Main ---------------- */}
       <div className="flex flex-1 flex-col">
         <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b bg-background px-4">
-          <SidebarTrigger className="cursor-pointer" />
+          <div className="flex flex-1 items-center gap-3">
+            <SidebarTrigger className="cursor-pointer" />
+            <CommandSearch />
+          </div>
           {/* On desktop the account menu lives in the sidebar footer; phones hide the sidebar. */}
           <div className="md:hidden">
             <ProfileDropdown
