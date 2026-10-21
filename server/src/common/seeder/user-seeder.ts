@@ -33,8 +33,16 @@ export class UserSeeder {
       if (adminRole && existingUser) {
         logger.debug(`Assigning Administrator role to user: ${existingUser.email}`)
         existingUser.role = adminRole._id
-        //  adminRole
         await existingUser.save()
+      }
+      // Backfill: accounts created before default roles existed get the default one.
+      const defaultRole = await this.db.Role.findOne({ isDefault: true })
+      if (defaultRole) {
+        const { modifiedCount } = await this.db.User.updateMany(
+          { role: null },
+          { $set: { role: defaultRole._id } },
+        )
+        if (modifiedCount) logger.debug(`Gave ${modifiedCount} user(s) the default role ${defaultRole.name}`)
       }
     } catch (error) {
       logger.error('Failed to seed base user:', error)

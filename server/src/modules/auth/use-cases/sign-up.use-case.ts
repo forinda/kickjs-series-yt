@@ -1,4 +1,5 @@
 import { Autowired, HttpException, Inject, Service } from '@forinda/kickjs'
+import type { Types } from 'mongoose'
 import { DB, type Db } from '@/db'
 import { hashPassword } from '@/utils/password'
 import { UserPresenter } from '@/common/presenters/user.presenter'
@@ -15,7 +16,15 @@ export class SignUpUseCase {
     if (await this.db.User.exists({ email: dto.email })) {
       throw HttpException.conflict('Email already in use')
     }
-    const created = await this.db.User.create({ ...dto, password: await hashPassword(dto.password) })
+    // Null until setup has run; the setup backfill assigns it then.
+    const defaultRole = await this.db.Role.findOne({ isDefault: true })
+      .select('_id')
+      .lean<{ _id: Types.ObjectId }>()
+    const created = await this.db.User.create({
+      ...dto,
+      password: await hashPassword(dto.password),
+      role: defaultRole?._id ?? null,
+    })
     const { password: _, ...user } = created.toObject()
     return { user: await this.users.present(user), jwt: await this.sessions.issue(user) }
   }

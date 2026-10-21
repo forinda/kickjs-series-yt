@@ -10,6 +10,8 @@ export const roleSchema = new Schema(
     name: { type: String, required: true, unique: true },
     description: { type: String, required: true },
     permissions: { type: Number, required: true, default: 0 },
+    // The role new sign-ups get. Exactly one system role sets it (systemRoles.*.isDefault).
+    isDefault: { type: Boolean, default: false },
   },
   {
     timestamps: true,
@@ -30,18 +32,15 @@ export const roleSchema = new Schema(
     statics: {
       async initialize() {
         for (const role of Object.values(systemRoles)) {
-          // `this` is the Role model; found/created docs have the methods above
-          let dbRole = await this.findOne({ name: role.name })
-          if (!dbRole) {
-            dbRole = await this.create({ name: role.name, description: role.description })
-            logger.debug(`Created role: ${dbRole.name}`)
-          } else {
-            logger.debug(`Role already exists: ${dbRole.name}`)
-          }
-          for (const perm of role.permissions()) {
-            ;(dbRole as RoleDocument).addPermission(perm)
-          }
-          await dbRole.save()
+          // Upsert so name/description/isDefault/permissions always match the code. Permissions
+          // are assigned (not OR-ed in), so removing one from a system role takes effect too.
+          const permissions = role.permissions().reduce((all, p) => all | p, 0)
+          await this.updateOne(
+            { name: role.name },
+            { $set: { description: role.description, isDefault: role.isDefault, permissions } },
+            { upsert: true },
+          )
+          logger.debug(`Synced role: ${role.name} (permissions=${permissions}, default=${role.isDefault})`)
         }
       },
     },
