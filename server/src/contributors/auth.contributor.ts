@@ -38,7 +38,8 @@ export const Auth = defineHttpContextDecorator({
       .populate<{ role: { name: string; permissions: number } | null }>('role', { name: 1, permissions: 1 })
       .lean()
     if (!user) throw HttpException.unauthorized('Account no longer exists')
-    if (user.disabled) throw HttpException.forbidden('This account has been disabled')
+    // 401, not 403: the session itself is no longer valid, so clients sign the user out.
+    if (user.disabled) throw HttpException.unauthorized('This account has been disabled')
     return { ...payload, permissions: user.role?.permissions ?? 0, role: user.role?.name ?? null }
   },
 })
