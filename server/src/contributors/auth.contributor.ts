@@ -15,7 +15,7 @@ export const Auth = defineHttpContextDecorator({
   resolve: async (ctx, { jwt }) => {
     const { authorization } = ctx.headers
     if (!authorization) {
-      throw HttpException.badRequest('No authorization header')
+      throw HttpException.unauthorized('No authorization header')
     }
     try {
       const token = authorization.replace('Bearer ', '')

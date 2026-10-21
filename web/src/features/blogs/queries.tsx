@@ -11,3 +11,33 @@ export const useBlogPosts = function () {
     },
   });
 };
+
+
+// export type BlogPost  = ReturnType<typeof api.get> extends Promise<{ data: infer T }> ? T : never;
+export const useBlogPost = function (id: string) {
+  return useQuery({
+    queryKey: blogPostsKey.detail(id),
+    queryFn: async () => {
+      return await api.get(`/blogs/:id`, { params: { id } });
+    },
+  });
+};
+export type BlogPostType  =  NonNullable<ReturnType<typeof useBlogPost>['data']>
+
+export const useAllMyBlogs = function (userId: string) {
+  return useQuery({
+    queryKey: blogPostsKey.allMine(userId),
+    queryFn: async () => {
+      return await api.get(`/blogs/mine`, { params: { id: userId } });
+    },
+  });
+};
+
+export const useMyBlog = function (userId: string, blogId: string) {
+  return useQuery({
+    queryKey: blogPostsKey.mine(userId, blogId),
+    queryFn: async () => {
+      return await api.get(`/blogs/mine`, { params: { id: blogId } });
+    },
+  });
+};

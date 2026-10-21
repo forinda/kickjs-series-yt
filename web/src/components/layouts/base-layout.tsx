@@ -1,23 +1,20 @@
-import { useAuth } from '@/context/auth-context'
-import React from 'react'
-import Footer from '../footer';
-import PageHeader from '../page-header';
+import Footer from "../footer";
+import PageHeader from "../page-header";
+import { Outlet, useLocation } from "react-router";
 
-
-type Props = {
-  children: React.ReactNode;
-};
-export default function BaseLayout({ children }: Props) {
-    const auth = useAuth()
-  return (
-    <main className='w-full'>
-    <PageHeader/>   
-    
-     <div className='mx-auto max-w-7xl'>
-
-      {children}
-     </div>
-    <Footer/>
+export default function BaseLayout() {
+  const currentPath = useLocation().pathname;
+  const wrap = !currentPath.includes("dashboard");
+  // const auth = useAuth();
+  return wrap ? (
+    <main className="w-full">
+      <PageHeader />
+      <div className="mx-auto max-w-7xl">
+        <Outlet />
+      </div>
+      <Footer />
     </main>
-  )
+  ) : (
+    <Outlet/>
+  );
 }

@@ -30,8 +30,19 @@ export class BlogsController {
   async list(_ctx: Ctx<KickRoutes.BlogsController['list']>) {
     return reply.ok(await this.blogsService.findAll())
   }
+ @Get('/mine/:id')
+  async getMineById(ctx: Ctx<KickRoutes.BlogsController['getMineById']>) {
+    const result = await this.blogsService.getMineById(ctx.params.id)
+    return result
+  }
+  @Get('/mine')
+  async getAllMine(_ctx: Ctx<KickRoutes.BlogsController['getAllMine']>) {
+    const result = await this.blogsService.getAllMine()
+    return result
+  }
 
   @Get('/:id')
+  @PublicRoute
   async getById(ctx: Ctx<KickRoutes.BlogsController['getById']>) {
     const result = await this.blogsService.findById(ctx.params.id)
     return result

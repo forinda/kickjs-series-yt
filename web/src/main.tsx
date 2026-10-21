@@ -6,15 +6,15 @@ import { router } from "./router";
 import QueryProvider from "./context/query-provider";
 import { AuthProvider } from "./context/auth-context";
 import { Toaster } from "./components/ui/sooner";
-import BaseLayout from "./components/layouts/base-layout";
+import { TooltipProvider } from "./components/ui/tooltip";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
       <QueryProvider>
-        <BaseLayout>
-        <RouterProvider router={router} />
-        </BaseLayout>
-        <Toaster/>
+        <TooltipProvider>
+          <RouterProvider router={router} />
+        </TooltipProvider>
+        <Toaster />
       </QueryProvider>
     </AuthProvider>
   </StrictMode>,

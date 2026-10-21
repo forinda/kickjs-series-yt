@@ -7,18 +7,41 @@ import { getAuditObj } from '@/utils/session'
 
 @Service()
 export class BlogsService {
-  constructor(@Inject(DB) private readonly repo: Db) {}
+  constructor(@Inject(DB) private readonly repo: Db) { }
   @Inject(S3Key) private readonly uploader!: S3Uploader
 
   async findById(id: string) {
-    const userId = getRequestValue('auth')?.id
-    const blog = await this.repo.Blog.findOne({ _id: id, createdBy: userId })
+    const blog = await this.repo.Blog.findOne({ _id: id })
       .populate('createdBy', { id: 1, name: 1 })
       .populate('category', { id: 1, description: 1 })
     if (blog?.thumbnail) {
       blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
     }
     return blog
+  }
+
+  async getMineById(id: string) {
+    const { id: userId } = getRequestValue('auth')!
+    const blog = await this.repo.Blog.findOne({ _id: id, createdBy: userId })
+      .populate('category', { id: 1, description: 1 })
+    if (blog?.thumbnail) {
+      blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+    }
+    return blog
+  }
+
+  async getAllMine() {
+    const { id: userId } = getRequestValue('auth')!
+    const allBlogs = await this.repo.Blog.find({ createdBy: userId })
+      .populate('category', { id: 1, description: 1 })
+    await Promise.all(
+      allBlogs.map(async (blog) => {
+        if (blog.thumbnail) {
+          blog.thumbnail = await this.uploader.getUrl(blog.thumbnail)
+        }
+      }),
+    )
+    return allBlogs
   }
 
   async findAll() {

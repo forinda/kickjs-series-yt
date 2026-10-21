@@ -1,18 +1,20 @@
 import { useAuth } from "@/context/auth-context";
-import React from "react";
+import React, { useMemo } from "react";
 import { Button } from "./ui/button";
 import CreateArticleDialog from "./create-article-dialog";
+import { href, Link } from "react-router";
 
 export default function PageHeader() {
   const [isCreateArticleDialogOpen, setIsCreateArticleDialogOpen] = React.useState(false);
-  const links = [
-    ["Home", "#"],
-    ["Blog", "#blog"],
-    ["Newsletter", "#newsletter"],
-    ["About", "#about"],
-  ];
   const { user, logout } = useAuth();
   const isAuthenticated = !!user;
+  const links = useMemo(() => {
+    const items = [["Home", "/"]];
+    if (isAuthenticated) {
+      items.push(["Dashboard", href("/dashboard")]);
+    }
+    return items;
+  }, [isAuthenticated]);
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
@@ -54,14 +56,19 @@ export default function PageHeader() {
                   aria-label="Account menu"
                   variant={"destructive"}
                   className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
-                onClick={() => logout()}
+                  onClick={() => logout()}
                 >
                   Logout
                 </Button>
               </div>
             </>
           ) : (
-            <>Login</>
+            <Link
+              to="/auth"
+              className="border bg-primary text-white px-8 py-2 rounded-md"
+            >
+              Login
+            </Link>
           )}
         </div>
       </div>
