@@ -12,6 +12,7 @@ import DashboardCategories from "./pages/dashboard-categories";
 import DashboardUsers from "./pages/dashboard-users";
 import DashboardWriterRequests from "./pages/dashboard-writer-requests";
 import DashboardWriterAccess from "./pages/dashboard-writer-access";
+import DashboardManageArticles from "./pages/dashboard-manage-articles";
 import Protect from "./components/auth/protect";
 export const router = createBrowserRouter([
   {
@@ -41,19 +42,35 @@ export const router = createBrowserRouter([
           },
           {
             path: "/dashboard/articles",
-            element: <DashboardArticles />,
+            element: (
+              <Protect permission="WRITE">
+                <DashboardArticles />
+              </Protect>
+            ),
           },
           {
             path: "/dashboard/articles/new",
-            element: <DashboardPostEditor />,
+            element: (
+              <Protect permission="WRITE">
+                <DashboardPostEditor />
+              </Protect>
+            ),
           },
           {
             path: "/dashboard/articles/:id/edit",
-            element: <DashboardPostEditor key="edit" />,
+            element: (
+              <Protect permission="WRITE">
+                <DashboardPostEditor key="edit" />
+              </Protect>
+            ),
           },
           {
             path: "/dashboard/categories",
-            element: <DashboardCategories />,
+            element: (
+              <Protect permission="ADMIN">
+                <DashboardCategories />
+              </Protect>
+            ),
           },
           {
             path: "/dashboard/users",
@@ -68,6 +85,14 @@ export const router = createBrowserRouter([
             element: (
               <Protect permission="ADMIN">
                 <DashboardWriterRequests />
+              </Protect>
+            ),
+          },
+          {
+            path: "/dashboard/manage/articles",
+            element: (
+              <Protect permission="MODERATE">
+                <DashboardManageArticles />
               </Protect>
             ),
           },

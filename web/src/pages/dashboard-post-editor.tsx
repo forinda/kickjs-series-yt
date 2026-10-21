@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { href, Link, useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
-import { IconArrowLeft, IconLoader2, IconPhotoUp } from "@tabler/icons-react";
+import { IconAlertTriangle, IconArrowLeft, IconLoader2, IconPhotoUp } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import RichTextEditor from "@/components/rich-text-editor";
@@ -46,6 +46,8 @@ export default function DashboardPostEditor() {
   const updatePost = useUpdateBlog();
   const uploadThumbnail = useUploadThumbnail();
   const [file, setFile] = useState<File | null>(null);
+
+  const takedown = (post?.takedown ?? null) as { at: string; reason: string } | null;
 
   // The article's current category, so the picker shows its name before any search runs.
   const savedCategory =
@@ -118,6 +120,19 @@ export default function DashboardPostEditor() {
           </Button>
         </div>
 
+        {takedown && (
+          <div role="alert" className="flex gap-3 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm">
+            <IconAlertTriangle className="mt-0.5 size-5 shrink-0 text-destructive" />
+            <div className="space-y-1">
+              <p className="font-medium">A moderator took this article down on {new Date(takedown.at).toLocaleDateString(undefined, { dateStyle: "medium" })}.</p>
+              <p className="text-muted-foreground">"{takedown.reason}"</p>
+              <p className="text-muted-foreground">
+                You can keep editing it, but it can't be published again until a moderator restores it.
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="grid gap-5 lg:grid-cols-[1fr_300px]">
           <div className="space-y-5">
             <FormField
@@ -166,7 +181,10 @@ export default function DashboardPostEditor() {
                       required
                       value={field.value}
                       onChange={(v) => v && field.onChange(v)}
-                      items={[...new Set([...writerStatuses, field.value])].map((status) => ({
+                      // While taken down, publishing is locked until a moderator restores it.
+                      items={[...new Set([...writerStatuses, field.value])]
+                        .filter((status) => !(takedown && status === "published"))
+                        .map((status) => ({
                         value: status,
                         label: STATUS_LABELS[status].label,
                         description: STATUS_LABELS[status].description,

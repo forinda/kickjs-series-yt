@@ -16,17 +16,19 @@ import { usePendingWriterRequestCount } from "@/features/writer-requests/api";
 /** Counters a nav item can show as a badge. */
 export type NavBadge = "pendingWriterRequests";
 
+/** Who sees an item: needs `permission` (if set) and none of `hideWith` (if set). */
+export type Visibility = { permission?: PermissionKey; hideWith?: PermissionKey[] };
+
 export type NavItem =
-  | { isSection: true; label: string; permission?: PermissionKey }
-  | {
+  | ({ isSection: true; label: string } & Visibility)
+  | ({
       isSection?: false;
       title: string;
       icon: Icon;
       href: string;
       exact?: boolean;
-      permission?: PermissionKey;
       badge?: NavBadge;
-    };
+    } & Visibility);
 
 
 /** Sidebar navigation. The active item follows the URL, so deep links and back/forward stay right. */

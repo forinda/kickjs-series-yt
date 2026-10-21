@@ -72,9 +72,15 @@ export default function DashboardArticles() {
                 </td>
                 <td className="px-4 py-3">{postCategory(post as BlogPostType) || "—"}</td>
                 <td className="px-4 py-3">
-                  <Badge variant={statusVariant[post.status]} className="capitalize">
-                    {post.status.replace("-", " ")}
-                  </Badge>
+                  {post.takedown ? (
+                    <Badge variant="destructive" title="A moderator took this article down">
+                      Taken down
+                    </Badge>
+                  ) : (
+                    <Badge variant={statusVariant[post.status]} className="capitalize">
+                      {post.status.replace("-", " ")}
+                    </Badge>
+                  )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-muted-foreground">
                   {postDate(post as BlogPostType)}

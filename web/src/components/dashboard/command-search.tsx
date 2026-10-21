@@ -16,16 +16,17 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { useAuth } from "@/context/auth-context";
 import { useAllMyBlogs } from "@/features/blogs/queries";
 import { useCategories } from "@/features/categories/queries";
-import { dashboardSidebarItems, visibleNavItems } from "@/lib/data/nav-data";
-import { can } from "@/lib/permissions";
+import { dashboardSidebarItems, isVisible, visibleNavItems } from "@/lib/data/nav-data";
+import type { Visibility } from "./main-nav";
+import { can, type PermissionKey } from "@/lib/permissions";
 
 const isMac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform);
 
-const actions: { label: string; to: string; icon: Icon; keywords?: string[] }[] = [
-  { label: "Write a new article", to: href("/dashboard/articles/new"), icon: IconPencilPlus, keywords: ["create", "post", "draft"] },
-  { label: "Add a category", to: `${href("/dashboard/categories")}?new`, icon: IconCategoryPlus, keywords: ["create", "new"] },
+const actions: ({ label: string; to: string; icon: Icon; keywords?: string[] } & Visibility)[] = [
+  { label: "Write a new article", to: href("/dashboard/articles/new"), icon: IconPencilPlus, keywords: ["create", "post", "draft"], permission: "WRITE" },
+  { label: "Add a category", to: `${href("/dashboard/categories")}?new`, icon: IconCategoryPlus, keywords: ["create", "new"], permission: "ADMIN" },
   { label: "Edit your profile", to: href("/dashboard/profile"), icon: IconUserEdit, keywords: ["account", "bio", "avatar", "settings"] },
-  { label: "Writer access", to: href("/dashboard/writer-access"), icon: IconPencilStar, keywords: ["request", "become a writer", "status", "track"] },
+  { label: "Writer access", to: href("/dashboard/writer-access"), icon: IconPencilStar, keywords: ["request", "become a writer", "status", "track"], hideWith: ["WRITE", "MODERATE"] },
   { label: "View the blog", to: "/", icon: IconExternalLink, keywords: ["home", "public", "site"] },
 ];
 
@@ -95,6 +96,7 @@ function Palette({ close }: { close: () => void }) {
   const [search, setSearch] = useState("");
   const [highlighted, setHighlighted] = useState("");
   const { user } = useAuth();
+  const allowed = (key: PermissionKey) => can(user?.user, key);
   const { data: articles = [] } = useAllMyBlogs(user?.user._id ?? "");
   const { data: categories = [] } = useCategories();
 
@@ -122,7 +124,7 @@ function Palette({ close }: { close: () => void }) {
         <Command.Empty className="py-10 text-center text-sm text-muted-foreground">No results.</Command.Empty>
 
         <Command.Group heading="Pages">
-          {visibleNavItems(dashboardSidebarItems, (key) => can(user?.user, key)).map((item) =>
+          {visibleNavItems(dashboardSidebarItems, allowed).map((item) =>
             item.isSection ? null : (
               <Command.Item key={item.href} value={`page ${item.title}`} keywords={[item.title, "page"]} onSelect={() => go(item.href)} className={itemClass}>
                 <item.icon />
@@ -133,7 +135,7 @@ function Palette({ close }: { close: () => void }) {
         </Command.Group>
 
         <Command.Group heading="Actions">
-          {actions.map((a) => (
+          {actions.filter((a) => isVisible(a, allowed)).map((a) => (
             <Command.Item key={a.label} value={`action ${a.label}`} keywords={[a.label, ...(a.keywords ?? [])]} onSelect={() => go(a.to)} className={itemClass}>
               <a.icon />
               {a.label}
@@ -141,7 +143,7 @@ function Palette({ close }: { close: () => void }) {
           ))}
         </Command.Group>
 
-        {articles.length > 0 && (
+        {allowed("WRITE") && articles.length > 0 && (
           <Command.Group heading="Your articles">
             {articles.map((a) => (
               <Command.Item
@@ -160,7 +162,7 @@ function Palette({ close }: { close: () => void }) {
           </Command.Group>
         )}
 
-        {categories.length > 0 && (
+        {allowed("ADMIN") && categories.length > 0 && (
           <Command.Group heading="Categories">
             {categories.map((c) => (
               <Command.Item

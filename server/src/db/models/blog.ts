@@ -16,6 +16,19 @@ export const blogSchema = new Schema(
     },
     publishedAt: { type: Date, required: false },
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    // Set when a moderator takes the article down. While set, the writer can edit but not
+    // republish; a moderator restoring it clears this.
+    takedown: {
+      type: new Schema(
+        {
+          by: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+          at: { type: Date, required: true },
+          reason: { type: String, required: true, trim: true },
+        },
+        { _id: false },
+      ),
+      default: null,
+    },
     ...foreignKeys,
   },
   {
