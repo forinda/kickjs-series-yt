@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@forinda/kickjs-swagger'
 import { PermissionRequired } from '@/contributors/permission.contributor'
 import { createCategorySchema } from '../dtos/create-category.dto'
 import { updateCategorySchema } from '../dtos/update-category.dto'
+import { listCategoriesQuerySchema } from '../dtos/list-categories.dto'
 import { ListCategoriesUseCase } from '../use-cases/list-categories.use-case'
 import { GetCategoryUseCase } from '../use-cases/get-category.use-case'
 import { CreateCategoryUseCase } from '../use-cases/create-category.use-case'
@@ -20,9 +21,9 @@ export class CategoriesController {
   @Autowired() private readonly updateCategory!: UpdateCategoryUseCase
   @Autowired() private readonly deleteCategory!: DeleteCategoryUseCase
 
-  @Get('/', { name: 'ListCategories' })
-  async list(_ctx: Ctx<KickRoutes.CategoriesController['list']>) {
-    return this.listCategories.execute()
+  @Get('/', { query: listCategoriesQuerySchema, name: 'ListCategories' })
+  async list(ctx: Ctx<KickRoutes.CategoriesController['list']>) {
+    return this.listCategories.execute(ctx.query)
   }
 
   @Get('/:id', { name: 'GetCategory' })

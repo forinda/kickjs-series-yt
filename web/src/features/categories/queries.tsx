@@ -10,3 +10,9 @@ export const useCategories = () => {
     },
   });
 };
+
+/** For remote Combobox pickers: name search, cancelled when a newer query starts. */
+export const searchCategories = async (q: string, signal: AbortSignal) => {
+  const categories = await api.get("/categories", { query: q ? { q } : {}, signal });
+  return categories.map((c) => ({ value: c._id, label: c.name, description: c.description }));
+};

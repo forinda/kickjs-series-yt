@@ -10,25 +10,25 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Combobox } from "@/components/ui/combobox";
 import { useAuth } from "@/context/auth-context";
 import { useMyBlog } from "@/features/blogs/queries";
 import { useCreateBlog, useUpdateBlog, useUploadThumbnail } from "@/features/blogs/mutations";
 import { blogFormResolver, writerStatuses, type BlogFormInput } from "@/features/blogs/schema";
-import { useCategories } from "@/features/categories/queries";
+import { searchCategories } from "@/features/categories/queries";
 import { extractError } from "@/lib/api";
+
+const STATUS_LABELS: Record<BlogFormInput["status"], { label: string; description: string }> = {
+  draft: { label: "Draft", description: "Only you can see it" },
+  "in-review": { label: "In review", description: "Waiting for a moderator" },
+  published: { label: "Published", description: "Visible to everyone" },
+  archived: { label: "Archived", description: "Hidden from readers, kept for you" },
+};
 
 const DEFAULT_VALUES: BlogFormInput = { title: "", category: "", body: "", status: "draft" };
 
@@ -42,11 +42,16 @@ export default function DashboardPostEditor() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: post, isLoading } = useMyBlog(user?.user._id ?? "", id ?? "");
-  const { data: categories = [] } = useCategories();
   const createPost = useCreateBlog();
   const updatePost = useUpdateBlog();
   const uploadThumbnail = useUploadThumbnail();
   const [file, setFile] = useState<File | null>(null);
+
+  // The article's current category, so the picker shows its name before any search runs.
+  const savedCategory =
+    post && typeof post.category === "object" && post.category
+      ? { value: refId(post.category), label: (post.category as { name: string }).name }
+      : null;
 
   const form = useForm<BlogFormInput>({ resolver: blogFormResolver, defaultValues: DEFAULT_VALUES });
 
@@ -156,21 +161,20 @@ export default function DashboardPostEditor() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="w-full capitalize">
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {[...new Set([...writerStatuses, field.value])].map((status) => (
-                        <SelectItem key={status} value={status} className="capitalize">
-                          {status.replace("-", " ")}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormDescription>Published articles are public. Drafts and archived ones only you can see.</FormDescription>
+                  <FormControl>
+                    <Combobox
+                      required
+                      value={field.value}
+                      onChange={(v) => v && field.onChange(v)}
+                      items={[...new Set([...writerStatuses, field.value])].map((status) => ({
+                        value: status,
+                        label: STATUS_LABELS[status].label,
+                        description: STATUS_LABELS[status].description,
+                      }))}
+                      searchPlaceholder="Search statuses…"
+                      triggerClassName="h-10!"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -181,20 +185,19 @@ export default function DashboardPostEditor() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Category</FormLabel>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category._id} value={category._id}>
-                          {category.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Combobox
+                      required
+                      value={field.value || null}
+                      onChange={(v) => v && field.onChange(v)}
+                      onSearch={searchCategories}
+                      selectedItems={savedCategory ? [savedCategory] : undefined}
+                      placeholder="Select a category"
+                      searchPlaceholder="Search categories…"
+                      emptyMessage="No categories yet. Ask an admin to add one."
+                      triggerClassName="h-10!"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

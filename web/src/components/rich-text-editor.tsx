@@ -40,6 +40,7 @@ import {
 } from "@tabler/icons-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { Combobox } from "./ui/combobox";
 import { toArticleHtml } from "@/lib/article-html";
 import { CODE_LANGUAGES } from "@/lib/code-languages";
 import { extractError } from "@/lib/api";
@@ -48,6 +49,7 @@ import { useUploadArticleImage } from "@/features/blogs/mutations";
 const IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif", "image/webp", "image/avif"]; // server allow-list
 const IMAGE_MAX_BYTES = 5 * 1024 * 1024;
 const lowlight = createLowlight(common);
+const LANGUAGE_ITEMS = CODE_LANGUAGES.map(([value, label]) => ({ value, label }));
 
 // Plain-text paste that's probably Markdown: headings, lists, quotes, fences, bold, links, tables.
 const looksLikeMarkdown = (text: string) =>
@@ -312,21 +314,18 @@ export default function RichTextEditor({ value, onChange, onBlur, placeholder, i
 
       {markdown === null && state.codeLanguage !== null && (
         <div className={contextBar}>
-          <label htmlFor="code-language" className="text-xs text-muted-foreground">
+          <span className="text-xs text-muted-foreground">
             Code language
-          </label>
-          <select
-            id="code-language"
+          </span>
+          <Combobox
+            required
+            aria-label="Code language"
             value={state.codeLanguage}
-            onChange={(e) => editor.chain().focus().updateAttributes("codeBlock", { language: e.target.value }).run()}
-            className="h-8 rounded-md border border-input bg-background px-2 text-sm focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-          >
-            {CODE_LANGUAGES.map(([lang, label]) => (
-              <option key={lang} value={lang}>
-                {label}
-              </option>
-            ))}
-          </select>
+            onChange={(language) => language && editor.chain().focus().updateAttributes("codeBlock", { language }).run()}
+            items={LANGUAGE_ITEMS}
+            searchPlaceholder="Search languages…"
+            className="w-48"
+          />
         </div>
       )}
 

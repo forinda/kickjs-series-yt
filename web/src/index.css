@@ -6,6 +6,8 @@
 @import "highlight.js/styles/github-dark.css";
 
 @custom-variant dark (&:is(.dark *));
+/* Coarse pointers (touch screens) get bigger tap targets, e.g. `touch:h-11`. */
+@custom-variant touch (@media (pointer: coarse));
 
 @theme inline {
     --font-heading: var(--font-sans);
