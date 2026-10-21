@@ -13,6 +13,7 @@ import DashboardUsers from "./pages/dashboard-users";
 import DashboardWriterRequests from "./pages/dashboard-writer-requests";
 import DashboardWriterAccess from "./pages/dashboard-writer-access";
 import DashboardManageArticles from "./pages/dashboard-manage-articles";
+import DashboardBookmarks from "./pages/dashboard-bookmarks";
 import Protect from "./components/auth/protect";
 export const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ export const router = createBrowserRouter([
                 <DashboardManageArticles />
               </Protect>
             ),
+          },
+          {
+            path: "/dashboard/bookmarks",
+            element: <DashboardBookmarks />,
           },
           {
             path: "/dashboard/writer-access",

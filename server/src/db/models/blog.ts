@@ -16,6 +16,12 @@ export const blogSchema = new Schema(
     },
     publishedAt: { type: Date, required: false },
     category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
+    // Engagement counters, kept in step with Reaction/Comment rows via atomic $inc so lists
+    // can show them without counting per article.
+    likeCount: { type: Number, default: 0, min: 0 },
+    commentCount: { type: Number, default: 0, min: 0 },
+    // Moderators can close the comments on an article.
+    commentsEnabled: { type: Boolean, default: true },
     // Set when a moderator takes the article down. While set, the writer can edit but not
     // republish; a moderator restoring it clears this.
     takedown: {

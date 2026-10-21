@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { safeArticleHtml } from "@/lib/article-html";
 import { useBlogPost, useBlogPosts } from "@/features/blogs/queries";
+import { EngagementBar } from "@/components/article/engagement-bar";
+import { CommentsSection } from "@/components/article/comments-section";
 
 export default function SingleBlogPage() {
   const { id } = useParams();
@@ -41,6 +43,7 @@ export default function SingleBlogPage() {
               {category && <Badge variant="secondary">{category}</Badge>}
               <h1 className="text-4xl font-bold tracking-tight md:text-5xl">{blog.title}</h1>
               <PostMeta post={blog} />
+              <EngagementBar articleId={blog._id} likeCount={blog.likeCount ?? 0} commentCount={blog.commentCount ?? 0} />
             </header>
             <PostThumbnail post={blog} className="aspect-video" />
             <div
@@ -51,6 +54,8 @@ export default function SingleBlogPage() {
           </>
         )}
       </article>
+
+      {blog && <CommentsSection articleId={blog._id} />}
 
       {related.length > 0 && (
         <section className="space-y-8 border-t pt-10">

@@ -1,6 +1,6 @@
 import type { NavItem, Visibility } from "@/components/dashboard/main-nav";
 import type { PermissionKey } from "@/lib/permissions";
-import { IconArticle, IconCategory, IconFiles, IconLayoutDashboard, IconPencilStar, IconUserCircle, IconUsers } from "@tabler/icons-react";
+import { IconArticle, IconBookmark, IconCategory, IconFiles, IconLayoutDashboard, IconPencilStar, IconUserCircle, IconUsers } from "@tabler/icons-react";
 import { href } from "react-router";
 
 export const dashboardSidebarItems: NavItem[] = [
@@ -12,6 +12,9 @@ export const dashboardSidebarItems: NavItem[] = [
   { title: "Articles", icon: IconArticle, href: href("/dashboard/articles"), permission: "WRITE" },
   // Categories are curated by admins; writers pick from them in the editor.
   { title: "Categories", icon: IconCategory, href: href("/dashboard/categories"), permission: "ADMIN" },
+
+  { label: "Reading", isSection: true },
+  { title: "Bookmarks", icon: IconBookmark, href: href("/dashboard/bookmarks") },
 
   { label: "Moderation", isSection: true, permission: "MODERATE" },
   { title: "All articles", icon: IconFiles, href: href("/dashboard/manage/articles"), permission: "MODERATE" },

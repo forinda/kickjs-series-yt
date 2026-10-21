@@ -2,6 +2,7 @@ import type { BlogPostType } from "@/features/blogs/queries";
 import { href, Link } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
+import { IconHeart, IconMessageCircle } from "@tabler/icons-react";
 import { displayName, initials } from "@/lib/utils";
 import { articleText } from "@/lib/article-html";
 
@@ -83,6 +84,23 @@ export default function BlogPostCard({ post }: BlogPostCardProps) {
         <p className="line-clamp-2 text-muted-foreground">{postExcerpt(post)}</p>
       </div>
       <PostMeta post={post} />
+      <PostCounts post={post} />
     </Link>
+  );
+}
+
+/** Likes and comments, as a quiet line under a card. */
+export function PostCounts({ post }: BlogPostCardProps) {
+  const likes = post.likeCount ?? 0;
+  const comments = post.commentCount ?? 0;
+  return (
+    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+      <span className="flex items-center gap-1" aria-label={`${likes} likes`}>
+        <IconHeart className="size-3.5" /> <span className="tabular-nums">{likes}</span>
+      </span>
+      <span className="flex items-center gap-1" aria-label={`${comments} comments`}>
+        <IconMessageCircle className="size-3.5" /> <span className="tabular-nums">{comments}</span>
+      </span>
+    </div>
   );
 }

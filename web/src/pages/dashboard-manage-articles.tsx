@@ -29,6 +29,7 @@ import {
   type ManagedArticlesFilter,
 } from "@/features/blogs/manage";
 import { searchCategories } from "@/features/categories/queries";
+import { useSetCommentsEnabled } from "@/features/engagement/api";
 import { extractError } from "@/lib/api";
 import { can } from "@/lib/permissions";
 import { displayName } from "@/lib/utils";
@@ -72,6 +73,7 @@ export default function DashboardManageArticles() {
   };
   const { data, isLoading, isFetching } = useManagedArticles(filter);
   const restore = useRestoreArticle();
+  const setComments = useSetCommentsEnabled();
   const [takingDown, setTakingDown] = useState<ManagedArticle | null>(null);
   const [deleting, setDeleting] = useState<ManagedArticle | null>(null);
 
@@ -153,7 +155,10 @@ export default function DashboardManageArticles() {
                       <PostThumbnail post={post} className="aspect-video w-16 shrink-0 rounded-md" />
                       <div className="min-w-0">
                         <div className="font-medium">{row.title}</div>
-                        <div className="text-xs text-muted-foreground">{postCategory(post) || "Uncategorised"}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {postCategory(post) || "Uncategorised"} · {row.likeCount ?? 0} likes · {row.commentCount ?? 0} comments
+                          {row.commentsEnabled === false && " · comments closed"}
+                        </div>
                         {takedown && (
                           <p className="mt-1 text-xs text-destructive">
                             Taken down {formatDate(takedown.at)}
@@ -202,6 +207,23 @@ export default function DashboardManageArticles() {
                           Take down
                         </Button>
                       )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        disabled={setComments.isPending}
+                        onClick={() => {
+                          const enabled = row.commentsEnabled === false;
+                          setComments.mutate(
+                            { id: String(row._id), enabled },
+                            {
+                              onSuccess: () => toast.success(enabled ? "Comments reopened." : "Comments closed."),
+                              onError: (error) => toast.error(extractError(error, "Could not change comments.")),
+                            },
+                          );
+                        }}
+                      >
+                        {row.commentsEnabled === false ? "Open comments" : "Close comments"}
+                      </Button>
                       {isAdmin && (
                         <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => setDeleting(row)}>
                           Delete

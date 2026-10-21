@@ -8,6 +8,7 @@ export const mountMongooseModels = async (conn: MongooseType) => {
   const { getCommentModel } = await import('./models/comment')
   const { getRoleModel } = await import('./models/role')
   const { getWriterRequestModel } = await import('./models/writer-request')
+  const { getReactionModel } = await import('./models/reaction')
   return {
     User: getUserModel(conn),
     Blog: getBlogModel(conn),
@@ -15,6 +16,7 @@ export const mountMongooseModels = async (conn: MongooseType) => {
     Comment: getCommentModel(conn),
     Role: getRoleModel(conn),
     WriterRequest: getWriterRequestModel(conn),
+    Reaction: getReactionModel(conn),
   }
 }
 
