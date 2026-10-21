@@ -16,6 +16,8 @@ import { CreateArticleUseCase } from '../use-cases/create-article.use-case'
 import { UpdateArticleUseCase } from '../use-cases/update-article.use-case'
 import { DeleteArticleUseCase } from '../use-cases/delete-article.use-case'
 import { SetArticleThumbnailUseCase } from '../use-cases/set-article-thumbnail.use-case'
+import { UploadArticleImageUseCase } from '../use-cases/upload-article-image.use-case'
+import { ARTICLE_IMAGE_TYPES } from '../article-html'
 
 /** Writing: needs WRITE, and every change is limited to the writer's own articles. */
 @Controller()
@@ -26,6 +28,7 @@ export class ArticleAuthoringController {
   @Autowired() private readonly updateArticle!: UpdateArticleUseCase
   @Autowired() private readonly deleteArticle!: DeleteArticleUseCase
   @Autowired() private readonly setThumbnail!: SetArticleThumbnailUseCase
+  @Autowired() private readonly uploadImage!: UploadArticleImageUseCase
 
   @Post('/', { body: createArticleSchema, name: 'CreateArticle' })
   @PermissionRequired({ permission: 'WRITE' })
@@ -45,6 +48,20 @@ export class ArticleAuthoringController {
   async remove(ctx: Ctx<KickRoutes.ArticleAuthoringController['remove']>) {
     await this.deleteArticle.execute(ctx.params.id, ctx.require('auth').id)
     return reply.noContent()
+  }
+
+  /** Image to embed in an article body. Not tied to an article, so it works while drafting a new one. */
+  @FileUpload({
+    mode: 'single',
+    fieldName: 'image',
+    maxSize: 5 * 1024 * 1024, // 5 MB
+    allowedTypes: Object.keys(ARTICLE_IMAGE_TYPES),
+  })
+  @Post('/images', { name: 'UploadArticleImage' })
+  @PermissionRequired({ permission: 'WRITE' })
+  async image(ctx: Ctx<KickRoutes.ArticleAuthoringController['image']>) {
+    if (!ctx.file) throw HttpException.badRequest('No image uploaded in the "image" field')
+    return reply.created(await this.uploadImage.execute(ctx.file))
   }
 
   @FileUpload({

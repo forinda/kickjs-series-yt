@@ -1,6 +1,7 @@
 import { mongoIdSchema } from '@/utils/mongo-id-zod'
 import { z } from 'zod'
 import { blogPostStatuses } from '@/db/models/blog'
+import { articleText } from '../article-html'
 
 const status = z.enum(blogPostStatuses, {
   error: 'Invalid status. Allowed values are: ' + blogPostStatuses.join(', '),
@@ -8,7 +9,10 @@ const status = z.enum(blogPostStatuses, {
 
 export const createArticleSchema = z.object({
   title: z.string({ error: 'Title is required' }),
-  body: z.string({ error: 'Body is required' }),
+  // HTML from the editor; an empty editor still sends "<p></p>", so check the text.
+  body: z
+    .string({ error: 'Body is required' })
+    .refine((html) => articleText(html) !== '', 'Body is required'),
   status: status.default('draft'),
   category: mongoIdSchema({
     invalidId: 'Please provide a valid category ID',

@@ -3,6 +3,7 @@ import { IconArrowLeft } from "@tabler/icons-react";
 import BlogPostCard, { PostMeta, PostThumbnail, postCategory } from "@/components/blog-post-card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { safeArticleHtml } from "@/lib/article-html";
 import { useBlogPost, useBlogPosts } from "@/features/blogs/queries";
 
 export default function SingleBlogPage() {
@@ -42,13 +43,11 @@ export default function SingleBlogPage() {
               <PostMeta post={blog} />
             </header>
             <PostThumbnail post={blog} className="aspect-video" />
-            <div className="space-y-6 text-lg leading-relaxed">
-              {blog.body.split(/\n\s*\n/).map((paragraph, i) => (
-                <p key={i} className="whitespace-pre-line">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            <div
+              className="prose prose-lg prose-neutral max-w-none dark:prose-invert prose-a:text-primary prose-img:rounded-lg"
+              // Sanitised on the server when saved, and again here (safeArticleHtml).
+              dangerouslySetInnerHTML={{ __html: safeArticleHtml(blog.body) }}
+            />
           </>
         )}
       </article>

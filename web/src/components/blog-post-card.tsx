@@ -3,6 +3,7 @@ import { href, Link } from "react-router";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { displayName, initials } from "@/lib/utils";
+import { articleText } from "@/lib/article-html";
 
 type BlogPostCardProps = {
   post: BlogPostType;
@@ -19,12 +20,12 @@ export const postAuthorAvatar = (post: BlogPostType) =>
 export const postCategory = (post: BlogPostType) => refField(post.category, "name");
 
 export const postExcerpt = (post: BlogPostType, length = 160) => {
-  const text = (post.body ?? "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const text = articleText(post.body);
   return text.length > length ? `${text.slice(0, length).trimEnd()}…` : text;
 };
 
 export const postReadTime = (post: BlogPostType) =>
-  `${Math.max(1, Math.round((post.body ?? "").split(/\s+/).length / 200))} min read`;
+  `${Math.max(1, Math.round(articleText(post.body).split(" ").length / 200))} min read`;
 
 // Readers care when it went live; drafts (dashboard only) fall back to when they were started.
 const postDateIso = (post: BlogPostType) => post.publishedAt ?? post.createdAt;

@@ -29,6 +29,17 @@ export const useUpdateBlog = () => {
     });
 };
 
+// Image embedded in an article body; returns the stable `src` to insert.
+export const useUploadArticleImage = () =>
+    useMutation({
+        mutationFn: async (file: File) => {
+            const form = new FormData();
+            form.append("image", file);
+            const res = await http.post<{ src: string }>("/api/v1/articles/images", form);
+            return res.data;
+        },
+    });
+
 // The typed client always JSON-encodes bodies, so multipart goes through the raw axios instance.
 export const useUploadThumbnail = () => {
     const client = useQueryClient()

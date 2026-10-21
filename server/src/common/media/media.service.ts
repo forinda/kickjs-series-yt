@@ -18,8 +18,9 @@ export const URL_TTL = {
 export class MediaService {
   @Inject(STORAGE) private readonly storage!: Storage
 
-  async put(folder: string, file: UploadedFile) {
-    const key = `${folder}/${randomBytes(8).toString('hex')}${path.extname(file.originalname)}`
+  /** `ext` defaults to the uploaded file name's; pass one derived from the MIME type when it matters. */
+  async put(folder: string, file: UploadedFile, ext = path.extname(file.originalname)) {
+    const key = `${folder}/${randomBytes(8).toString('hex')}${ext}`
     await this.storage.put(key, file.buffer, { contentType: file.mimetype })
     return key
   }

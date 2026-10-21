@@ -3,6 +3,7 @@ import { ApiTags } from '@forinda/kickjs-swagger'
 import { PublicRoute } from '@/contributors/auth.contributor'
 import { ListPublicArticlesUseCase } from '../use-cases/list-public-articles.use-case'
 import { GetPublicArticleUseCase } from '../use-cases/get-public-article.use-case'
+import { GetArticleImageUrlUseCase } from '../use-cases/get-article-image-url.use-case'
 
 /** What any visitor can read. */
 @Controller()
@@ -11,10 +12,21 @@ import { GetPublicArticleUseCase } from '../use-cases/get-public-article.use-cas
 export class PublicArticlesController {
   @Autowired() private readonly listArticles!: ListPublicArticlesUseCase
   @Autowired() private readonly getArticle!: GetPublicArticleUseCase
+  @Autowired() private readonly getImageUrl!: GetArticleImageUrlUseCase
 
   @Get('/', { name: 'ListArticles' })
   async list(_ctx: Ctx<KickRoutes.PublicArticlesController['list']>) {
     return this.listArticles.execute()
+  }
+
+  /** Embedded article images: stable URL in the HTML, redirect to a fresh signed one. */
+  @Get('/images/:file', { name: 'GetArticleImage' })
+  async image(ctx: Ctx<KickRoutes.PublicArticlesController['image']>) {
+    const target = await this.getImageUrl.execute(ctx.params.file)
+    if (!target) throw HttpException.notFound('Image not found')
+    // Let the browser reuse the redirect, but not past the signed URL's lifetime.
+    ctx.setHeader('Cache-Control', `private, max-age=${target.ttl - 60}`)
+    return ctx.redirect(target.url, 302)
   }
 
   @Get('/:id', { name: 'GetArticle' })

@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { IconArrowLeft, IconLoader2, IconPhotoUp } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/rich-text-editor";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Form,
@@ -131,14 +131,16 @@ export default function DashboardPostEditor() {
             <FormField
               name="body"
               control={form.control}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>Body</FormLabel>
                   <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="Start writing… Leave a blank line between paragraphs."
-                      className="min-h-[28rem] resize-y leading-relaxed"
+                    <RichTextEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      invalid={!!fieldState.error}
+                      placeholder="Start writing your article…"
                     />
                   </FormControl>
                   <FormMessage />

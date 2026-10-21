@@ -1,6 +1,7 @@
 import { HttpException, Inject, Service } from '@forinda/kickjs'
 import { DB, type Db } from '@/db'
 import { assertCategoryExists, publishedAtPatch } from '../article.queries'
+import { sanitizeArticleHtml } from '../article-html'
 import type { CreateArticleDTO } from '../dtos/create-article.dto'
 
 @Service()
@@ -14,6 +15,7 @@ export class CreateArticleUseCase {
     }
     const created = await this.db.Blog.create({
       ...dto,
+      body: sanitizeArticleHtml(dto.body),
       ...publishedAtPatch(dto.status, null),
       createdBy: userId,
       updatedBy: userId,

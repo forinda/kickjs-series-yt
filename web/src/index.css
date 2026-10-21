@@ -2,6 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/nunito-sans";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -219,4 +220,28 @@
   .section-title-gap-sm {
     gap: 1rem;
     }
+}
+
+/* Tiptap: show the placeholder on an empty editor. */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--muted-foreground);
+}
+
+/* Tiptap: make the selected image and table cells visible while editing. */
+.tiptap img.ProseMirror-selectednode {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+.tiptap .selectedCell {
+  background: color-mix(in oklch, var(--primary) 12%, transparent);
+}
+.tiptap table td,
+.tiptap table th {
+  position: relative;
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
 }
